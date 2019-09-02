@@ -60,3 +60,10 @@
 
     cluster wardslinkage var1 var2, name(cluster_name_wdl);
     /*USE EASY TO REMEMBER NAME AND ADD wdl AS A SUFFIX FOR wards linkage*/;
+
+********************************************************************;
+** #40 ** COMBINE CLUSTER DENDROGRAM;
+********************************************************************;
+
+    graph combine cluster_name_sl cluster_name_cl, xsize(10) ycommon;
+    /*COMBINE TWO CLUSTER DENDROGRAM TO SEE DIFERENCES*/;

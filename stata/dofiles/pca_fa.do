@@ -85,7 +85,7 @@
 ** #31 ** FACTOR & PCA ANALYSIS COUNTRY VALUE ADDED SHARES;
 ********************************************************************;
 
-    import delimited http://rodrigotaborda.com/ads/data/wb/va_shares_2015.txt, delimiter(tab) clear;
+    import delimited http://rodrigotaborda.com/ad/data/wb/va_shares_2015.txt, delimiter(tab) clear;
 
     graph matrix manufacturing agriculture services;
 
@@ -154,6 +154,40 @@
 
 *** #32.6 ** EXAMINE;
 
+
+
+
+********************************************************************;
+** #33 ** FACTOR & PCA ENCUESTA ESTUDIANTES;
+********************************************************************;
+
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_201919_old.dta, clear;
+
+*** #33.1 ** FACTOR ANALYSIS;
+
+    factor pelicula relacion zapatos cal_1s cal_cal cal_us cal_prob, pcf;
+
+*** #33.2 ** SCREEPLOT;
+
+
+
+*** #33.3 ** LOADING PLOT;
+
+
+
+*** #33.4 ** SCORE PLOT;
+
+
+
+*** #33.4 ** PREDICT;
+
+
+
+*** #33.5 ** ROTATE;
+
+
+
+*** #33.6 ** EXAMINE;
 
 
 

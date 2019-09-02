@@ -15,75 +15,75 @@
     pause on
     #delimit ;
 
-** #0.1 ** SET PATH FOR READING/SAVING DATA;
-
-*    cd ../../;
-
-*********************************************************************;
-*** #0 ** TRATAMIENTO DE FECHA;
-*********************************************************************;
-
-    display mdy(1,1,1960);
-    display hms(0,0,1); /*1 segundo = 1 milisegundo*/;
-    display dow(mdy(11,1,2000)); /*0 = Sun, 1 = Mon, 2 = Tues, 3 = Wed, 4 = Thurs, 5 = Fri, 6 = Saturday*/;
-    display doy(mdy(11,1,2000)); /*dia del año*/;
-
-*********************************************************************;
-*** #10 ** IMF;
-*********************************************************************;
+*** #0.1 ** SET PATH FOR READING/SAVING DATA;
 *
-*** #10.2 ** READ, ORGANIZE DATA;
+**    cd ../../;
 *
-*** #10.2.1 ** IMPORT DATA;
-
-    import delimited
-        http://rodrigotaborda.com/ad/data/commodities/commodities_20190426.csv
-        ,
-        delimiter(";")
-        clear
-        ;
-
-*** #10.2.2 ** ORGANIZE DATE VARIABLE;
-
-    generate date_num = monthly(date,"YM");
-    format %tm date_num;
-
-*** #10.2.3 ** DECLARE TIME SERIES FORMAT;
-
-    tsset date_num;
-
-*** #10.2.4 ** EXTRACT DATE VARIABLES;
-
-    generate date_date = dofm(date_num);
-        format date_date %d;
-    generate date_day = day(date_date);
-    generate date_week = week(date_date);
-    generate date_month = month(date_date);
-    generate date_quarter = quarter(date_date);
-    generate date_semester = halfyear(date_date);
-    generate date_year = year(date_date);
-
-*** #10.2.5 ** LAG, FORWARD, DIFFERENCE;
-
-    generate pcoco_l1 = l.pcoco;
-    generate pcoco_l2 = l2.pcoco;
-    generate pcoco_f1 = f.pcoco;
-    generate pcoco_f2 = f2.pcoco;
-    generate pcoco_d1 = d.pcoco;
-    generate pcoco_d2 = d2.pcoco;
-    generate pcoco_g12 = d12.pcoco / l12.pcoco;
-
-*** #10.3 ** GRAPHS;
-
-    tsline pcoco;
-    tsline pcoco if tin(1990m1,1995m12);
-
-*** #10.4 ** SMOOTHING;
-
-    tssmooth nl pcoco_sm3 = pcoco, smoother(3);
-        tsline pcoco pcoco_sm3;
-    tssmooth nl pcoco_sm9 = pcoco, smoother(9);
-        tsline pcoco pcoco_sm9;
+**********************************************************************;
+**** #0 ** TRATAMIENTO DE FECHA;
+**********************************************************************;
+*
+*    display mdy(1,1,1960);
+*    display hms(0,0,1); /*1 segundo = 1 milisegundo*/;
+*    display dow(mdy(11,1,2000)); /*0 = Sun, 1 = Mon, 2 = Tues, 3 = Wed, 4 = Thurs, 5 = Fri, 6 = Saturday*/;
+*    display doy(mdy(11,1,2000)); /*dia del año*/;
+*
+**********************************************************************;
+**** #10 ** IMF;
+**********************************************************************;
+**
+**** #10.2 ** READ, ORGANIZE DATA;
+**
+**** #10.2.1 ** IMPORT DATA;
+*
+*    import delimited
+*        http://rodrigotaborda.com/ad/data/commodities/commodities_20190426.csv
+*        ,
+*        delimiter(";")
+*        clear
+*        ;
+*
+**** #10.2.2 ** ORGANIZE DATE VARIABLE;
+*
+*    generate date_num = monthly(date,"YM");
+*    format %tm date_num;
+*
+**** #10.2.3 ** DECLARE TIME SERIES FORMAT;
+*
+*    tsset date_num;
+*sss
+**** #10.2.4 ** EXTRACT DATE VARIABLES;
+*
+*    generate date_date = dofm(date_num);
+*        format date_date %d;
+*    generate date_day = day(date_date);
+*    generate date_week = week(date_date);
+*    generate date_month = month(date_date);
+*    generate date_quarter = quarter(date_date);
+*    generate date_semester = halfyear(date_date);
+*    generate date_year = year(date_date);
+*
+**** #10.2.5 ** LAG, FORWARD, DIFFERENCE;
+*
+*    generate pcoco_l1 = l.pcoco;
+*    generate pcoco_l2 = l2.pcoco;
+*    generate pcoco_f1 = f.pcoco;
+*    generate pcoco_f2 = f2.pcoco;
+*    generate pcoco_d1 = d.pcoco;
+*    generate pcoco_d2 = d2.pcoco;
+*    generate pcoco_g12 = d12.pcoco / l12.pcoco;
+*
+**** #10.3 ** GRAPHS;
+*
+*    tsline pcoco;
+*    tsline pcoco if tin(1990m1,1995m12);
+*
+**** #10.4 ** SMOOTHING;
+*
+*    tssmooth nl pcoco_sm3 = pcoco, smoother(3);
+*        tsline pcoco pcoco_sm3;
+*    tssmooth nl pcoco_sm9 = pcoco, smoother(9);
+*        tsline pcoco pcoco_sm9;
 
 ********************************************************************;
 ** #20 ** IPVN;
@@ -111,7 +111,7 @@
 
     tsset date;
     tsappend, add(12);
-
+sss
 *** #10.2.4 ** GROWTH RATES;
 
     gen total_gr_month = (total/l.total) - 1;
