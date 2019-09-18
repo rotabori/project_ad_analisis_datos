@@ -18,11 +18,11 @@
 *********************************************************************;
 
 	import delimited
-	http://rodrigotaborda.com/ad/data/seguros/seguros.csv
-    ,
-	delimiter(",")
-    clear
-	;
+    	http://rodrigotaborda.com/ad/data/seguros/seguros.csv
+        ,
+    	delimiter(",")
+        clear
+    	;
 
 *********************************************************************;
 *** #2 *** ORGANIZE DATA;

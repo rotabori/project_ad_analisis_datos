@@ -43,16 +43,23 @@
 ** #20.2 ** CRITICAL VALUE, CONFIDENCE INTERVAL, T-STAT AND P-VALUE;
 
     /*CRITICAL VALUE*/
-    scalar tc975 = invttail(n,0.025)
+    scalar tc975 = invttail(n-k+1,0.025)
+    local tc975 = invttail(n-k+1,0.025)
 
     /*CONFIDENCE INTERVALS*/
     scalar ulb = _b[expl var] +- tc975*_se[expl var]
 
     /*T-STAT*/
     scalar tstat = _b[expl var] / _se[expl var]
+    local tstat = _b[expl var] / _se[expl var]
 
     /*P-VALUE*/
-    scalar pvalue = ttail(n,abs(tstat))
+    scalar pvalue = ttail(n-k+1,abs(tstat))
+
+    /*GRAPH*/
+    twoway function y = tden(n-k+1,x), range(-4 4) xline(`tstat') ||
+        function y = tden(n-k+1,x), range(-4 -`tc975') recast(area) color(dknavy)||
+        function y = tden(n-k+1,x), range(`tc975' 4) recast(area) color(dknavy) legend(off) xlabel(-`tc975' `tc975' `tstat') ytitle(Densidad) xtitle(t)
 
     /*HIPOTHESIS TEST*/
     test var

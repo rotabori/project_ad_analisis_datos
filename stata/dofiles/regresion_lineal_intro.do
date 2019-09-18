@@ -33,6 +33,8 @@
     regress var_y var_x1 var_x#;
 
     /*PREDICTED VALUES - RESIDUALS*/
+    gen y_hat = _b[_cons] + _b[coef];
+    margins , over(var_x1);
     predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
     predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
         gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
@@ -41,10 +43,19 @@
 ** #20.2 ** SCATTER - LINEAR FIT;
 
     twoway (scatter var_y var_x1) (lfit var_y var_x1) /*PLOT Y AND X VARIABLES + LINEAR FIT OF THE RELATIONSHIP*/
+        ,
         ylabel(0(10)100)    /*Y AXIS BEGINS AT 0, ENDS AT 100 AND LABELS EVERY 10*/
         xlabel(0(10)100)    /*Y AXIS BEGINS AT 0, ENDS AT 100 AND LABELS EVERY 10*/
         title(A title of your choice)
+        name(scatter_fit)
         ;
+
+    scatter y_res var_x1
+        ,
+        name(res)
+        ;
+
+    graph combine scatter_fit res;
 
 ********************************************************************;
 ** #30 ** LINEAR REGRESSION WITH NON LINEAR EFFECT;
