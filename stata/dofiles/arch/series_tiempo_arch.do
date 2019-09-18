@@ -158,303 +158,272 @@ capture log close
     tsset date_colombia;
 
     save data/arch/acciones_arch, replace;
-sss
-**** #3 ** GRÁFICAS;
-*
-*    use datos\acciones_arch, clear;
-*    tsset date_stata;
-*
+
+*** #3 ** GRÁFICAS;
+
+    use data\arch\acciones_arch, clear;
+    tsset date_stata;
+
 *** #3.1 ** NIVEL;
-*        tsline pre_can,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(04jan2010(120)25feb2014, tpos(out))
-*            tlabel(#4, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-*            sleep 3000;
-*            pause;
-*        graph export texto\figures\pre_can.eps, replace;
-*
-*        tsline pre_col,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(#4, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_col.eps, replace;
-*
-*        tsline bcol,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(#4, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol.eps, replace;
-*
-*        tsline bcol_pref,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(#4, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_pref.eps, replace;
-*
-*** #3.2 ** SIMPLE RETURN;
-*        tsline pre_can_rsimple,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_can_rsimple.eps, replace;
-*
-*        tsline pre_col_rsimple,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_col_rsimple.eps, replace;
-*
-*        tsline bcol_rsimple,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_rsimple.eps, replace;
-*
-*        tsline bcol_pref_rsimple,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_pref_rsimple.eps, replace;
-*
-*** #3.3 ** COMPOUND RETURN;
-*        tsline pre_can_rcomp,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_can_rcomp.eps, replace;
-*
-*        tsline pre_col_rcomp,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_col_rcomp.eps, replace;
-*
-*        tsline bcol_rcomp,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_rcomp.eps, replace;
-*
-*        tsline bcol_pref_rcomp,
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ttick(01jan2010(120)25feb2014, tpos(out))
-*            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-*            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_pref_rcomp.eps, replace;
-*
-*** #3.3 ** HISTOGRAMA;
-*        hist pre_can_rcomp,
-*            normal
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_can_rcomp_hist.eps, replace;
-*
-*        hist pre_col_rcomp,
-*            normal
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_col_rcomp_hist.eps, replace;
-*
-*        hist bcol_rcomp,
-*            normal
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_rcomp_hist.eps, replace;
-*
-*        hist bcol_pref_rcomp,
-*            normal
-*            note("Note:")
-*            xtitle("")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_pref_rcomp_hist.eps, replace;
-*
+        tsline pre_can,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(04jan2010(120)25feb2014, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can.eps, replace;
+
+        tsline pre_col,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\pre_col.eps, replace;
+
+        tsline bcol,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
+            ;
+            sleep 3000;
+            graph export text\figures\bcol.eps, replace;
+
+        tsline bcol_pref,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_pref.eps, replace;
+
+** #3.2 ** SIMPLE RETURN;
+        tsline pre_can_rsimple,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can_rsimple.eps, replace;
+
+        tsline pre_col_rsimple,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\pre_col_rsimple.eps, replace;
+
+        tsline bcol_rsimple,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_rsimple.eps, replace;
+
+        tsline bcol_pref_rsimple,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_pref_rsimple.eps, replace;
+
+** #3.3 ** COMPOUND RETURN;
+        tsline pre_can_rcomp,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can_rcomp.eps, replace;
+
+        tsline pre_col_rcomp,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\pre_col_rcomp.eps, replace;
+
+        tsline bcol_rcomp,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_rcomp.eps, replace;
+
+        tsline bcol_pref_rcomp,
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(01jan2010(120)25feb2014, tpos(out))
+            tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_pref_rcomp.eps, replace;
+
+** #3.3 ** HISTOGRAMA;
+        hist pre_can_rcomp,
+            normal
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can_rcomp_hist.eps, replace;
+
+        hist pre_col_rcomp,
+            normal
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\pre_col_rcomp_hist.eps, replace;
+
+        hist bcol_rcomp,
+            normal
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_rcomp_hist.eps, replace;
+
+        hist bcol_pref_rcomp,
+            normal
+            note("Note:")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_pref_rcomp_hist.eps, replace;
+
 *** #3.4 ** SCATTER;
-*        scatter pre_can l.pre_can,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_can_scatter.eps, replace;
-*
-*        scatter pre_can_rcomp l.pre_can_rcomp,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            yline(0, lwidth(thin) lcolor(red))
-*            xline(0, lwidth(thin) lcolor(red))
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_can_rcomp_scatter.eps, replace;
-*
-*        scatter pre_col_rcomp l.pre_col_rcomp,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            yline(0, lwidth(thin) lcolor(red))
-*            xline(0, lwidth(thin) lcolor(red))
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\pre_col_rcomp_scatter.eps, replace;
-*
-*        scatter bcol l.bcol,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_scatter.eps, replace;
-*
-*        scatter bcol_rcomp l.bcol_rcomp,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            yline(0, lwidth(thin) lcolor(red))
-*            xline(0, lwidth(thin) lcolor(red))
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_rcomp_scatter.eps, replace;
-*
-*        scatter bcol_pref_rcomp l.bcol_pref_rcomp,
-*            msize(vsmall)
-*            connect(l)
-*            lwidth(thin)
-*            yline(0, lwidth(thin) lcolor(red))
-*            xline(0, lwidth(thin) lcolor(red))
-*            note("Note:")
-*            xtitle("Lag")
-*            lcolor(gs0)
-*            scheme(s1mono)
-*            ;
-**            sleep 3000;
-**            pause;
-*        graph export texto\figures\bcol_pref_rcomp_scatter.eps, replace;
-*
+        scatter pre_can l.pre_can,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can_scatter.eps, replace;
+
+        scatter pre_can_rcomp l.pre_can_rcomp,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            yline(0, lwidth(thin) lcolor(red))
+            xline(0, lwidth(thin) lcolor(red))
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\pre_can_rcomp_scatter.eps, replace;
+
+        scatter pre_col_rcomp l.pre_col_rcomp,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            yline(0, lwidth(thin) lcolor(red))
+            xline(0, lwidth(thin) lcolor(red))
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\pre_col_rcomp_scatter.eps, replace;
+
+        scatter bcol l.bcol,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_scatter.eps, replace;
+
+        scatter bcol_rcomp l.bcol_rcomp,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            yline(0, lwidth(thin) lcolor(red))
+            xline(0, lwidth(thin) lcolor(red))
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_rcomp_scatter.eps, replace;
+
+        scatter bcol_pref_rcomp l.bcol_pref_rcomp,
+            msize(vsmall)
+            connect(l)
+            lwidth(thin)
+            yline(0, lwidth(thin) lcolor(red))
+            xline(0, lwidth(thin) lcolor(red))
+            note("Note:")
+            xtitle("Lag")
+            lcolor(gs0)
+            scheme(s1mono)
+            ;
+            sleep 3000;
+            graph export text\figures\bcol_pref_rcomp_scatter.eps, replace;
+
 * #6 ** ARCH;
 
     use data/arch/acciones_arch, clear;
@@ -480,7 +449,7 @@ sss
         arch pre_can_rcomp, arch(1) garch(1);
 
     /*REGRESIÓN ASYMMETRIC-GARCH*/;
-        arch pre_can_rcomp, arch(1) garch(1) aarch(1);
+        arch pre_can_rcomp, arch(1) garch(1) saarch(1);
 
     /*REGRESIÓN T-GARCH*/;
         arch pre_can_rcomp, arch(1) garch(1) tarch(1);
