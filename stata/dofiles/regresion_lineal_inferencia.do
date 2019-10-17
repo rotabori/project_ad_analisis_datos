@@ -57,9 +57,9 @@
     scalar pvalue = ttail(n-k+1,abs(tstat))
 
     /*GRAPH*/
-    twoway function y = tden(n-k+1,x), range(-4 4) xline(`tstat') ||
+    twoway function y = tden(n-k+1,x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat') ||
         function y = tden(n-k+1,x), range(-4 -`tc975') recast(area) color(dknavy)||
-        function y = tden(n-k+1,x), range(`tc975' 4) recast(area) color(dknavy) legend(off) xlabel(-`tc975' `tc975' `tstat') ytitle(Densidad) xtitle(t)
+        function y = tden(n-k+1,x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t)
 
     /*HIPOTHESIS TEST*/
     test var

@@ -180,7 +180,7 @@
         ;
 
     foreach asset of local assets {;
-        gen `asset'_ret_dtf = (((`asset' / l12.`asset') - 1) * 100) - dtf;
+        gen `asset'_ret_dtf = (((`asset' / l1.`asset') - 1) * 100) - dtf;
         };
 
 *********************************************************************;
@@ -192,8 +192,22 @@
         davivienda_pf ecopetrol eeb exito isa isagen nutresa sura"
         ;
 
+	local replace replace;
     foreach asset of local assets {;
         reg `asset'_ret_dtf colcap_ret_dtf;
+    		outreg2 using data\capm\capm
+                ,
+                label
+                excel
+                symbol(a, b, c)
+                addnote("-", "Fecha $S_DATE")
+                `replace'
+                ;
+			local replace ;
+
+        scatter `asset'_ret_dtf colcap_ret_dtf || lfit `asset'_ret_dtf colcap_ret_dtf
+            ,
+            name(`asset'_capm);
         };
 
 
