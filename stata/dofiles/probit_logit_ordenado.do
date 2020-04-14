@@ -35,12 +35,14 @@
 *** #20.1 ** DATA EXAM;
 
     tab apply;
+    tab apply, nolabel;
 
     sum apply pared public gpa;
 
     reg apply pared;
     reg apply public;
     reg apply gpa;
+        scatter apply gpa;
 
 ********************************************************************;
 ** #30 ** ORDERED PROBIT LOGIT REGRESSION;
@@ -82,7 +84,7 @@
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(2));
             marginsplot, noci name(pr2pub1);
 
-            graph combine pr0pub1 pr1pub1 pr2pub1, cols(1) ysize(12);
+            graph combine pr0pub1 pr1pub1 pr2pub1, cols(1) ysize(12) name(pr);
 
         margins, at(public=1 pared=1 gpa=(2(.2)4)) predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
             marginsplot, noci name(pr012pub1pared1);
@@ -94,7 +96,7 @@
         margins, dydx(gpa) at(pared=1 public=1 gpa=(2(.2)4)) predict(outcome(2));
             marginsplot, noci name(dydxgpa2pub1par1);
 
-            graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12);
+            graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydx);
 
         margins, dydx(gpa) at(pared=(1) public=(1)) atmeans predict(outcome(0));
         margins, dydx(gpa) at(pared=(1) public=(1)) atmeans;
