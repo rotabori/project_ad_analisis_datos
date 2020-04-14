@@ -98,8 +98,7 @@
 
             graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydx);
 
-        margins, dydx(gpa) at(pared=(1) public=(1)) atmeans predict(outcome(0));
-        margins, dydx(gpa) at(pared=(1) public=(1)) atmeans;
+            graph combine pr dydx, cols(2) xsize(11) name(pr_dydx);
 
 **** #90.9.9 ** GOOD BYE;
 *
