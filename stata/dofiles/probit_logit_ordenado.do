@@ -98,7 +98,7 @@
 
             graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydx);
 
-            graph combine pr dydx, cols(2) xsize(11) name(pr_dydx);
+            graph combine pr dydx, cols(2) ysize(12) xsize(11) name(pr_dydx, replace);
 
 **** #90.9.9 ** GOOD BYE;
 *
