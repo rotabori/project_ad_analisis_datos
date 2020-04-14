@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: pca_fa.do
 ** PROGRAM TASK: EXECUTE PRINCIPAL COMPONENTS ANALYSIS & FACTOR ANALYSIS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 17/08/2017
-** DATE REVISION 1:
+** DATE CREATEC: 2017/08/17
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -82,12 +82,14 @@
     rotate;
 
 ********************************************************************;
-** #31 ** FACTOR & PCA ANALYSIS COUNTRY VALUE ADDED SHARES;
+** #31 ** FACTOR & PCA ANALYSIS COUNTRY VALUE ADDED SHARES EXAMPLE;
 ********************************************************************;
 
     import delimited http://rodrigotaborda.com/ad/data/wb/va_shares_2015.txt, delimiter(tab) clear;
 
-    graph matrix manufacturing agriculture services;
+    graph matrix manufacturing agriculture services, half;
+    graph twoway (scatter m a) (scatter m a if country_code == "COL");
+    graph twoway (scatter m a, msize(small)) (scatter m a if country_code == "COL", mlabel(country_code));
 
 *** #31.1 ** FACTOR ANALYSIS;
 
@@ -100,7 +102,7 @@
 
 *** #31.3 ** LOADING PLOT;
 
-    loadingplot, yline(0) xline(0) title(Loadings) name(factor);
+    loadingplot, yline(0) xline(0) title(Loadings);
 
 *** #31.4 ** SCORE PLOT;
 
@@ -120,7 +122,7 @@
 
     list (idvar) (factors);
 
-    graph twoway (scatter f2 f1) (scatter f2 f1 if country_code == "COL" | country_code=="TCD", mlabel(country_code));
+    graph twoway (scatter f2 f1) (scatter f2 f1 if id_country == "COL" | id_country == "TCD", mlabel(id_country));
 
 ********************************************************************;
 ** #32 ** FACTOR & PCA PLANETS DATA TAKEN FROM HAMILTON(2013);
@@ -161,7 +163,7 @@
 ** #33 ** FACTOR & PCA ENCUESTA ESTUDIANTES;
 ********************************************************************;
 
-    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_201919_old.dta, clear;
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_20xxyy_old.dta, clear;
 
 *** #33.1 ** FACTOR ANALYSIS;
 
@@ -188,9 +190,6 @@
 
 
 *** #33.6 ** EXAMINE;
-
-
-
 
 
 

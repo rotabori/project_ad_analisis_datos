@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: regresion_lineal_inferencia.do
 ** PROGRAM TASK: INFERENCE ON LINEAR REGRESSION
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 24/09/2018
-** DATE REVISION 1:
+** DATE CREATEC: 2018/09/24
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -32,29 +32,25 @@
 
     regress var_y var_x1 var_x#;
 
-    /*PREDICTED VALUES - RESIDUALS*/
-    predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
-    predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
-
     /*RETURN ERETURN*/
     ereturn list /*ESTIMATION RESULTS AFTER REGRESSION OR OTHER COMMAND*/
     return list
 
 ** #20.2 ** CRITICAL VALUE, CONFIDENCE INTERVAL, T-STAT AND P-VALUE;
 
+    /*T-STAT*/
+    scalar tstat = (_b[expl var] - 0) / _se[expl var]
+    local tstat = (_b[expl var] - 0) / _se[expl var]
+
     /*CRITICAL VALUE*/
-    scalar tc975 = invttail(n-k+1,0.025)
-    local tc975 = invttail(n-k+1,0.025)
+    scalar tc975 = invttail(n-(k+1),0.025)
+    local tc975 = invttail(n-(k+1),0.025)
 
     /*CONFIDENCE INTERVALS*/
     scalar ulb = _b[expl var] +- tc975*_se[expl var]
 
-    /*T-STAT*/
-    scalar tstat = _b[expl var] / _se[expl var]
-    local tstat = _b[expl var] / _se[expl var]
-
     /*P-VALUE*/
-    scalar pvalue = ttail(n-k+1,abs(tstat))
+    scalar pvalue = ttail(n-(k+1),abs(tstat))
 
     /*GRAPH*/
     twoway function y = tden(n-k+1,x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat') ||
@@ -66,18 +62,32 @@
     test (var=0)
     test (_b[var]=0)
     test (var=0) (var=0)
+    test 2.x1 3.x1 /*TEST FOR INDICATOR VARIABLES EQUAL TO ZERO*/
+    test (2.x1=0) (3.x1=1) /*TEST FOR INDICATOR VARIABLES EQUAL TO ZERO AND ONE*/
+    testparm i.x1 /*TEST FOR INDICATOR VARIABLES ALL AT ONCE*/
+    test 2.x1 = 3.x1 /*TEST IF 2 AND 3 ARE EQUAL*/
+    lincom 2.x1 - 3.x1 /*TEST IF 2 MINUS 3 ARE ZERO*/
 
     /*HIPOTHESIS TEST OF LINEAR COMBINATION*/
     lincom x1 + x2
 
     /*NONLINEAR MODEL*/
-    reg y x1 x2 x2^2
+    reg y x2 x2^2
         /*PREDICTED*/
         gen y_hat = _[_cons] + _b[x1]*x1 + _b[x2]*x2 + _b[x2^2]*x2^2
         twoway (connected y_hat x2, sort)
         /*OPTIMUM X2*/
         scalar x2_opt = -_b[x2]/2*_b[x2^2]
         nlcom -_b[x2]/2*_b[x2^2]
+
+    /*MAXIMUM LIKELIHOOD TEST*/
+    reg y x2 x2^2
+        estimates store m1
+    reg y x2
+        estimats store m2 if e(sample)
+
+    lrtest m1 m2
+
 
 ** #20.3 ** NORMALITY TEST;
 

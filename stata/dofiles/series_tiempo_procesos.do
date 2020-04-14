@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: series_tiempo_procesos.do
 ** PROGRAM TASK: SERIES DE TIEMPO SIMULACION PROCESOS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATED: 26/10/2018
-** DATE REVISION 1:
+** DATE CREATED: 2018/10/26
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -34,19 +34,19 @@
     set seed 123;
     /*GENERAR PROCESO ALEATORIO*/;
     gen e1 = rnormal(0,5);
-        label var e1 "e1 (0,5)";
+        label var e1 "e1 N(0,5)";
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
     set seed 987;
     /*GENERAR PROCESO ALEATORIO*/;
     gen e2 = rnormal(0,5);
-        label var e2 "e2 (0,5)";
+        label var e2 "e2 N(0,5)";
 
 *********************************************************************;
 *** #10 ** CAMINATA ALEATOREA ESTACIONARIA;
 *********************************************************************;
 
-    local b1 = 0.3 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR MENOR A 1*/;
+    local b1 = 0.6 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR MENOR A 1*/;
 
     generate y1 = .;
     replace y1 = e1 in 1;

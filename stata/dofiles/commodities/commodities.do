@@ -44,7 +44,7 @@
 *** #10.2.3 ** DECLARE TIME SERIES FORMAT;
 
     tsset date_num;
-
+sss
 *********************************************************************;
 *** #10.3 ** GRAPHS, TIME SERIES, AUTOCORRELATION, PARTIAL AUTOCORRELATION;
 ***       ** BEVERAGE PRICE INDEX;

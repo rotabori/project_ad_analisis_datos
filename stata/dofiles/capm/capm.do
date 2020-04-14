@@ -30,7 +30,7 @@
 **** #10.1.1 ** IMPORT DATA;
 
         import delimited
-        http://rodrigotaborda.com/ad/data/capm/dtf_198601-201905.csv
+        data/capm/dtf_198601-201905.csv
         ,
         clear
         ;
@@ -57,6 +57,9 @@
         label var date_semester "Semestre";
     generate date_year = year(date_date);
         label var date_year "Año";
+
+    generate dtf_m = (1 + dtf)^(1/12) - 1;
+        label var dtf_m "DTF (Efectivo mensual)";
 
 *** #10.1.3 ** DECLARE TIME SERIES FORMAT;
 
@@ -86,7 +89,7 @@
 **** #20.1.1 ** IMPORT DATA;
 
         import delimited
-        http://rodrigotaborda.com/ad/data/capm/colcap_acciones_200109-201904.csv
+        data/capm/colcap_acciones_200109-201904.csv
         ,
         clear
         ;
@@ -154,14 +157,14 @@
 *** #30.1.1 ** READ;
 
     use
-    http://rodrigotaborda.com/ad/data/capm/dtf_198601-201905.dta
+    data/capm/dtf_198601-201905.dta
     ,
     clear
     ;
 
 *** #30.1.2 ** MERGE;
 
-    merge 1:1 date_num using http://rodrigotaborda.com/ad/data/capm/colcap_acciones_200109-201904.dta;
+    merge 1:1 date_num using data/capm/colcap_acciones_200109-201904.dta;
         drop _merge;
 
 *** #30.1.3 ** ORGANIZE AND KEEP;
@@ -180,7 +183,7 @@
         ;
 
     foreach asset of local assets {;
-        gen `asset'_ret_dtf = (((`asset' / l1.`asset') - 1) * 100) - dtf;
+        gen `asset'_ret_dtf_m = (((`asset' / l1.`asset') - 1) * 100) - dtf_m;
         };
 
 *********************************************************************;
@@ -194,7 +197,7 @@
 
 	local replace replace;
     foreach asset of local assets {;
-        reg `asset'_ret_dtf colcap_ret_dtf;
+        reg `asset'_ret_dtf_m colcap_ret_dtf_m;
     		outreg2 using data\capm\capm
                 ,
                 label
@@ -203,9 +206,10 @@
                 addnote("-", "Fecha $S_DATE")
                 `replace'
                 ;
+        predict `asset'_res, residuals;
 			local replace ;
 
-        scatter `asset'_ret_dtf colcap_ret_dtf || lfit `asset'_ret_dtf colcap_ret_dtf
+        scatter `asset'_ret_dtf_m colcap_ret_dtf_m || lfit `asset'_ret_dtf_m colcap_ret_dtf_m
             ,
             name(`asset'_capm);
         };

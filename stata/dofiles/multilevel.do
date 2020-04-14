@@ -1,9 +1,9 @@
 ** PROJECT: ANALISIS DE DATOS
-** PROGRAM: datos_panel.do
-** PROGRAM TASK: PANEL DATA ANALYSIS
+** PROGRAM: multilevel.do
+** PROGRAM TASK: MULTILEVEL REGRESSION
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 2018/10/24
-** DATE REVISION 1: 2020/04/07
+** DATE CREATEC: 2020/04/07
+** DATE REVISION 1:
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -23,26 +23,8 @@
 ** #10 ** PANEL DATA ROUTINE;
 ********************************************************************;
 
-** #10.1 ** EXECUTE DATA IN;
-
-* declare cross section and time series identifiers;
-
-    xtset panel_var time_var;
-
-* random effects;
-
-    xtreg  y x1 x2, re;
-    estimates store re;
-
-* Breusch-Pagan test;
-    xttest0;
-
-* fixed effects estimation;
-    xtreg y x1 x2, fe;
-    estimates store fe;
-
-* Hausman test;
-    hausman fe re;
+    #delimit ;
+    use http://www.rodrigotaborda.com/ad/data/pv/pv8387.dta, clear;
 
 ********************************************************************;
 ** #20 ** PANEL DATA ADVERTISING - SALES EXAMPLE;
@@ -192,3 +174,22 @@
 		ysize(16)
 		xsize(10)
         ;
+
+
+
+
+
+
+
+
+
+
+
+
+twoway
+    (lfit ventas_ln publicidad_ln if y==1983, lcolor(black) legend(label(1 1983)))
+    (lfit ventas_ln publicidad_ln if y==1984, lcolor(black) legend(label(2 1984)))
+    (lfit ventas_ln publicidad_ln if y==1985, lcolor(black) legend(label(2 1985)))
+    (lfit ventas_ln publicidad_ln if y==1986, lcolor(black) legend(label(2 1986)))
+    (lfit ventas_ln publicidad_ln if y==1987, lcolor(black) legend(label(2 1987)))
+    (lfit ventas_ln publicidad_ln, lcolor(red))

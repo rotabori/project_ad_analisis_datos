@@ -30,7 +30,7 @@
 
 *** #2.1 *** ORGANIZE DATE VARIABLE;
 
-	gen time= tm(2003m10) +_n - 1;
+	gen time = tm(2003m10) + _n - 1;
         /*DATA BEGINS OCTOBER 2003*/;
     format time %tm;
 
@@ -49,19 +49,24 @@
 *** #5 *** DATA AUTOCORRELATION AND PARCIAL AUTOCORRELATION GRAPH
 *********************************************************************;
 
+    tsline seg_obs
+        ,
+        name(seg_obs, replace)
+        ;
+
     tsline seg_obs_ln
         ,
-        name(seguros, replace)
+        name(seg_obs_ln, replace)
         ;
 
 	ac seg_obs_ln
         ,
-        name(seguros_ac, replace)
+        name(seg_obs_ln_ac, replace)
         ;
 	
 	pac seg_obs_ln
         ,
-        name(seguros_pac, replace)
+        name(seg_obs_ln_pac, replace)
         ;
 
 *********************************************************************;
@@ -70,7 +75,7 @@
 
 *** #6.1 *** UNIT-ROOT TEST NO TREND - NO LAG;
 
-    dfuller seg_obs_ln, regress ;
+    dfuller seg_obs_ln, regress;
 	
 *** #6.2 *** UNIT-ROOT TEST TREND AND - 1 LAG;
 
@@ -85,19 +90,19 @@
 
 	tsline d.seg_obs_ln
         ,
-        name(seguros_d_pac, replace)
+        name(seg_obs_ln_d, replace)
         ;
 
 *** #7.2 *** AUTOCORRELATION AND PARCIAL AUTOCORRELATION GRAPH;
 
 	ac d.seg_obs_ln
         ,
-        name(seguros_d_ac, replace)
+        name(seg_obs_ln_d_ac, replace)
         ;
 	
 	pac d.seg_obs_ln
         ,
-        name(seguros_d_pac, replace)
+        name(seg_obs_ln_d_pac, replace)
         ;
 	
 *** #7.4 *** UNIT-ROOT TEST NO TREND - NO LAG;
@@ -158,7 +163,7 @@
 
 *** #9.1.4 *** GRAPH OF OBSERVED AND PREDICTED VALUES;
 
-	tsline seg_obs seg_obs_arima111s1106
+	tsline seg_obs_ln seg_obs_ln_arima111s1106
         ,
         name(arima111s1106, replace)
         ;
@@ -167,14 +172,14 @@
 
 *** #9.2.1 *** NEW VARIABLE DIFFERENCE;
 
-    gen arima111_arima111s1106d = seg_obs_arima111 - seg_obs_arima111s1106
+    gen arima111_arima111s1106d = seg_obs_ln_arima111 - seg_obs_ln_arima111s1106
         if
         tin(,2011m4)
         ;
 
 *** #9.2.2 *** GRAPH;
 
-	tsline seg_obs_arima111 seg_obs_arima111s1106
+	tsline seg_obs_ln_arima111 seg_obs_ln_arima111s1106
         ,
         name(arima111_arima111s1106, replace)
         nodraw

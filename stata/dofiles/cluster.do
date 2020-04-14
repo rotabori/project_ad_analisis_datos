@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: cluster.do
 ** PROGRAM TASK: EXECUTE CLUSTER ANALYSIS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 05/02/2017
-** DATE REVISION 1:
+** DATE CREATEC: 2017/02/05
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -14,7 +14,7 @@
 
     pause on
     #delimit ;
-        /*COMMAND LINES WILL ONLY END ONCE SEMICOLON IS FOUND*/
+        /*COMMAND LINES WILL ONLY END ONCE SEMICOLON IS FOUND*/;
 
 ** #0.1 ** SET PATH FOR READING/SAVING DATA;
 
@@ -33,9 +33,9 @@
 
 ** #20.1 ** DENDROGRAM;
 
-    cluster dendrogram cluster_name_sl, labels(var_id) xlabel(,angle(45));
-    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45));
-    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45));
+    cluster dendrogram cluster_name_sl, labels(var_id) xlabel(,angle(45)) name(ddd);
+    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45)) name(ddd);
+    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45)) name(ddd);
 
 ** #20.2 ** GENERATE VARIABLE SHOWING CLUSTER GROUPS;
 

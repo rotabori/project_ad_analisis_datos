@@ -1,30 +1,19 @@
-capture log close
-
-** PROJECT: Introducción a la econometría. Maestría Finanzas.
-** PROGRAM: series_t_iempo_arch.do
-** PROGRAM TASK: Cargar y organizar datos y hacer regresiones
-** AUTHOR: Rodrigo Taborda
-** DATE CREATED: 26/02/2014
+** PROJECT: ANALISIS DE DATOS
+** PROGRAM: series_tiempo_volatilidad1.do
+** PROGRAM TASK: SERIES DE TIEMPO VOLATILIDAD Y ARCH
+** AUTHOR: RODRIGO TABORDA
+** DATE CREATED: 2014/02/26
 ** DATE REVISION 1: 2019/09/09
+** DATE REVISION 1: 2020/04/07
 
 ** #0 ** PROGRAM SETUP
-
-    version 13
-    clear all
-    set linesize 80
-    macro drop _all
-*    set matsize 200
-*    set maxvar 2200
-*    set memory 1200m
-        /*OPTION JUST IN CASE STATA HAS DIFFERENT MEMORY SIZE*/
-        /*THIS IS ABOUT THE MAXIMUM WE CAN GET IN A 32-BITS WINDOWS COMPUTER*/
 
     pause on
     #delimit ;
 
 ** #0.1 ** SET PATH FOR READING/SAVING DATA;
 
-    cd ../../../;
+    cd ../../;
 
 ** #1 ** READ AND SET UP DATA;
 

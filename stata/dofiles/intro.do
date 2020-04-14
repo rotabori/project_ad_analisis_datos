@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: intro.do
 ** PROGRAM TASK: PRELIMINARY BASIC STATA COMMANDS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 17/08/2017
-** DATE REVISION 1:
+** DATE CREATEC: 2017/08/17
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -22,7 +22,16 @@
 ** #10 ** EXECUTE DATA-IN ROUTINE;
 ********************************************************************;
 
+    sysuse filename.dta; /*USE A STATA READY FILE STORED WITHIN STATA*/
 
+    use filename.dta; /*USE A STATA READY FILE STORED SOMEWHERE*/
+
+    import delimited data/covid19_world_`date'.txt /*USE A STATA READY FILE STORED SOMEWHERE*/
+        ,
+        delimiter(comma)
+        encoding(utf8)
+        clear
+        ;
 
 ********************************************************************;
 ** #20 ** RANDOM USEFUL COMMANDS TO BEGIN;
@@ -30,11 +39,11 @@
 
 ** #20.1 ** FILES;
 
-    cd; /*CHANGE DIRECTORY OR WHERE STUFF IS STORED*/
+    cd ../../;
+    cd <SOMEWHERE IN YOUR COMPUTER>;
+        /*CHANGE DIRECTORY OR WHERE STUFF IS STORED*/
 
-    use filename.dta; /*USE A STATA READY FILE*/
-
-** #20.2 ** TIDY UP YOUR DATA;
+** #20.2 ** EXAMINE / TIDY UP YOUR DATA;
 
     browse; /*EXPLORE YOUR DATA AS A SPREAD SHEET*/
     describe;   /*SHOWS HOW DATA IS BEING HANDLED BY STATA*/

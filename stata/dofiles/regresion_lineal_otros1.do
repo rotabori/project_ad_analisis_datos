@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: regresion_lineal_otros1.do
 ** PROGRAM TASK: RESET TEST, COLINEARITY AND DUMMY EXPLANATORY VARIABLES
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 24/09/2018
-** DATE REVISION 1:
+** DATE CREATEC: 2018/09/24
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -47,6 +47,7 @@
         scalar r2 = e(r2)
     regress y x2 x3
         scalar r3 = e(r2)
+
     regress y x1 x2
         estat vif
 
@@ -54,6 +55,24 @@
 ** #40 ** DUMMY / CATHEGORICAL VARIABLES / INTERACTION;
 ********************************************************************;
 
+** #40.1 ** INTERACTION BASICS;
+
+    /*OPERATOR APPLIED TO SEVERAL VARIABLES AT ONCE*/
+    i.(x1 x2)
+
+    /*SHOW BASE CATHEGORY ON RESULTS*/
+    set showbaselevels on
+
+    /*BASE CATHEGORY MANIPULATION. DEFAULT, SMALLEST VALUE BECOMES BASE*/
+    b#.x1 /*# BECOMES BASE*/
+    b(##).x1 /*#-TH LARGEST BECOMES BASE*/
+    b(first).x1 /*SMALLES VALUE BECOMES BASE*/
+    b(last).x1 /*LARGEST VALUE BECOMES BASE*/
+    b(freq).x1 /*MOST FREQUENT VALUE BECOMES BASE*/
+    bn. /*NO VALUE BECOMES BASE*/
+    #.x1 /*TERM (COEFFICIENT0 ONLY FOR #*/
+
+** #40.2 ** INTERACTION MANUAL;
     tabulate x1, gen(x1_d)
     gen x2_x1 = x2*x1_d1
 
@@ -63,42 +82,89 @@
         lincom _const + x1
         lincom x2 + x2_x1
 
-** #40.3 ** MARGINS;
+** #40.3 ** INTERACTION AUTO;
+** #40.3.1 ** NO INTERACTION;
+    reg y c.x1
 
-    reg y x1;
-    margins, over(x1);
-        marginsplot;
+    margins, over(x1)
+        marginsplot
+
     margins, at(x1=(#(#)#))
+        marginsplot
+
+** #40.3.2 ** CONSTANT;
+    reg y i.x2
+    reg y c.x1 i.x2
+
+    margins, over(x1 i.x2)
+        marginsplot
+    margins, over(i.x2) at(x1=(#(#)#))
+        marginsplot
+    margins i.x2, at(x1=(#(#)#))
+        marginsplot
+
+** #40.3.3 ** SLOPE;
+    reg y c.x1 c.x1#i.x2
+
+    margins i.x2, at(x1=(#(#)#))
         marginsplot;
 
-    reg y x1 i.x2;
-    margins, over(x1 i.x2);
-        marginsplot;
-    margins, over(i.x2) at(x1=(#(#)#));
-        marginsplot;
-    margins i.x2, at(x1=(#(#)#));
-        marginsplot;
+** #40.3.4 ** CONSTANT & SLOPE;
+    reg y c.x1##c.x2
 
-    reg y i.x1
+    margins i.x2, at(x1=(#(#)#))
+        marginsplot
 
-    reg y x1 x2 i.x1#c.x2
+********************************************************************;
+** #50 ** FUNCTIONAL FORM;
+********************************************************************;
 
-    reg y i.x1##c.x2
+    reg y x
+        predict y_hat0, xb
+
+    gen x_inv = 1/x
+    reg y x_inv
+        predict y_hat1, xb
+
+    gen x_ln = ln(x)
+    gen y_ln = ln(y)
+    reg y_ln x_ln
+        predict y_hat2, xb
+
+    twoway scatter y x || connected y_hat0 x || connected y_hat1 x || connected y_hat2 x, yaxis(2)
+
+********************************************************************;
+** #60 ** MARGINAL EFFECT;
+********************************************************************;
+
+    reg y c.x1 i.x2
+
         margins, dydx(x2) at(x1=0)
         margins, dydx(x2) at(x1=1)
-        margins, dydx(i.x1) at(x2=(#(#)#))
+        margins, dydx(i.x2) at(x1=(#(#)#))
             marginsplot
 
-    reg y i.x1##c.x2
-        margins, over(x2)
-
-    reg y i.x1#c.x2
-        margins, over(x2)
-
-    reg y i.x1 c.x2
-        margins, over(x2)
-        margins x1, at(x2=(#(#)#))
-
 ********************************************************************;
-** #50 ** UNITS / LOGS;
+** #70 ** PAIRWISE - CONTRAST;
 ********************************************************************;
+
+    /*PAIRWISE*/
+    reg y c.x1 i.x2
+        margins i.x2, pwcompare
+        margins i.x2, pwcompare(groups)
+
+    /*CONTRAST*/
+    reg y c.x1
+        margins r.x1
+
+    reg y c.x1 i.x2
+        margins r.x1@x2
+
+    /*CONTRAST OPTIONS*/
+    r.x1 /*DIFFERENCE W.R.T. BASE LEVEL*/
+    a.x1 /*DIFFERENCE W.R.T. NEXT ADJACENT LEVEL*/
+    ar.x1 /*DIFFERENCE W.R.T. PREVIOUS ADJACENT LEVEL*/
+    g.x1 /*DIFFERENCE W.R.T. BALANCED GRAND MEAN*/
+    gw.x1 /*DIFFERENCE W.R.T. OBSERVATION-WEIGHTED GRAND MEAN*/
+
+    margins, at(continuous=(20(10)70)) contrast(atcontrast(a) effects)

@@ -1,9 +1,9 @@
 ** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: multivariado_preliminares.do
-** PROGRAM TASK: INTRODUCCION STATA
+** PROGRAM TASK: PRELIMINARY BASIC STATA COMMANDS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 26/05/2019
-** DATE REVISION 1:
+** DATE CREATEC: 2019/05/26
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -11,6 +11,9 @@
 ********************************************************************;
 
     clear all
+
+    filename, describe
+    filename, list
 
 /*********************************************/
 /*DISTRIBUCIÓN UNIFORME*/

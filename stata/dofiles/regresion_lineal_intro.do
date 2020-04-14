@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: regresion_lineal_intro.do
 ** PROGRAM TASK: LINEAR REGRESSION COMMANDS
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 04/09/2018
-** DATE REVISION 1:
+** DATE CREATEC: 2018/09/04
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -22,15 +22,14 @@
 ** #10 ** EXECUTE DATA-IN ROUTINE;
 ********************************************************************;
 
-
-
 ********************************************************************;
 ** #20 ** LINEAR REGRESSION;
 ********************************************************************;
 
 ** #20.1 ** REGRESSION;
 
-    regress var_y var_x1 var_x#;
+    regress var_y var_x1 var_x#, coeflegend;
+    regress, coeflegend
 
     /*PREDICTED VALUES - RESIDUALS*/
     gen y_hat = _b[_cons] + _b[coef];
@@ -38,7 +37,7 @@
     predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
     predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
         gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
-                                /*THIS IS AN ALTERNATIVE WAY TO EXTRACT RESIDUALS*/
+                                 /*THIS IS AN ALTERNATIVE WAY TO EXTRACT RESIDUALS*/
 
 ** #20.2 ** SCATTER - LINEAR FIT;
 
@@ -79,3 +78,39 @@
 ** #40.2 ** VECTOR / VARIABLE;
 
     gen y_hat = _b[_cons] + _b[var_x1] * var_x1 + _b[var_x2] * var_x2;      /*SAME AS ABOVE USING PREDICT*/
+
+********************************************************************;
+** #50 ** OLS ESTIMATION - MATRIX;
+********************************************************************;
+
+    clear
+    set obs 40
+
+    generate y = rnormal()
+    generate x1 = rnormal() + 2 * y
+    generate x2 = rnormal() - 1 * y
+    gen cons = 1
+
+    graph matrix y x1 x2, half
+
+    mkmat cons x1 x2, matrix(x)
+    mkmat y, matrix(y)
+    matrix b = inv(x'*x)*(x'*y)
+    matrix list b
+
+    reg y x1 x2
+
+    scalar b_cons = b[1,1]
+    scalar b_x1 = b[2,1]
+    scalar b_x2 = b[3,1]
+
+    gen b_cons = b_cons
+    mkmat b_cons, matrix(b_cons)
+    mkmat x1, matrix(x1)
+    mkmat x2, matrix(x2)
+
+    matrix y_pred = b_cons + b_x1*x1 + b_x2*x2
+        svmat y_pred, names(y_pred)
+
+    matrix e_pred = y - y_pred
+        svmat e_pred, names(e_pred)

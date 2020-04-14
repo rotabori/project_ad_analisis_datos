@@ -1,9 +1,9 @@
-** PROJECT: HERRAMIENTAS DECISIONES
+** PROJECT: ANALISIS DE DATOS
 ** PROGRAM: probit_logit.do
 ** PROGRAM TASK: PROBIT LOGIT MODEL
 ** AUTHOR: RODRIGO TABORDA
-** DATE CREATEC: 24/09/2018
-** DATE REVISION 1:
+** DATE CREATEC: 2018/09/24
+** DATE REVISION 1: 2020/04/07
 ** DATE REVISION #:
 
 ********************************************************************;
@@ -22,150 +22,108 @@
 ** #10 ** EXECUTE DATA-IN ROUTINE;
 ********************************************************************;
 
-    include ee\ee_data_in;
+
 
 ********************************************************************;
-** #20 ** ORGANIZAR DATOS PARA ANALISIS;
+** #20 ** LOGIT / PROBIT;
 ********************************************************************;
 
-*** #20.1 ** MADRE ESTUDIOS SUPERIORES;
+** #20.1 ** CONTINUOS EXPLANATORY VARIABLE;
 
-    gen madre_estudio_post = madre_estudio_num>=5 & madre_estudio_num<=6;
+    sum y x1
 
-*** #20.2 ** PADRE ESTUDIOS SUPERIORES;
+    reg y x1
 
-    gen padre_estudio_post = padre_estudio_num>=5 & padre_estudio_num<=6;
+    logit y x1
 
-*** #20.3 ** NUMERO DE HIJOS;
+    predict y_pred01
+        twoway (connected y_pred01 x1, sort(x)) (lfit y x1)
 
-    gen hijos_num = hermanos_nro + 1;
+    margins, at(x1=(#(#)#))
+        marginsplot
+        marginsplot, addplot(connected y_pred01 x1, sort(x1))
 
-********************************************************************;
-** #30 ** DEPORTE;
-********************************************************************;
+    margins, predict(pr) predict(xb) at(x1=(#(#)#))
+        marginsplot
 
-    gen deporte_10 = deporte >= 10;
+    margins, dydx(x1) at(x1=(#(#)#))
+        marginsplot
 
-    gen deporte_8 = deporte >= 8;
+    margins, dydx(x1) at((min)x1) at((max)x1)
+        marginsplot
 
-********************************************************************;
-** #50 ** LPM;
-********************************************************************;
+** #20.2 ** CONTINUOS EXPLANATORY + BINARY VARIABLE;
 
-*** #50.1 ** ESTUDIOS;
+    sum y x1 i.x2
 
-    reg madre_estudio_post hijos_num;
+    reg y x1 i.x2
 
-    reg madre_estudio_post hijos_num genero_num;
+    logit y x1 i.x2
 
-    reg padre_estudio_post hijos_num;
-    reg padre_estudio_post hijos_num genero_num;
+    margins, at(x1=(#(#)#) x2=(0 1))
+        marginsplot
 
-*** #50.2 ** DEPORTE 10;
+    margins, at(x1=(#(#)#)) over(x2)
+        marginsplot
 
-    reg deporte_10 estatura;
-    reg deporte_10 estatura genero_num;
+    margins i.x2, at(x1=(#(#)#))
+        marginsplot
 
-    reg deporte_8 estatura;
-    reg deporte_8 estatura genero_num;
+    margins, dydx(x1) at(x1=(#(#)#) x2=(0 1))
+        marginsplot
 
-********************************************************************;
-** #60 ** LOGIT;
-********************************************************************;
+** #20.3 ** CONTINUOS EXPLANATORY + BINARY VARIABLE + CONTINUOS EXPLANATORY;
 
-*** #60.1 ** ESTUDIOS = HIJOS;
-*** #60.1.1 ** MADRE;
+    sum y x1 i.x2 x3
 
-    logit madre_estudio_post hijos_num;
-        sum madre_estudio_post hijos_num;
+    reg y x1 i.x2 x3
 
-        margins, at(hijos_num=(0(1)10)) atmeans;
-            marginsplot;
+    logit y x1 i.x2 x3
 
-        mtable, at(hijos_num=(0(1)10)) atmeans;
-        mtable, at(hijos_num=(0(1)10)) atmeans estname(P post) statistics(ci);
-
-        mgen, at(hijos_num=(0(1)10)) atmeans stub(madre_p_);
-            twoway connected madre_p_pr1 madre_p_hijos_num;
-
-        margins, dydx(hijos_num) at(hijos_num=(0(1)10)) atmeans;
-            marginsplot;
-
-*** #60.1.2 ** PADRE;
-
-    logit padre_estudio_post hijos_num;
-        sum padre_estudio_post hijos_num;
-
-        margins, at(hijos_num=(0(1)10)) atmeans;
-            marginsplot;
-
-        mtable, at(hijos_num=(0(1)10)) atmeans;
-        mtable, at(hijos_num=(0(1)10)) atmeans estname(P post) statistics(ci);
-
-        mgen, at(hijos_num=(0(1)10)) atmeans stub(padre_p_);
-            twoway connected padre_p_pr1 padre_p_hijos_num;
-
-        margins, dydx(hijos_num) at(hijos_num=(0(1)10)) atmeans;
-            marginsplot;
-
-            twoway
-                    (rarea madre_p_ul1 madre_p_ll1 padre_p_hijos_num, sort color(gs14))
-                    (rarea padre_p_ul1 padre_p_ll1 padre_p_hijos_num, sort color(gs10))
-                    (connected madre_p_pr1 padre_p_pr1 padre_p_hijos_num)
-                ;
-
-*** #60.2 ** ESTUDIOS = HIJOS GENERO;
-*** #60.2.1 ** MADRE;
-
-    logit madre_estudio_post hijos_num i.genero_num;
-        sum madre_estudio_post hijos_num genero_num;
-
-        margins, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-            marginsplot;
-
-        mtable, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-        mtable, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans estname(P post) statistics(ci);
-
-        margins, dydx(hijos_num) at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-            marginsplot;
-
-        margins, dydx(*);
-
-*** #60.1.2 ** PADRE;
-
-    logit padre_estudio_post hijos_num genero_num;
-        sum padre_estudio_post hijos_num genero_num;
-
-        margins, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-            marginsplot;
-
-        mtable, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-        mtable, at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans estname(P post) statistics(ci);
-
-        margins, dydx(hijos_num) at(hijos_num=(0(1)10) genero_num=(0 1)) atmeans;
-            marginsplot;
-
-            twoway
-                    (rarea madre_p_ul1 madre_p_ll1 padre_p_hijos_num, sort color(gs14))
-                    (rarea padre_p_ul1 padre_p_ll1 padre_p_hijos_num, sort color(gs10))
-                    (connected madre_p_pr1 padre_p_pr1 padre_p_hijos_num)
-                ;
-
-        margins, dydx(*);
-
-*** #60.3 ** DEPORTE 10;
-
-    logit deporte_10 estatura;
-    logit deporte_10 estatura genero_num;
-
-    logit deporte_8 estatura;
-    logit deporte_8 estatura genero_num;
+    margins, at(x1=(#(#)#) x2=(0 1)) atmeans
+        marginsplot
 
 ********************************************************************;
-** #70 ** EXAMPLE USING CREDIT DATA;
+** #70 ** EXAMPLE;
 ********************************************************************;
 
-*https://onlinecourses.science.psu.edu/stat857/node/215;
-*probit creditability i.sexmaritalstatus ageyears;
-*margins sexm, at(ageyears=(20(5)70)) atmeans noatlegend;
-*marginsplot, noci
+** #70.1 ** CREDIT DATA;
+
+    use https://onlinecourses.science.psu.edu/stat857/node/215;
+
+    probit creditability i.sexmaritalstatus ageyears;
+
+    margins sexm, at(ageyears=(20(5)70)) atmeans;
+        marginsplot, noci
+
+** #70.1 ** IEFIC;
+
+    use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
+
+    tabulate p2466
+    drop if p2466 > 1
+
+    sum p2466 ingreso p35 p2480
+
+    logit p2466 ingreso i.p35
+        margins i.p35, at(ingreso=(0(1000000)40000000))
+            marginsplot, noci
+
+        margins , at(ingreso=(0(1000000)40000000)) over(i.p35)
+            marginsplot, noci
+
+        margins , dydx(i.p35) at(ingreso=(0(1000000)40000000))
+            marginsplot, yline(0)
+
+        margins i.p35 , dydx(ingreso) at(ingreso=(0(1000000)40000000))
+            marginsplot, noci
+
+    logit p2466 ingreso i.p2480
+        margins i.p2480, at(ingreso=(0(1000000)40000000))
+            marginsplot, noci
+
+        margins , dydx(i.p2480) at(ingreso=(0(1000000)40000000))
+            marginsplot, yline(0)
+
+        margins i.p2480 , dydx(ingreso) at(ingreso=(0(1000000)40000000))
+            marginsplot, noci
