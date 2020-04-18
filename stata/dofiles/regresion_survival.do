@@ -44,26 +44,36 @@
     kdensity relacion_sent;
 
 ********************************************************************;
-** #30 ** ESTIMATION;
+** #30 ** TABLES;
 ********************************************************************;
 
 *** #30.1 ** SURVIVAL;
 
     sts list, survival;
     sts graph, survival;
+    sts graph, survival xline(6 12 18 24);
     sts graph, survival by(genero_num) xline(6 12);
 
 *** #30.2 ** FAILURE;
 
     sts list, failure;
+    sts graph, failure;
     sts graph, failure by(genero_num);
 
 *** #30.3 ** CUMMULATIVE HAZARD;
 
     sts graph, cumhaz;
-    sts graph, cumhaz by( genero_num );
+    sts generate relacion_sent_cumhaz = na;
+    sts graph, cumhaz by(genero_num);
 
-*** #30.4 ** COX REGRESSION;
+*** #30.4 ** GENERATE VARIABLES;
+    sts generate relacion_sent_survival = s relacion_sent_atrisk = n relacion_sent_failing = d relacion_sent_hazard = h;
+
+********************************************************************;
+** #40 ** REGRESSION;
+********************************************************************;
+
+*** #40.1 ** COX REGRESSION;
 
     stcox i.genero_num;
     stcox i.genero_num, nohr;
@@ -76,7 +86,7 @@
         margins i.genero_num , at(edad=(18(1)24));
         marginsplot, noci;
 
-*** #30.5 ** LOG REGRESSION;
+*** #40.2 ** LOG REGRESSION;
 
     generate relacion_sent_ln = ln(relacion_sent);
     reg relacion_sent_ln i.genero_num edad;
