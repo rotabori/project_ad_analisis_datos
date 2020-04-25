@@ -50,6 +50,15 @@
     /*PREDICT # DE COMPONENTES*/
     /*c1 IS JUST A NAME, YOU CAN USE ANY NAME*/
 
+*** #20.5 ** CHECK ASSUMPTIONS;
+
+    summarize c1-c#
+
+*   display a11^2 + ... + a1k^2 /*MUST BE EQUAL TO 1*/
+*   display  corr(x1,c1) = c1_eigenvalue^.5 * a11
+
+    corr x1 x# c1 c#
+
 ********************************************************************;
 ** #30 ** FACTOR ANALYSIS;
 ********************************************************************;
@@ -102,7 +111,7 @@
 
 *** #31.3 ** LOADING PLOT;
 
-    loadingplot, yline(0) xline(0) title(Loadings);
+    loadingplot, yline(0) xline(0) title(Loadings original) name(f0);
 
 *** #31.4 ** SCORE PLOT;
 
@@ -116,7 +125,7 @@
 
     rotate;
 *    rotate , oblique oblimin;
-    loadingplot, yline(0) xline(0) title(Loadings rotated) name(factor_rot);
+    loadingplot, yline(0) xline(0) title(Loadings rotated) name(f0_rot);
 
 *** #31.6 ** EXAMINE;
 
@@ -167,7 +176,7 @@
 
 *** #33.1 ** FACTOR ANALYSIS;
 
-    factor pelicula relacion zapatos cal_1s cal_cal cal_us cal_prob, pcf;
+    factor pelicula relacion zapatos cal_1s cal_us cal_cal cal_prob, pcf;
 
 *** #33.2 ** SCREEPLOT;
 

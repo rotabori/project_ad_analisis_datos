@@ -76,6 +76,7 @@
 
 *** AVION;
     sum avion, detail;
+    hist avion;
 
     poisson avion;
         display exp(_b[_cons]);
@@ -102,18 +103,29 @@
         margins;
 
         margins , predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4));
-            marginsplot;
+        marginsplot;
 
     poisson zapatos i.genero_num;
         margins i.genero_num;
+            marginsplot;
 
-        margins i.genero_num, predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4));
+        margins, dydx(i.genero_num);
+            marginsplot;
+
+        margins i.genero_num, predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4))
+                              predict(pr(5)) predict(pr(6)) predict(pr(7)) predict(pr(8)) predict(pr(9));
+
+        margins , dydx(i.genero_num) predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4))
+                                     predict(pr(5)) predict(pr(6)) predict(pr(7)) predict(pr(8)) predict(pr(9));
+            marginsplot, xlabel(,angle(90));
 
     poisson zapatos i.genero_num edad;
-        margins genero_num, at(edad=(17(1)27));
+        margins i.genero_num, at(edad=(17(1)27));
             marginsplot;
 
         margins i.genero_num, predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4)) atmeans;
+
+        margins , dydx(i.genero_num) predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4)) atmeans;
 
     poisson zapatos i.genero_num estatura;
 
