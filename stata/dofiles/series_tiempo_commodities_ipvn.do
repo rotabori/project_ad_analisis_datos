@@ -46,13 +46,19 @@
 *** #10.2.4 ** EXTRACT DATE VARIABLES;
 
     generate date_date = dofm(date_num);
-        format date_date %d;
+        format %d date_date;
     generate date_day = day(date_date);
+        /*generate date_day = day(dofm(date_num))*/;
     generate date_week = week(date_date);
+        /*generate date_week = week(dofm(date_num))*/;
     generate date_month = month(date_date);
+        /*generate date_month = month(dofm(date_num))*/;
     generate date_quarter = quarter(date_date);
+        /*generate date_quarter = quarter(dofm(date_num))*/;
     generate date_semester = halfyear(date_date);
+        /*generate date_semester = halfyear(dofm(date_num))*/;
     generate date_year = year(date_date);
+        /*generate date_year = year(dofm(date_num))*/;
 
 *** #10.2.5 ** LAG, FORWARD, DIFFERENCE;
 

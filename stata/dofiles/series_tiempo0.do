@@ -14,8 +14,10 @@
 *** #10 ** TRATAMIENTO DE FECHA;
 *********************************************************************;
 
-    display mdy(1,1,1960);
+    display mdy(1,1,1960); /*Enero 1 de 1960*/;
     display hms(0,0,1); /*1 segundo = 1 milisegundo*/;
+    display mdyhms(1,1,1960,0,0,1); /*Segundo 1 de Enero 1 de 1960*/;
+    display mdyhms(1,1,1960,12,0,0); /*Hora 12 de Enero 1 de 1960*/;
     display dow(mdy(11,1,2000)); /*0 = Sun, 1 = Mon, 2 = Tues, 3 = Wed, 4 = Thurs, 5 = Fri, 6 = Saturday*/;
     display doy(mdy(11,1,2000)); /*dia del año*/;
 
@@ -33,20 +35,57 @@
         tsset time;
 
         /*EXTRAER VARIABLE DE TIEMPO*/;
-        generate date_date = dofm(date_num); /*"daily date" is the reference to generate all other*/
-            format date_date %d;
-        generate date_day = day(date_date);
-        generate date_week = week(date_date);
-        generate date_month = month(date_date);
-        generate date_quarter = quarter(date_date);
-        generate date_semester = halfyear(date_date);
-        generate date_year = year(date_date);
+        /*GENERAR VARIABLE FECHA DE REFERENCIA*/;
+        generate date_date = dofm(date_num);
+            format %d date_date;
 
-    /*DEFINIR VARIABLE DE TIEMPO DE DOS VARIABLES*/;
-    gen date = yq(year,q);
+        generate ss = ss(date_date);
+            /*generate ss = ss(dofm(date_num))*/;
+        generate mm = mm(date_date);
+            /*generate mm = mm(dofm(date_num))*/;
+        generate hh = hh(date_date);
+            /*generate hh = hh(dofm(date_num))*/;
+        generate day = day(date_date);
+            /*generate day = day(dofm(date_num))*/;
+        generate week = week(date_date);
+            /*generate week = week(dofm(date_num))*/;
+        generate month = month(date_date);
+            /*generate month = month(dofm(date_num))*/;
+        generate quarter = quarter(date_date);
+            /*generate quarter = quarter(dofm(date_num))*/;
+        generate semester = halfyear(date_date);
+            /*generate semester = halfyear(dofm(date_num))*/;
+        generate year = year(date_date);
+            /*generate year = year(dofm(date_num))*/;
+
+    /*DEFINIR VARIABLE DE TIEMPO DE VARIABLES SEPARADAS*/;
+    gen date = yh(year,semester);
+        format date %th;
+
+    gen date = yq(year,quarter);
         format date %tq;
-        tsset time;
 
-    gen date = ym(year,month)
+    gen date = ym(year,month);
         format date %tm;
-        tsset time;
+
+    gen date = yw(year,week);
+        format date %tw;
+
+    gen date_mdy = mdy(month,day,year);
+        format date %td;
+
+    gen date_mdyhms = mdyhms(month,day,year,hh,mm,ss);
+        format date %tc;
+
+    /*LAG, FORWARD, DIFFERENCE*/;
+
+        generate y_l1 = l.y;
+        generate y_l2 = l2.y;
+        generate y_f1 = f.y;
+        generate y_f2 = f2.y;
+        generate y_d1 = d.y;
+        generate y_g12 = (y - l12.y) / l12.y;
+
+    /*LAG, FORWARD, DIFFERENCE*/;
+        tsline y;
+        tsline y if tin(1990m1,1995m12);
