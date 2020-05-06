@@ -28,9 +28,10 @@
 *** #10.2.1 ** IMPORT DATA;
 
     import delimited
-        http://rodrigotaborda.com/ad/data/commodities/commodities_20190426.csv
+        http://rodrigotaborda.com/ad/data/commodities/commodities_20200428.csv
         ,
-        delimiter(";")
+        delimiter(",")
+        encoding(utf8)
         clear
         ;
 
