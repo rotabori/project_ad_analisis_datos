@@ -172,6 +172,8 @@
     order date date_date date_num, first;
     keep if tin(2001m9,);
 
+    saveold data\capm\capm_200109-201904.dta, replace;
+
 *********************************************************************;
 *** #30.2 ** GENERATE ANUAL RETURN - DTF;
 *********************************************************************;

@@ -30,14 +30,9 @@
 ** #20 ** PANEL DATA ADVERTISING - SALES EXAMPLE;
 ********************************************************************;
 
-* DATA IN;
-
-    #delimit ;
-    use http://www.rodrigotaborda.com/ad/data/pv/pv8387.dta, clear;
-
 * EXAMINE DATA;
 
-    tab ciiu3 y;
+    tab ciiu3;
     tab y;
     tab am;
 
@@ -47,7 +42,7 @@
     tostring am, generate(am_str);
 
     generate ciiu3_am_str = ciiu3_str + "_" + am_str;
-    egen ciiu3_am_str01 = group(ciiu3_str am_str);
+        egen ciiu3_am_str01 = group(ciiu3_str am_str);
 
     generate kw_ln = ln(kw);
     generate ventas_ln = ln(ventas);
