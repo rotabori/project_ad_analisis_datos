@@ -85,10 +85,12 @@
     boxplot(encuesta$estatura ~ encuesta$genero)
     ggplot(encuesta, aes(y=estatura, x=factor(genero))) + geom_boxplot()
 
-    hist(encuesta$estatura)
-    ggplot(encuesta, aes(x=estatura)) + geom_histogram(aes(y=..density.., color = genero, fill = genero),bins = 30)
+    hist(encuesta$estatura, main="Histogram")
+    ggplot(encuesta, aes(x=estatura)) + geom_histogram(aes(y = ..density.., color = genero, fill = genero),bins = 30)
 
     plot(density(encuesta$estatura, kernel = c("gaussian"), na.rm = TRUE))
+    plot(density(encuesta[encuesta$genero=="hombre",]$estatura, kernel = c("gaussian"), na.rm = TRUE), main="Hombre")
+    plot(density(encuesta[encuesta$genero=="mujer",]$estatura, kernel = c("gaussian"), na.rm = TRUE), main="Mujer")
 
 ## #20.3 ## PRUEBA T;
 
@@ -100,20 +102,3 @@
     anova2 <- aov(encuesta$estatura ~ encuesta$genero)
         summary(anova2)
         TukeyHSD(anova2)
-
-
-
-
-
-#install.packages(c("tidyr", "dplyr"))
-#library(tidyr)
-#library(dplyr)
-#
-#icfes200 <- encuesta %>%
-#  filter(icfes200$icfes>200)
-#
-#t.test(icfes200$icfes ~ icfes200$genero)
-#anova3 <- aov(icfes ~ genero, data = icfes200)
-#summary(anova3)
-
-
