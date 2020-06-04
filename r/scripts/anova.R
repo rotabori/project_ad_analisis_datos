@@ -72,7 +72,7 @@
 
     anova1 <- aov(estatura ~ tratamiento, data = sim)
         summary(anova1)
-#        TukeyHSD(anova1)
+		#TukeyHSD(anova1)
 
 ####################################################################;
 ## #20 ## DATOS ENCUESTA ESTUDIANTES;
@@ -81,6 +81,8 @@
 ## #20.1 ## DATA-IN;
 
     encuesta <- read.dta13("http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202010_old.dta")
+    encuesta <- na.omit(encuesta)
+        # REMOVE N.A. OBSERVATIONS
 
 ## #20.2 ## GRAFICA PRELIMINAR;
 
@@ -104,3 +106,18 @@
     anova2 <- aov(encuesta$estatura ~ encuesta$genero)
         summary(anova2)
         TukeyHSD(anova2)
+
+
+
+
+
+
+
+
+
+
+####################################################################;
+## #99 CLEAN
+####################################################################;
+
+    rm(list=ls())

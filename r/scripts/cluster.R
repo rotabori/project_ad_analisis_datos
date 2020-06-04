@@ -28,13 +28,13 @@
 #
 ## #0.3 ## CALL PACKAGES;
     #ES NECESARIO LLAMARLOS CADA RUTINA
-    
+
     library(ggplot2)
         #PAQUETE PARA GR?FICOS
 
     library(readstata13)
         #PAQUETE PARA LECTURA ARCHIVO STATA13
-    
+
 ####################################################################;
 ## #10 ## DATOS SIMULADOS;
 ####################################################################;
@@ -130,17 +130,18 @@
 
     encuesta <- read.dta13("http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202010_old.dta")
 
+    encuesta <- na.omit(encuesta)
+        # REMOVE N.A. OBSERVATIONS
+
 ## #20.2 ## GRAFICA PRELIMINAR;
 
 ## #20.3 ## CLUSTER;
 
 ## #20.3.1 ## SINGLE LINKAGE;
-    encuesta <- na.omit(encuesta)
-        # REMOVE N.A. OBSERVATIONS
 
     cluster_al <- hclust(dist(encuesta$estatura, method = "euclidean"), method = "average")
         # SINGLE LINKAGE
-    
+
     plot(cluster_al, main = "average linkage")
         # DENDROGRAM
 
@@ -152,3 +153,16 @@
     plot(cluster_al_dend_cut$upper)
         # DENDROGRAM
 
+
+
+
+
+
+
+
+
+####################################################################;
+## #99 CLEAN
+####################################################################;
+
+    rm(list=ls())
