@@ -12,9 +12,6 @@
 
     clear all
 
-    filename, describe
-    filename, list
-
 /*********************************************/
 /*DISTRIBUCIÓN UNIFORME*/
 

@@ -32,7 +32,7 @@
     regress, coeflegend
 
     /*PREDICTED VALUES - RESIDUALS*/
-    gen y_hat = _b[_cons] + _b[coef];
+    gen y_hat = _b[_cons] + _b[coef] * x;
     margins , over(var_x1);
     predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
     predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
@@ -55,6 +55,11 @@
         ;
 
     graph combine scatter_fit res;
+
+** #20.3 ** SCATTER - LINEAR FIT;
+
+    twoway (scatter y x) (connected y x)
+
 
 ********************************************************************;
 ** #30 ** LINEAR REGRESSION WITH NON LINEAR EFFECT;

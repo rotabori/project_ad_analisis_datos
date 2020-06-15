@@ -106,7 +106,7 @@ sss
     foreach lag of numlist 1/15{;
         reg `var' `var'_1-`var'_`lag';
         };
-        /*HERE YOU CAN SEE HOW HEACH COEFFICIENT TAKES THE VALUE OF THE PARTIAL AUTO-CORRELATION FUNCTION*/
+        /*HERE YOU CAN SEE HOW EACH COEFFICIENT TAKES THE VALUE OF THE PARTIAL AUTO-CORRELATION FUNCTION*/
     restore;
 
 **** #90.9.9 ** GOOD BYE;

@@ -25,21 +25,26 @@
 
     graph drop _all;
     clear;
+
     /*DEFINIR NUMERO DE OBSERVACIONES*/;
-    set obs 180;
+        set obs 180;
+
     /*DEFINIR VARIABLE DE TIEMPO*/;
-    generate time=_n;
-    tsset time;
-    /*DEFINIR VALOR ALEATOREO INICIAL*/;
-    set seed 123;
-    /*GENERAR PROCESO ALEATORIO*/;
-    gen e1 = rnormal(0,5);
-        label var e1 "e1 N(0,5)";
+        generate time=_n;
+        tsset time;
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
-    set seed 987;
+        set seed 123;
+
     /*GENERAR PROCESO ALEATORIO*/;
-    gen e2 = rnormal(0,5);
+        gen e1 = rnormal(0,5);
+            label var e1 "e1 N(0,5)";
+
+    /*DEFINIR VALOR ALEATOREO INICIAL*/;
+        set seed 987;
+
+    /*GENERAR PROCESO ALEATORIO*/;
+        gen e2 = rnormal(0,5);
         label var e2 "e2 N(0,5)";
 
 *********************************************************************;
@@ -63,6 +68,11 @@
     dfuller y1, regress noconstant lag(1);
         reg d.y1 l.y1 l.d.y1, noconstant;
 
+*** #10.2 ** DF UNIT ROOT TEST;
+    dfuller y1a, regress noconstant;
+    dfuller y1a, regress noconstant lag(1);
+        reg d.y1a l.y1a l.d.y1a, noconstant;
+
 *********************************************************************;
 *** #20 ** CAMINATA ALEATOREA NO ESTACIONARIA;
 *********************************************************************;
@@ -79,16 +89,37 @@
     replace y2a = `b1a' * l.y2a + e2 in 2/l;
         label var y2a "y2a = `b1a' * l.y2a + e2";
 
-    *********************************************************************;
-    *** #29 ** GRAFICAS;
-    *********************************************************************;
+*** #20.1 ** DF UNIT ROOT TEST;
+    dfuller y2, regress noconstant;
+    dfuller y2, regress noconstant lag(1);
+        reg d.y2 l.y2 l.d.y2, noconstant;
 
-        tsline y1* y2*, name(y1y2_tsline, replace) xsize(10);
-        graph twoway (scatter y1 y1a) (lfit y1 y1a), ytitle(y1) xtitle(y1a) title(y1 y1a) legend(cols(1)) name(y1_scatter, replace);
-        graph twoway (scatter y2 y2a) (lfit y2 y2a), ytitle(y2) xtitle(y2a) title(y2 y2a) legend(cols(1)) name(y2_scatter, replace);
-            graph combine y1_scatter y2_scatter, name(y1y2_scatter, replace) rows(1);
-            graph combine y1y2_tsline y1y2_scatter, title(y1 y1a / y2 y2a) cols(1) ysize(6) iscale(*.7) name(y1y2, replace);
-                graph close y1y2_tsline y1_scatter y2_scatter y1y2_scatter;
+*** #20.2 ** DF UNIT ROOT TEST;
+    dfuller y2a, regress noconstant;
+    dfuller y2a, regress noconstant lag(1);
+        reg d.y2a l.y2a l.d.y2a, noconstant;
+
+
+*********************************************************************;
+*** #29 ** GRAFICAS;
+*********************************************************************;
+
+    tsline y1*, name(y1_tsline, replace);
+    tsline y2*, name(y2_tsline, replace);
+
+    graph twoway (scatter y1 y1a) (lfit y1 y1a), ytitle(y1) xtitle(y1a) title(y1 y1a) legend(cols(1)) name(y1_scatter, replace);
+    graph twoway (scatter y2 y2a) (lfit y2 y2a), ytitle(y2) xtitle(y2a) title(y2 y2a) legend(cols(1)) name(y2_scatter, replace);
+
+    graph combine y1_tsline y1_scatter, title(y1 y1a) cols(1) name(y1, replace);
+    graph combine y2_tsline y2_scatter, title(y2 y2a) cols(1) name(y2, replace);
+
+    graph combine y1 y2, cols(2) name(y1y2, replace);
+
+    graph close y*_tsline y*_scatter;
+
+sss
+
+
 
 *********************************************************************;
 *** #30 ** CAMINATA ALEATOREA ESTACIONARIA + CONSTANTE;

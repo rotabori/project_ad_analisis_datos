@@ -47,10 +47,6 @@
     generate kw_ln = ln(kw);
     generate ventas_ln = ln(ventas);
 
-* DECLARE CROSS SECTION AND TIME SERIES IDENTIFIERS;
-
-    xtset ciiu3_am_str01 y;
-
 * OLS;
 * NO ACKNOWLEDGEMENT OF SOURCES OF VARIATION;
 
@@ -124,6 +120,10 @@
 * FIXED EFFECTS ESTIMATION;
 * INDUSTRY-CITY FIXED EFFECT;
 
+* DECLARE CROSS SECTION AND TIME SERIES IDENTIFIERS;
+
+    xtset ciiu3_am_str01 y;
+
     xtreg ventas_ln kw_ln, fe;
         estimates store fe;
         margins , at(kw_ln=(0 9 18));
@@ -169,22 +169,3 @@
 		ysize(16)
 		xsize(10)
         ;
-
-
-
-
-
-
-
-
-
-
-
-
-twoway
-    (lfit ventas_ln publicidad_ln if y==1983, lcolor(black) legend(label(1 1983)))
-    (lfit ventas_ln publicidad_ln if y==1984, lcolor(black) legend(label(2 1984)))
-    (lfit ventas_ln publicidad_ln if y==1985, lcolor(black) legend(label(2 1985)))
-    (lfit ventas_ln publicidad_ln if y==1986, lcolor(black) legend(label(2 1986)))
-    (lfit ventas_ln publicidad_ln if y==1987, lcolor(black) legend(label(2 1987)))
-    (lfit ventas_ln publicidad_ln, lcolor(red))

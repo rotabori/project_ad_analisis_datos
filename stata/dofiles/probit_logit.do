@@ -28,6 +28,10 @@
 ** #20 ** LOGIT / PROBIT;
 ********************************************************************;
 
+** #20.0 ** CREATE A DUMMY VARIABLES;
+
+    gen z_d = (z>0)
+
 ** #20.1 ** CONTINUOS EXPLANATORY VARIABLE;
 
     sum y x1

@@ -50,12 +50,26 @@
     scalar ulb = _b[expl var] +- tc975*_se[expl var]
 
     /*P-VALUE*/
-    scalar pvalue = ttail(n-(k+1),abs(tstat))
+    scalar pvalue = ttail(n-(k+1),abs(tstat))*2
 
     /*GRAPH*/
-    twoway function y = tden(n-k+1,x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat') ||
+    twoway function y = tden(n-(k+1),x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat') ||
         function y = tden(n-k+1,x), range(-4 -`tc975') recast(area) color(dknavy)||
         function y = tden(n-k+1,x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t)
+
+    /*EXAMPLE AUTO DATASET*/;
+    sysuse auto
+    reg price mpg weight
+    scalar t_mpg = (_b[mpg] - 0) / _se[mpg]
+    local t_mpg = (_b[mpg] - 0) / _se[mpg]
+    scalar tc975 = invttail(74-(2+1),0.025)
+    local tc975 = invttail(74-(2+1),0.025)
+    scalar ub_mpg = _b[mpg] + tc975*_se[mpg]
+    scalar lb_mpg = _b[mpg] - tc975*_se[mpg]
+    display lb_mpg " " ub_mpg
+    scalar pvalue_mpg = ttail(74-(2+1),abs(t_mpg))*2
+    display pvalue_mpg
+    twoway (function y = tden(74-(2+1),x), range(-4 4) xline(`t_mpg') xlabel(-`tc975' `tc975' `t_mpg')) (function y = tden(74-(2+1),x), range(-4 -`tc975') recast(area) color(dknavy)) (function y = tden(74-(2+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t))
 
     /*HIPOTHESIS TEST*/
     test var
@@ -87,7 +101,6 @@
         estimats store m2 if e(sample)
 
     lrtest m1 m2
-
 
 ** #20.3 ** NORMALITY TEST;
 

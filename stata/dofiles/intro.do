@@ -46,6 +46,7 @@
 ** #20.2 ** EXAMINE / TIDY UP YOUR DATA;
 
     browse; /*EXPLORE YOUR DATA AS A SPREAD SHEET*/
+
     describe;   /*SHOWS HOW DATA IS BEING HANDLED BY STATA*/
 
     edit;   /*EDIT YOUR DATA AS A SPREAD SHEET*/
@@ -56,7 +57,7 @@
     list var1 in 1/10;  /*REQUEST YOUR DATA TO BE LISTED IN THE OUTPUT WINDOW*/
                         /*THIS TIME ONLY SHOW OBSERVATIOS 1 TO 10*/
 
-    rename var1 sales;  /*RENAME VARIABLE var1 TO sales*/
+    rename var1 new_var1;  /*RENAME VARIABLE var1 TO sales*/
 
     label variable var1 "variable label";   /*ATTACH LABEL TO YOUR VARIABLE*/
 
@@ -107,7 +108,7 @@
     scalar a = 1;    /*STORE IN a THE NUMBER 1*/
     scalar b = 1;    /*STORE IN b THE NUMBER 1*/
 
-    display "La suma de a + b es" a + b: ;  /*REQUEST STATA DISPLAY SOMETHING*/
+    display "La suma de a + b es: " a + b ;  /*REQUEST STATA DISPLAY SOMETHING*/
 
 **** #90.9.9 ** GOOD BYE;
 *
