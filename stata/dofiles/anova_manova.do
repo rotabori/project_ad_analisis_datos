@@ -56,7 +56,12 @@
 
     /*EXAMPLE GENDER - HEIGHT UANDES STUDENTS*/;
 
-    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202010_old.dta;
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202019_old.dta;
+
+    tabulate genero_num;
+    table genero_num, contents(mean estatura sd estatura n estatura min estatura max estatura) format(%4.2f);
+    graph box estatura, over(genero_num);
+    graph bar (mean) estatura, over(genero_num);
 
     histogram estatura;
     kdensity estatura;
@@ -72,11 +77,12 @@
 
     kdensity estatura
         ,
-        addplot(kdensity estatura if genero_num == 0 || kdensity estatura if genero_num == 1)
+        lcolor(red)
+        addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black))
         legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres"))
-        xline(`estatura')
-        xline(`estatura_0')
-        xline(`estatura_1')
+        xline(`estatura', lcolor(red))
+        xline(`estatura_0', lcolor(blue))
+        xline(`estatura_1', lcolor(black))
         ;
 
     /*THIS EXAMPLE IS RESTRICTED TO OUR STUDENTS SURVEY*/;
@@ -95,7 +101,7 @@
 
 ** #40.1 ** SINGLE;
 
-    oneway outcome i.treatment, tabulate bonferroni;
+    oneway outcome treatment, tabulate bonferroni;
     anova outcome i.treatment;
     regress outcome i.treatment;
 

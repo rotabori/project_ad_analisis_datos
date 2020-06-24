@@ -48,17 +48,24 @@
 
     reg y1 x1
         ;
+        local y1_cons: di%3.2f = _b[_cons];
+        local y1_slope: di%3.2f = _b[x1];
 
     reg y2 x2
         ;
+        local y2_cons: di%3.2f = _b[_cons];
+        local y2_slope: di%3.2f = _b[x2];
 
     reg y3 x3
         ;
+        local y3_cons: di%3.2f = _b[_cons];
+        local y3_slope: di%3.2f = _b[x3];
 
     reg y4 x4
         ;
+        local y4_cons: di%3.2f = _b[_cons];
+        local y4_slope: di%3.2f = _b[x4];
 
-	
 *********************************************************************;
 *** #30 ** GRAPHS;
 *********************************************************************;
@@ -66,38 +73,66 @@
 *** #30.1 ** GRAPHS;
 
     twoway
-    (lfit
-        y1 x1)
-    (scatter
-        y1 x1)
+        (
+        lfit
+        y1 x1
         ,
+        text(12 5 "y1 = `y1_cons' + `y1_slope' x1", size(small) place(e))
+        )
+        (
+        scatter
+        y1 x1
+        )
+        ,
+        legend(off)
         name(y1x1)
         ;
 
     twoway
-    (lfit
-        y2 x2)
-    (scatter
-        y2 x2)
+        (
+        lfit
+        y2 x2
         ,
+        text(12 5 "y2 = `y2_cons' + `y2_slope' x2", size(small) place(e))
+        )
+        (
+        scatter
+        y2 x2
+        )
+        ,
+        legend(off)
         name(y2x2)
         ;
 
     twoway
-    (lfit
-        y3 x3)
-    (scatter
-        y3 x3)
+        (
+        lfit
+        y3 x3
         ,
+        text(12 5 "y3 = `y3_cons' + `y3_slope' x3", size(small) place(e))
+        )
+        (
+        scatter
+        y3 x3
+        )
+        ,
+        legend(off)
         name(y3x3)
         ;
 
     twoway
-    (lfit
-        y4 x4)
-    (scatter
-        y4 x4)
+        (
+        lfit
+        y4 x4
         ,
+        text(12 5 "y4 = `y4_cons' + `y4_slope' x4", size(small) place(e))
+        )
+        (
+        scatter
+        y4 x4
+        )
+        ,
+        legend(off)
         name(y4x4)
         ;
 
@@ -107,7 +142,11 @@
         y3x3
         y4x4
         ,
+        ycommon
+        xsize(4)
         title(El cuarteto de Anscombe)
+        note("Cuatro grupos de datos que tienen la misma media, varianza, correlación"
+             "y ecuación de regresión. Pero diferente gráfica.")
         name(anscombe)
         ;
 

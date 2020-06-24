@@ -53,7 +53,7 @@
 *** #10.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
     tsline y1, ytitle("") name(y1);
     ac y1, title(AC) name(y1ac);
-        corr l1.y1 l2.y1 l3.y1 l4.y1 l5.y1;
+        corr y1 l1.y1 l2.y1 l3.y1 l4.y1 l5.y1;
     pac y1, title(PAC) name(y1pac);
         reg y1 l1.y1;
         reg y1 l1.y1 l2.y1;
@@ -77,6 +77,26 @@
         estat ic;
     arima y1, arima(0,0,1);
         estat ic;
+
+*** #10.3 ** PRONOSTICO;
+
+    arima y1, arima(1,0,0);
+    tsappend, add(12);
+	predict y1_arima100_0, y dynamic(175);
+	predict y1_arima100_1, y dynamic(180);
+
+    tsline y1 y1_arima100_0 y1_arima100_1
+        ,
+        ytitle("") legend(order(1 "y1" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y1 y1_arima100_0 y1_arima100_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y1" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y1_pron) title(AR(1)) subtitle(y1 = `y1b' * l.y1 + e1);
+    graph close a b;
+
+    graph combine y1y1acpac y1_pron, rows(1) name(y1y1acpacpron) xsize(11);
 
 *********************************************************************;
 *** #20 ** MODELO AR(1) + CONSTANTE;
@@ -116,6 +136,25 @@
         estat ic;
     arima y2, arima(0,0,1);
         estat ic;
+
+*** #20.3 ** PRONOSTICO;
+
+    arima y2, arima(1,0,0);
+	predict y2_arima100_0, y dynamic(175);
+	predict y2_arima100_1, y dynamic(180);
+
+    tsline y2 y2_arima100_0 y2_arima100_1
+        ,
+        ytitle("") legend(order(1 "y2" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y2 y2_arima100_0 y2_arima100_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y2" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y2_pron)  title(AR(1) + constante) subtitle(y2 = `y2a' + `y2b' * l.y2 + e1);
+    graph close a b;
+
+    graph combine y2y2acpac y2_pron, rows(1) name(y2y2acpacpron) xsize(11);
 
 *********************************************************************;
 *** #30 ** MODELO MA(1);
@@ -157,6 +196,25 @@
     arima y3, arima(0,0,0);
         estat ic;
 
+*** #30.3 ** PRONOSTICO;
+
+    arima y3, arima(0,0,1);
+	predict y3_arima001_0, y dynamic(175);
+	predict y3_arima001_1, y dynamic(180);
+
+    tsline y3 y3_arima001_0 y3_arima001_1
+        ,
+        ytitle("") legend(order(1 "y3" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y3 y3_arima001_0 y3_arima001_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y3" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y3_pron) title(MA(1)) subtitle(y3 = e1 + `y3b' * l.e1);
+    graph close a b;
+
+    graph combine y3y3acpac y3_pron, rows(1) name(y3y3acpacpron) xsize(11);
+
 *********************************************************************;
 *** #40 ** MODELO ARMA(1,1);
 *********************************************************************;
@@ -169,7 +227,7 @@
 
 *** #40.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
     tsline y4, ytitle("") name(y4);
-    ac y4, title(AC)  name(y4ac);
+    ac y4, title(AC) name(y4ac);
         corr l1.y4 l2.y4 l3.y4 l4.y4 l5.y4;
     pac y4, title(PAC) name(y4pac);
         reg y4 l1.y4;
@@ -194,6 +252,25 @@
         estat ic;
     arima y4, arima(0,0,1);
         estat ic;
+
+*** #40.3 ** PRONOSTICO;
+
+    arima y4, arima(1,0,1);
+	predict y4_arima101_0, y dynamic(175);
+	predict y4_arima101_1, y dynamic(180);
+
+    tsline y4 y4_arima101_0 y4_arima101_1
+        ,
+        ytitle("") legend(order(1 "y4" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y4 y4_arima101_0 y4_arima101_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y4" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y4_pron) title(ARMA(1,1)) subtitle(y4 = `y4b' * l.y4 + e1 + `y4b' * l.e1);
+    graph close a b;
+
+    graph combine y4y4acpac y4_pron, rows(1) name(y4y4acpacpron) xsize(11);
 
 *********************************************************************;
 *** #50 ** MODELO AR(2);
@@ -236,6 +313,25 @@
         estat ic;
     arima y5, arima(1,0,0);
         estat ic;
+
+*** #50.3 ** PRONOSTICO;
+
+    arima y5, arima(2,0,0);
+	predict y5_arima200_0, y dynamic(175);
+	predict y5_arima200_1, y dynamic(180);
+
+    tsline y5 y5_arima200_0 y5_arima200_1
+        ,
+        ytitle("") legend(order(1 "y5" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y5 y5_arima200_0 y5_arima200_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y5" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y5_pron) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e);
+    graph close a b;
+
+    graph combine y5y5acpac y5_pron, rows(1) name(y5y5acpacpron) xsize(11);
 
 *********************************************************************;
 *** #60 ** MODELO AR(2) + CONSTANT;
@@ -280,6 +376,25 @@
     arima y6, arima(1,0,0);
         estat ic;
 
+*** #60.3 ** PRONOSTICO;
+
+    arima y6, arima(2,0,0);
+	predict y6_arima200_0, y dynamic(175);
+	predict y6_arima200_1, y dynamic(180);
+
+    tsline y6 y6_arima200_0 y6_arima200_1
+        ,
+        ytitle("") legend(order(1 "y6" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y6 y6_arima200_0 y6_arima200_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y6" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y6_pron) title(AR(2) + constante) subtitle(y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e);
+    graph close a b;
+
+    graph combine y6y6acpac y6_pron, rows(1) name(y6y6acpacpron) xsize(11);
+
 *********************************************************************;
 *** #70 ** MODELO MA(2);
 *********************************************************************;
@@ -321,6 +436,25 @@
         estat ic;
     arima y7, arima(0,0,1);
         estat ic;
+
+*** #70.3 ** PRONOSTICO;
+
+    arima y7, arima(0,0,2);
+	predict y7_arima002_0, y dynamic(175);
+	predict y7_arima002_1, y dynamic(180);
+
+    tsline y7 y7_arima002_0 y7_arima002_1
+        ,
+        ytitle("") legend(order(1 "y7" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y7 y7_arima002_0 y7_arima002_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y7" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y7_pron) title(MA(2)) subtitle(y7 = e + `y7b' * l.e1 + `y7bb' * l2.e1);
+    graph close a b;
+
+    graph combine y7y7acpac y7_pron, rows(1) name(y7y7acpacpron) xsize(11);
 
 ********************************************************************;
 ** #80 ** MODELO ARMA(2,2);
@@ -366,18 +500,37 @@
     arima y8, arima(1,0,2);
         estat ic;
 
+*** #80.3 ** PRONOSTICO;
+
+    arima y8, arima(2,0,2);
+	predict y8_arima202_0, y dynamic(175);
+	predict y8_arima202_1, y dynamic(180);
+
+    tsline y8 y8_arima202_0 y8_arima202_1
+        ,
+        ytitle("") legend(order(1 "y8" 2 "175" 3 "180") rows(1)) name(a, replace)
+        ;
+    tsline y8 y8_arima202_0 y8_arima202_1 if time >=170
+        ,
+        ytitle("") legend(order(1 "y8" 2 "175" 3 "180") rows(1)) name(b, replace)
+        ;
+    graph combine a b, rows(1) name(y8_pron) title(ARMA(2,2)) subtitle(y8 = `y8b' * l.y8 + `y8bb' * l2.y8 + e + `y8c' * l.e1 + `y8cc' * l2.e1);
+    graph close a b;
+
+    graph combine y8y8acpac y8_pron, rows(1) name(y8y8acpacpron) xsize(11);
+
 ********************************************************************;
 ** #80 ** DISPLAY ALL GRAPHS;
 ********************************************************************;
 
-    graph display y1y1acpac;
-    graph display y2y2acpac;
-    graph display y3y3acpac;
-    graph display y4y4acpac;
-    graph display y5y5acpac;
-    graph display y6y6acpac;
-    graph display y7y7acpac;
-    graph display y8y8acpac;
+    graph display y1y1acpacpron;
+    graph display y2y2acpacpron;
+    graph display y3y3acpacpron;
+    graph display y4y4acpacpron;
+    graph display y5y5acpacpron;
+    graph display y6y6acpacpron;
+    graph display y7y7acpacpron;
+    graph display y8y8acpacpron;
 
 **** #90.9.9 ** GOOD BYE;
 *

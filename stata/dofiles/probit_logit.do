@@ -90,6 +90,9 @@
 ** #20.4 ** CLASSIFICATION TABLE;
 
     logit y x1 i.x2 x3
+        predict pr, pr
+        gen pr01 = (pr>.5)
+        tabulate y pr01
         estat class
 
 ********************************************************************;

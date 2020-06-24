@@ -115,7 +115,7 @@
 
 *** #31.4 ** SCORE PLOT;
 
-    scoreplot;
+    scoreplot, yline(0) xline(0);
 
 *** #31.4 ** PREDICT;
 
@@ -164,7 +164,6 @@
 
 
 *** #32.6 ** EXAMINE;
-
 
 
 

@@ -29,13 +29,14 @@
     generate time=_n;
         tsset time;
 
-    /*DEFINIR VARIABLE DE TIEMPO*/;
+    /*DEFINIR VARIABLE DE TIEMPO INICIANDO CON FECHA MENSUAL*/;
     generate date_num = monthly(date,"YM");
         format %tm date_num;
         tsset time;
 
         /*EXTRAER VARIABLE DE TIEMPO*/;
         /*GENERAR VARIABLE FECHA DE REFERENCIA*/;
+        /*A PARTIR DE ESTA FECHA SE DEFINE EL RESTO DE VARIABLES DE TIEMPO*/;
         generate date_date = dofm(date_num);
             format %d date_date;
 
