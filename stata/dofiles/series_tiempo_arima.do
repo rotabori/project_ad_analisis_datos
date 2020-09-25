@@ -67,11 +67,15 @@
     dfuller y1, regress noconstant;
     dfuller y1, regress noconstant lag(1);
         reg d.y1 l.y1 l.d.y1, noconstant;
+    dfgls y1;
+    pperron y1;
 
 *** #10.2 ** DF UNIT ROOT TEST;
     dfuller y1a, regress noconstant;
     dfuller y1a, regress noconstant lag(1);
         reg d.y1a l.y1a l.d.y1a, noconstant;
+    dfgls y1;
+    pperron y1;
 
 *********************************************************************;
 *** #20 ** CAMINATA ALEATOREA NO ESTACIONARIA;

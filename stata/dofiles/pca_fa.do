@@ -30,6 +30,7 @@
 
 *** #20.1 ** PCA;
 
+    corr var1 var2 var3 ... var#;
     pca var1 var2 var3 ... var#;
 
 *** #20.2 ** SCREEPLOT;
@@ -65,6 +66,7 @@
 
 *** #30.1 ** FACTOR ANALYSIS;
 
+    corr var1 var2 var3 ... var#;
     factor var1 var2 var3 ... var#, pcf;
     factor var1 var2 var3 ... var#, pcf mineigen(.9);
 
@@ -86,6 +88,8 @@
     /*PREDICT # DE FACTORES*/
     /*f1 IS JUST A NAME, YOU CAN USE ANY NAME*/
 
+    corr f1-f# var1 var2 var3 ... var#;
+
 *** #30.5 ** ROTATE;
 
     rotate;
@@ -98,7 +102,7 @@
 
     graph matrix manufacturing agriculture services, half;
     graph twoway (scatter m a) (scatter m a if country_code == "COL");
-    graph twoway (scatter m a, msize(small)) (scatter m a if country_code == "COL", mlabel(country_code));
+    graph twoway (scatter m a, msize(vsmall)) (scatter m a if country_code == "COL", mlabel(country_code));
 
 *** #31.1 ** FACTOR ANALYSIS;
 
@@ -119,19 +123,24 @@
 
 *** #31.4 ** PREDICT;
 
-    predict f1-f2;
+    predict factor1 factor2;
+    corr factor1 factor2 manufacturing agriculture services;
 
 *** #31.5 ** ROTATE;
 
-    rotate;
-*    rotate , oblique oblimin;
-    loadingplot, yline(0) xline(0) title(Loadings rotated) name(f0_rot);
+    rotate, varimax
+    loadingplot, xline(0) yline(0) title(varimax) name(varimax)
+    predict varimax1 varimax2
 
-*** #31.6 ** EXAMINE;
+    rotate , oblique oblimin
+    loadingplot, xline(0) yline(0) title(oblique) name(oblimin)
+    predict oblique1 oblique2
 
-    list (idvar) (factors);
+    rotate , oblique oblimax
+    loadingplot, xline(0) yline(0) title(oblimax) name(oblimax)
+    predict oblimax1 oblimax2
 
-    graph twoway (scatter f2 f1) (scatter f2 f1 if id_country == "COL" | id_country == "TCD", mlabel(id_country));
+    corr factor* varimax* oblique* oblimax*
 
 ********************************************************************;
 ** #32 ** FACTOR & PCA PLANETS DATA TAKEN FROM HAMILTON(2013);

@@ -22,25 +22,26 @@
 ** #10 ** DATA-IN;
 ********************************************************************;
 
-    scatter x1 x2, mlabel(id);
+    scatter x2 x1, mlabel(id);
 
 ********************************************************************;
 ** #20 ** CLUSTER SINGLE LINKAGE;
 ********************************************************************;
 
     cluster singlelinkage var1 var2, name(cluster_name_sl);
-    /*USE EASY TO REMEMBER NAME AND ADD sl AS A SUFFIX FOR single linkage*/;
+clus    /*USE EASY TO REMEMBER NAME AND ADD sl AS A SUFFIX FOR single linkage*/;
 
 ** #20.1 ** DENDROGRAM;
 
     cluster dendrogram cluster_name_sl, labels(var_id) xlabel(,angle(45)) name(ddd);
-    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45)) name(ddd);
-    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45)) name(ddd);
+    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45)) showcount name(ddd);
+    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45)) showcount name(ddd);
 
 ** #20.2 ** GENERATE VARIABLE SHOWING CLUSTER GROUPS;
 
     cluster generate cluster_name_sl_g3 = groups(3), name(cluster_name_sl);
     table cluster_name_sl_g3, contents(mean var1 sd var1 n var1) format(%4.2f);
+    twoway (scatter var1 var2 if cluster_name_sl_g3 == 1) (scatter var1 var2 if cluster_name_sl_g3 == 2) (scatter var1 var2 if cluster_name_sl_g3 == 3)
 
 ********************************************************************;
 ** #30 ** OTHER CLUSTER ALGORITHMS IN STATA;

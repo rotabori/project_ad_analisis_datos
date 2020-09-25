@@ -32,11 +32,15 @@
     regress, coeflegend
 
     /*PREDICTED VALUES - RESIDUALS*/
-    gen y_hat = _b[_cons] + _b[coef] * x;
+
     margins , over(var_x1);
+        marginsplot;
+
     predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
+    gen y_hat = _b[_cons] + _b[var_x1] * var_x1
+
     predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
-        gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
+    gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
                                  /*THIS IS AN ALTERNATIVE WAY TO EXTRACT RESIDUALS*/
 
 ** #20.2 ** SCATTER - LINEAR FIT;
@@ -119,3 +123,14 @@
 
     matrix e_pred = y - y_pred
         svmat e_pred, names(e_pred)
+
+    scalar k = colsof(x)
+
+    scalar N = rowsof(x)
+
+    matrix s = (e_pred'*e_pred')/(N-k)
+        matlist s
+
+    matrix v = invsym(x'*x)*s
+        matlist v
+        matlist e(V)

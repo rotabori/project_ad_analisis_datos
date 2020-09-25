@@ -34,7 +34,7 @@
     tsset time;
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
-    set seed 123456789;
+    set seed 1234;
 
     /*GENERAR PROCESO ALEATORIO*/;
     gen e1 = rnormal(0,1);
@@ -52,6 +52,7 @@
 
 *** #10.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
     tsline y1, ytitle("") name(y1);
+
     ac y1, title(AC) name(y1ac);
         corr y1 l1.y1 l2.y1 l3.y1 l4.y1 l5.y1;
     pac y1, title(PAC) name(y1pac);
@@ -71,12 +72,35 @@
 
     arima y1, arima(2,0,1);
         estat ic;
+        estimates store arima201;
     arima y1, arima(2,0,0);
         estat ic;
+        estimates store arima200;
     arima y1, arima(1,0,0);
         estat ic;
+        estimates store arima100;
+        predict y1res, residuals;
+        wntestq y1res;
+        wntestb y1res;
+        wntestb y1res, table;
+        estat aroots;
+
+        tsline y1res, ytitle("") name(y1res);
+        ac y1res, name(y1resac);
+        pac y1res, name(y1respac);
+
+        graph combine y1resac y1respac, rows(1) name(y1resacpac);
+        graph combine y1res y1resacpac, cols(1) name(y1resacpac, replace) title(AR(1)) subtitle(Res);
+
+        graph close _all;
+
     arima y1, arima(0,0,1);
         estat ic;
+        estimates store arima001;
+
+    estimates stat _all;
+
+    estimates table _all, stats(aic bic);
 
 *** #10.3 ** PRONOSTICO;
 
@@ -93,11 +117,11 @@
         ,
         ytitle("") legend(order(1 "y1" 2 "175" 3 "180") rows(1)) name(b, replace)
         ;
-    graph combine a b, rows(1) name(y1_pron) title(AR(1)) subtitle(y1 = `y1b' * l.y1 + e1);
+    graph combine a b, rows(1) name(y1pron) title(AR(1)) subtitle(y1 = `y1b' * l.y1 + e1);
     graph close a b;
 
-    graph combine y1y1acpac y1_pron, rows(1) name(y1y1acpacpron) xsize(11);
-
+    graph combine y1y1acpac y1resacpac y1pron, rows(1) name(y1y1acpacpron) xsize(11);
+sss
 *********************************************************************;
 *** #20 ** MODELO AR(1) + CONSTANTE;
 *********************************************************************;
@@ -130,13 +154,19 @@
 
     arima y2, arima(2,0,1);
         estat ic;
+        estimates store arima201;
     arima y2, arima(2,0,0);
         estat ic;
+        estimates store arima200;
     arima y2, arima(1,0,0);
         estat ic;
+        estimates store arima100;
     arima y2, arima(0,0,1);
         estat ic;
+        estimates store arima001;
 
+    estimates stat _all;
+aaa
 *** #20.3 ** PRONOSTICO;
 
     arima y2, arima(1,0,0);
@@ -282,7 +312,7 @@
     replace y5 = e1 in 1;
     replace y5 = e1 in 2;
     replace y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e1 in 3/l;
-        label var y5 "AR(2) (y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e)";
+        label var y5 "AR(2) (y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e1)";
 
 *** #50.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
     tsline y5, ytitle("") name(y5);
@@ -296,7 +326,7 @@
         reg y5 l1.y5 l2.y5 l3.y5 l4.y5 l5.y5;
 
     graph combine y5ac y5pac, rows(1) name(y5acpac) xsize(10);
-    graph combine y5 y5acpac, cols(1) name(y5y5acpac) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e);
+    graph combine y5 y5acpac, cols(1) name(y5y5acpac) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e1);
 
     graph close _all;
     graph display y5y5acpac;
@@ -328,7 +358,7 @@
         ,
         ytitle("") legend(order(1 "y5" 2 "175" 3 "180") rows(1)) name(b, replace)
         ;
-    graph combine a b, rows(1) name(y5_pron) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e);
+    graph combine a b, rows(1) name(y5_pron) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e1);
     graph close a b;
 
     graph combine y5y5acpac y5_pron, rows(1) name(y5y5acpacpron) xsize(11);
@@ -344,7 +374,7 @@
     replace y6 = e1 in 1;
     replace y6 = e1 in 2;
     replace y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e1 in 3/l;
-        label var y6 "AR(2) + constante (y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e)";
+        label var y6 "AR(2) + constante (y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e1)";
 
 *** #60.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
     tsline y6, ytitle("") name(y6);
@@ -358,7 +388,7 @@
         reg y6 l1.y6 l2.y6 l3.y6 l4.y6 l5.y6;
 
     graph combine y6ac y6pac, rows(1) name(y6acpac) xsize(10);
-    graph combine y6 y6acpac, cols(1) name(y6y6acpac) title(AR(2) + constante) subtitle(y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e);
+    graph combine y6 y6acpac, cols(1) name(y6y6acpac) title(AR(2) + constante) subtitle(y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e1);
 
     graph close _all;
     graph display y6y6acpac;
@@ -390,7 +420,7 @@
         ,
         ytitle("") legend(order(1 "y6" 2 "175" 3 "180") rows(1)) name(b, replace)
         ;
-    graph combine a b, rows(1) name(y6_pron) title(AR(2) + constante) subtitle(y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e);
+    graph combine a b, rows(1) name(y6_pron) title(AR(2) + constante) subtitle(y6 = `y6a' + `y6b' * l.y6 + `y6bb' * l2.y6 + e1);
     graph close a b;
 
     graph combine y6y6acpac y6_pron, rows(1) name(y6y6acpacpron) xsize(11);
@@ -404,7 +434,7 @@
     generate y7 = .;
     replace y7 = e1 in 1;
     replace y7 = e1 in 2;
-    replace y7 = e1 + `y7b' * l.e1 + `y7bb' * l2.e1 in 2/l;
+    replace y7 = e1 + `y7b' * l.e1 + `y7bb' * l2.e1 in 3/l;
         label var y7 "MA(2) (y7 = e + `y7b' * l.e1 + `y7bb' * l2.e1)";
 
 *** #70.1 ** AUTOCORRELACION / AUTOCORRELACION PARCIAL;
@@ -426,7 +456,9 @@
 
 *** #70.2 ** ESTIMACIÓN;
 
-    arima y7, arima(3,0,3);
+    arima y7, arima(3,0,2);
+        estat ic;
+    arima y7, arima(3,0,1);
         estat ic;
     arima y7, arima(2,0,2);
         estat ic;

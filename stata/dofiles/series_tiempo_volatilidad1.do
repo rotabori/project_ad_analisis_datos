@@ -207,7 +207,6 @@
             scheme(s1mono)
             ttick(01jan2010(120)25feb2014, tpos(out))
             tlabel(01jan2010(365)25feb2014, format(%tdCCYY) angle(90))
-            /*saving(stata\figures\a`comm'_1980to1985, replace)*/
             ;
             sleep 3000;
             graph export text\figures\pre_can_rsimple.eps, replace;

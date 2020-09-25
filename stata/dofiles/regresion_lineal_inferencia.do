@@ -111,11 +111,3 @@
         di "Chi-square(2) 95th percentile = " chic
     scalar pvalue = chi2tail(2,jb)
         di "Jarque-Bera p-value = " pvalue
-
-** #20.3 ** MODEL SELECTION;
-
-    /*R2*/
-    scalar r2 = e(mss)/(e(mss)+e(rss))
-
-    /*INFORMATION CRITERIA*/
-    estat ic

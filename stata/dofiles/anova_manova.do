@@ -75,10 +75,7 @@
     sum estatura;
     local estatura: di%3.2f = r(mean);
 
-    kdensity estatura
-        ,
-        lcolor(red)
-        addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black))
+    kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black))
         legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres"))
         xline(`estatura', lcolor(red))
         xline(`estatura_0', lcolor(blue))
@@ -101,6 +98,7 @@
 
 ** #40.1 ** SINGLE;
 
+    oneway outcome treatment;
     oneway outcome treatment, tabulate bonferroni;
     anova outcome i.treatment;
     regress outcome i.treatment;
