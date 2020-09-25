@@ -29,7 +29,8 @@
 *
 **** #10.1.1 ** IMPORT DATA;
 
-    import delimited data\google_trends\influenza200401_202005.csv
+    import delimited
+        http://rodrigotaborda.com/ad/data/google_trends/influenza200401_202005.csv
         ,
         colrange(1:2)
         clear
