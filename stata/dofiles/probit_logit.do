@@ -45,9 +45,13 @@
 
     margins, at(x1=(#(#)#))
         marginsplot
+        marginsplot, addplot(lfit y x1)
         marginsplot, addplot(connected y_pred01 x1, sort(x1))
 
-    margins, predict(pr) predict(xb) at(x1=(#(#)#))
+    margins, predict(xb) at(x1=(#(#)#))
+        marginsplot
+
+    margins, predict(pr) at(x1=(#(#)#))
         marginsplot
 
     margins, dydx(x1) at(x1=(#(#)#))
@@ -98,15 +102,6 @@
 ********************************************************************;
 ** #70 ** EXAMPLE;
 ********************************************************************;
-
-** #70.1 ** CREDIT DATA;
-
-    use https://onlinecourses.science.psu.edu/stat857/node/215;
-
-    probit creditability i.sexmaritalstatus ageyears;
-
-    margins sexm, at(ageyears=(20(5)70)) atmeans;
-        marginsplot, noci
 
 ** #70.1 ** IEFIC;
 

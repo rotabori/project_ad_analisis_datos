@@ -79,10 +79,12 @@
     rvfplot, yline(0)
 
 ********************************************************************;
-** #20.4 ** LEVERAGE;
+** #20.4 ** LEVERAGE / DFBETA;
 ********************************************************************;
 
     lvr2plot
+        /*MODIFY DATA AND PLOT UNUSUAL OBSERVATIONS*/
+    dfbeta
 
 ********************************************************************;
 ** #20.5 ** FITTED Vs. ADDED VARIABLE;
@@ -153,7 +155,7 @@
         marginsplot;
 
 ** #40.3.4 ** CONSTANT & SLOPE;
-    reg y c.x1##c.x2
+    reg y c.x1##i.x2
 
     margins i.x2, at(x1=(#(#)#))
         marginsplot
