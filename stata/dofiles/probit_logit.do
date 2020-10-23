@@ -77,7 +77,7 @@
     margins i.x2, at(x1=(#(#)#))
         marginsplot
 
-    margins, dydx(x1) at(x1=(#(#)#) x2=(0 1))
+    margins, dydx(x2) at(x1=(#(#)#))
         marginsplot
 
 ** #20.3 ** CONTINUOS EXPLANATORY + BINARY VARIABLE + CONTINUOS EXPLANATORY;
@@ -97,40 +97,81 @@
         predict pr, pr
         gen pr01 = (pr>.5)
         tabulate y pr01
-        estat class
+        estat class, cutoff(.5)
 
 ********************************************************************;
 ** #70 ** EXAMPLE;
 ********************************************************************;
 
-** #70.1 ** IEFIC;
+** #70.1 ** IEFIC / CREDITO HIPOTECARIO;
 
     use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
 
     tabulate p2466
     drop if p2466 > 1
 
+    replace ingreso = ingreso / 1000000
+
     sum p2466 ingreso p35 p2480
 
     logit p2466 ingreso i.p35
-        margins i.p35, at(ingreso=(0(1000000)40000000))
+        margins i.p35, at(ingreso=(0(1)40))
             marginsplot, noci
 
-        margins , at(ingreso=(0(1000000)40000000)) over(i.p35)
+        margins , at(ingreso=(0(1)40)) over(i.p35)
             marginsplot, noci
 
-        margins , dydx(i.p35) at(ingreso=(0(1000000)40000000))
+        margins , dydx(i.p35) at(ingreso=(0(1)40))
             marginsplot, yline(0)
 
-        margins i.p35 , dydx(ingreso) at(ingreso=(0(1000000)40000000))
+        margins i.p35 , dydx(ingreso) at(ingreso=(0(1)40))
             marginsplot, noci
 
     logit p2466 ingreso i.p2480
-        margins i.p2480, at(ingreso=(0(1000000)40000000))
+        margins i.p2480, at(ingreso=(0(1)40))
             marginsplot, noci
 
-        margins , dydx(i.p2480) at(ingreso=(0(1000000)40000000))
+        margins , dydx(i.p2480) at(ingreso=(0(1)40))
             marginsplot, yline(0)
 
-        margins i.p2480 , dydx(ingreso) at(ingreso=(0(1000000)40000000))
+        margins i.p2480 , dydx(ingreso) at(ingreso=(0(1)40))
             marginsplot, noci
+
+** #70.2 ** IEFIC / AUTOMOVIL;
+
+    use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
+
+    gen vehiculo = (p2502==1)
+        tab vehiculo
+
+    rename p35 genero
+
+    gen ingreso_mill = ingreso / 1000000
+
+    rename p2584 ahorro
+        tab ahorro
+        drop if ahorro>1
+        tab ahorro
+
+    rename p232 familia_tamano
+        tab familia_tamano
+
+    logit vehiculo i.genero ingreso_mill
+        margins, at(ingreso_mill=(0(1)40)) over(i.genero)
+        marginsplot
+        margins, dydx(i.genero) at(ingreso_mill=(0(1)40))
+        marginsplot
+
+    logit vehiculo i.genero ingreso_mill familia_tamano
+        margins, at(ingreso_mill=(0(1)40)) atmeans over(i.genero)
+        marginsplot
+        margins, dydx(i.genero) at(ingreso_mill=(0(1)40)) atmeans
+        marginsplot, yline(0)
+
+    logit vehiculo ingreso_mill familia_tamano i.ahorro
+        margins, at(ingreso_mill=(0(1)40)) atmeans over(i.ahorro)
+        marginsplot
+        margins, dydx(i.ahorro) at(ingreso_mill=(0(1)40)) atmeans
+        marginsplot, yline(0)
+        margins, at(ingreso_mill=(0(1)40) familia_tamano=(1 3 5) ahorro=(1))
+        marginsplot
