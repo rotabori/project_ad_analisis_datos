@@ -95,6 +95,8 @@
 
     logit y x1 i.x2 x3
         predict pr, pr
+        sum pr
+        hist pr
         gen pr01 = (pr>.5)
         tabulate y pr01
         estat class, cutoff(.5)
@@ -141,20 +143,24 @@
 
     use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
 
-    gen vehiculo = (p2502==1)
+    gen vehiculo = p2502
+        tab vehiculo
+        drop if vehiculo > 1
         tab vehiculo
 
     rename p35 genero
 
     gen ingreso_mill = ingreso / 1000000
 
-    rename p2584 ahorro
+    gen ahorro = p2584
         tab ahorro
         drop if ahorro>1
         tab ahorro
 
-    rename p232 familia_tamano
+    gen familia_tamano = p232
         tab familia_tamano
+
+    sum vehiculo genero ingreso_mill ahorro familia_tamano
 
     logit vehiculo i.genero ingreso_mill
         margins, at(ingreso_mill=(0(1)40)) over(i.genero)
@@ -175,3 +181,13 @@
         marginsplot, yline(0)
         margins, at(ingreso_mill=(0(1)40) familia_tamano=(1 3 5) ahorro=(1))
         marginsplot
+
+        margins, at(ingreso_mill=(0(1)40) familia_tamano=(1 5) ahorro=(1)) saving(C:\rodrigo\project_ad_analisis_datos\data\iefic\pr.dta, replace)
+            use "C:\rodrigo\project_ad_analisis_datos\data\iefic\pr.dta", clear
+            keep _margin _at1 _at2
+                label var _margin "dy/dx 5 a 1 miembro"
+                label var _at1 "Fam. 1 miembro"
+                label var _at5 "Fam. 1 miembro"
+            reshape wide _margin, i(_at1) j(_at2)
+            gen dydx51 = _margin5 - _margin1
+            twoway connected _margin1 _margin5 dydx51 _at1
