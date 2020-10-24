@@ -187,7 +187,7 @@
             keep _margin _at1 _at2
                 label var _margin "dy/dx 5 a 1 miembro"
                 label var _at1 "Fam. 1 miembro"
-                label var _at5 "Fam. 1 miembro"
+                label var _at2 "Fam. 1 miembro"
             reshape wide _margin, i(_at1) j(_at2)
             gen dydx51 = _margin5 - _margin1
             twoway connected _margin1 _margin5 dydx51 _at1
