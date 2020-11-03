@@ -28,7 +28,7 @@
     /*credit_rating*/;
     frame create credit_rating;
     frame change credit_rating;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("credit_rating")
         cellrange(B2:G156)
@@ -44,7 +44,7 @@
     /*gov_debt_gdp*/;
     frame create gov_debt_gdp;
     frame change gov_debt_gdp;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("gov_debt_gdp")
         cellrange(B2:F175)
@@ -58,7 +58,7 @@
     /*gov_spending_gdp*/;
     frame create gov_spending_gdp;
     frame change gov_spending_gdp;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("gov_spending_gdp")
         cellrange(B2:F47)
@@ -72,7 +72,7 @@
     /*inflation_core*/;
     frame create inflation_core;
     frame change inflation_core;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("inflation_core")
         cellrange(B2:F88)
@@ -86,7 +86,7 @@
     /*gdp_growth*/;
     frame create gdp_growth;
     frame change gdp_growth;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("gdp_growth")
         cellrange(B2:F187)
@@ -100,7 +100,7 @@
     /*gdp_pc_ppp*/;
     frame create gdp_pc_ppp;
     frame change gdp_pc_ppp;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("gdp_pc_ppp")
         cellrange(B2:F185)
@@ -114,7 +114,7 @@
     /*corporate_tax_rate*/;
     frame create corporate_tax_rate;
     frame change corporate_tax_rate;
-    import excel data\credit_rating\credit_rating.xlsx
+    import excel http://www.rodrigotaborda.com/ad/data/credit_rating/credit_rating.xlsx
         ,
         sheet("corporate_tax_rate")
         cellrange(B2:F165)
@@ -194,13 +194,13 @@
         margins, at(corporate_tax_rate=(0(5)40)) atmeans predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
             marginsplot, noci name(pr_corporate_tax_rate);
 
-    /*credit_rating_te*/;
-
-    sum credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
-    corr credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
-
-    reg credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
-    reg credit_rating_te gov_debt_gdp inflation_core /*gdp_growth*/ gdp_pc_ppp corporate_tax_rate;
+*    /*credit_rating_te*/;
+*
+*    sum credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
+*    corr credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
+*
+*    reg credit_rating_te gov_debt_gdp inflation_core gdp_growth gdp_pc_ppp corporate_tax_rate;
+*    reg credit_rating_te gov_debt_gdp inflation_core /*gdp_growth*/ gdp_pc_ppp corporate_tax_rate;
 
 
 **** #90.9.9 ** GOOD BYE;
