@@ -185,7 +185,7 @@
         ;
 
     foreach asset of local assets {;
-        gen `asset'_ret_dtf_m = (((`asset' / l1.`asset') - 1) * 100) - dtf_m;
+        gen `asset'_ret_dtf_m = (((`asset' / l1.`asset') - 1)) - dtf_m;
         };
 
 *********************************************************************;
