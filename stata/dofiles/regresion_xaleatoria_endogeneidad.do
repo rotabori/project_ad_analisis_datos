@@ -128,15 +128,15 @@
     estimates store ls
 
     reg hsgpa hs_comp
-    predict hsgpa_pred
+    predict hsgpa_pred, xb
 
     reg gpa hsgpa_pred
     estimates store ls_2sls
 
-    ivregress 2sls gpa (hsgpa=hs_comp)
+    ivregress 2sls gpa (hsgpa=hs_comp), first
     estimates store iv_2sls
 
-    ivregress 2sls gpa (hsgpa=hs_comp), small
+    ivregress 2sls gpa (hsgpa=hs_comp), first small
     estimates store iv_2sls_small
 
     estimates table ls ls_2sls iv_2sls iv_2sls_small
@@ -152,7 +152,6 @@
 
     ivregress 2sls gpa (hsgpa=hs_comp), first small
     estat firststage
-
 
 ********************************************************************;
 ** #30 ** SYSTEM OF EQUATIONS;
