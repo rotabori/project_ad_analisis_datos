@@ -36,12 +36,16 @@
         reg x z1
         predict xhat
         reg y xhat
+        estimates store ls_2sls
 
     /*IV ESTIMATION COMMAND*/
-        ivregress 2sls y (x=z1)
-        ivregress 2sls y (x=z1), small
-        ivregress 2sls y (x=z2), small
-        ivregress 2sls y (x=z3), small
+        ivregress 2sls y (x=z1), first
+            estimates store iv_2sls
+        ivregress 2sls y (x=z1), first small
+            estimates store iv_2sls_small
+
+    /*ESTIMATION RESULTS*/
+    	estimates table ls ls_2sls iv_2sls iv_2sls_small
 
     /*MORE INSTRUMENTS*/
         ivregress 2sls y (x=z1 z2), small
@@ -53,7 +57,7 @@
         reg y x vhat
 
     /*HAUSMAN TEST COMMAND*/
-        hausman iv ls, constant sigmamore
+        hausman iv_2sls ls, constant sigmamore
 
     /*TESTING FOR WEAK INSTRUMENTS*/
         reg x z1
@@ -76,7 +80,7 @@
         di "p value for overidentifying test 1 df, .05 level = " pvalue
 
     /*TESTING FOR WEAK IV USING ESTAT*/
-        ivregress 2sls y (x=z1 z2), small
+        ivregress 2sls y (x=z1 z2), first small
         estat overid
 
     /*TESTING SURPLUS MOMENT CONDITIONS*/
@@ -113,6 +117,42 @@
     /*IV/2SLS*/
         ivregress 2sls lquan (lprice=stormy) mon tue wed thu, small first
         estat firststage
+
+********************************************************************;
+** #20.2 ** GPA;
+********************************************************************;
+
+    use C:\rodrigo\project_ad_analisis_datos\stata\webinar\causal_inference_20201118\examples\gpa.dta
+
+    reg gpa hsgpa
+    estimates store ls
+
+    reg hsgpa hs_comp
+    predict hsgpa_pred
+
+    reg gpa hsgpa_pred
+    estimates store ls_2sls
+
+    ivregress 2sls gpa (hsgpa=hs_comp)
+    estimates store iv_2sls
+
+    ivregress 2sls gpa (hsgpa=hs_comp), small
+    estimates store iv_2sls_small
+
+    estimates table ls ls_2sls iv_2sls iv_2sls_small
+
+    reg hsgpa hs_comp
+    predict vhat, residuals
+
+    reg gpa hsgpa vhat
+    hausman iv_2sls ls, constant sigmamore
+
+    reg hsgpa hs_comp
+    test hs_comp
+
+    ivregress 2sls gpa (hsgpa=hs_comp), first small
+    estat firststage
+
 
 ********************************************************************;
 ** #30 ** SYSTEM OF EQUATIONS;
