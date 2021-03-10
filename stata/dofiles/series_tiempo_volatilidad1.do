@@ -441,3 +441,8 @@
 
     /*REGRESIÓN T-GARCH*/;
         arch pre_can_rcomp, arch(1) garch(1) tarch(1);
+
+
+
+*getsymbols aapl
+*https://www.stata.com/meeting/mexico18/slides/16_Mexico18_Dorantes.pdf

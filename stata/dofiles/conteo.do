@@ -121,7 +121,7 @@
 
     poisson zapatos i.genero_num edad;
         margins i.genero_num, at(edad=(17(1)27));
-            marginsplot;
+            marginsplot, yline(3 3.89);
 
         margins i.genero_num, predict(pr(0)) predict(pr(1)) predict(pr(2)) predict(pr(3)) predict(pr(4)) atmeans;
 

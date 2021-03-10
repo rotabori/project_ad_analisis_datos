@@ -182,7 +182,9 @@
 
     use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_20xxyy_old.dta, clear;
 
-*** #33.1 ** FACTOR ANALYSIS;
+*** #33.1 ** PCA & FACTOR ANALYSIS;
+
+    pca peso estatura;
 
     factor pelicula relacion zapatos cal_1s cal_us cal_cal cal_prob, pcf;
 

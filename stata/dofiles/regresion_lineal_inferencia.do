@@ -43,33 +43,33 @@
     local tstat = (_b[expl var] - 0) / _se[expl var]
 
     /*CRITICAL VALUE*/
-    scalar tc975 = invttail(n-(k+1),0.025)
-    local tc975 = invttail(n-(k+1),0.025)
+    scalar tc975 = invttail(e(N)-(e(df_m)+1),0.05/2)
+    local tc975 = invttail(e(N)-(e(df_m)+1),0.05/2)
 
     /*CONFIDENCE INTERVALS*/
     scalar ulb = _b[expl var] +- tc975*_se[expl var]
 
     /*P-VALUE*/
-    scalar pvalue = ttail(n-(k+1),abs(tstat))*2
+    scalar pvalue = ttail(e(N)-(e(df_m)+1),abs(tstat))*2
 
     /*GRAPH*/
-    twoway function y = tden(n-(k+1),x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat') ||
-        function y = tden(n-k+1,x), range(-4 -`tc975') recast(area) color(dknavy)||
-        function y = tden(n-k+1,x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t)
+    twoway function y = tden(e(N)-(e(df_m)+1),x), range(-4 4) xline(`tstat') xlabel(-`tc975' `tc975' `tstat', format(%9.2f)) ||
+        function y = tden(e(N)-(e(df_m)+1),x), range(-4 -`tc975') recast(area) color(dknavy) ||
+        function y = tden(e(N)-(e(df_m)+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t)
 
     /*EXAMPLE AUTO DATASET*/;
     sysuse auto
     reg price mpg weight
     scalar t_mpg = (_b[mpg] - 0) / _se[mpg]
     local t_mpg = (_b[mpg] - 0) / _se[mpg]
-    scalar tc975 = invttail(74-(2+1),0.025)
-    local tc975 = invttail(74-(2+1),0.025)
+    scalar tc975 = invttail(e(N)-(e(df_m)+1),0.05/2)
+    local tc975 =  invttail(e(N)-(e(df_m)+1),0.05/2)
     scalar ub_mpg = _b[mpg] + tc975*_se[mpg]
     scalar lb_mpg = _b[mpg] - tc975*_se[mpg]
     display lb_mpg " " ub_mpg
-    scalar pvalue_mpg = ttail(74-(2+1),abs(t_mpg))*2
+    scalar pvalue_mpg = ttail(e(N)-(e(df_m)+1),abs(t_mpg))*2
     display pvalue_mpg
-    twoway (function y = tden(74-(2+1),x), range(-4 4) xline(`t_mpg') xlabel(-`tc975' `tc975' `t_mpg')) (function y = tden(74-(2+1),x), range(-4 -`tc975') recast(area) color(dknavy)) (function y = tden(74-(2+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t))
+    twoway (function y = tden(e(N)-(e(df_m)+1),x), range(-4 4) xline(`t_mpg') xlabel(-`tc975' `tc975' `t_mpg', format(%9.2f))) (function y = tden(e(N)-(e(df_m)+1),x), range(-4 -`tc975') recast(area) color(dknavy)) (function y = tden(e(N)-(e(df_m)+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t))
 
     /*HIPOTHESIS TEST*/
     test var
@@ -81,6 +81,19 @@
     testparm i.x1 /*TEST FOR INDICATOR VARIABLES ALL AT ONCE*/
     test 2.x1 = 3.x1 /*TEST IF 2 AND 3 ARE EQUAL*/
     lincom 2.x1 - 3.x1 /*TEST IF 2 MINUS 3 ARE ZERO*/
+
+    /*EXAMPLE AUTO DATASET CONT.*/;
+    test (mpg = 0) (weight = 0)
+
+    scalar fc95 = Ftail(e(df_m),e(N)-e(df_m),0.05)
+    local fc95 = Ftail(e(df_m),e(N)-e(df_m),0.05)
+    matrix b_k = e(b)[1,1 .. 2]'
+    matrix v_k = e(V)[1..2,1 .. 2]
+    matrix f_k = (b_k'*inv(v_k)*b_k)/e(df_m)
+    scalar f_k = f_k[1,1]
+    local f_k = f_k
+
+    twoway (function y = Fden(e(df_m),e(N)-e(df_m),x), range(0 20) xline(`fc95' `f_k') xlabel(#3 `fc95' `f_k', format(%9.2f))) (function y = Fden(e(df_m),e(N)-e(df_m),x), range(`fc95' 20) recast(area) color(dknavy))
 
     /*HIPOTHESIS TEST OF LINEAR COMBINATION*/
     lincom x1 + x2
@@ -101,14 +114,3 @@
         estimats store m2 if e(sample)
 
     lrtest m1 m2
-
-** #20.3 ** NORMALITY TEST;
-
-    /*JARQUE-BERA*/
-    display     (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
-    scalar jb = (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
-        di "Jarque-Bera Statistic = " jb
-    scalar chi2 = invchi2tail(2,.05)
-        di "Chi-square(2) 95th percentile = " chi2
-    scalar pvalue = chi2tail(2,jb)
-        di "Jarque-Bera p-value = " pvalue

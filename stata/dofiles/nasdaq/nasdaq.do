@@ -263,7 +263,6 @@
 
     /*ARCH(1) REGRESSION*/;
     arch nasdaq_ret_l, arch(1);
-        /*arch pre_can_rcomp, arch(1) arima(1,0,0)*/;
         predict nasdaq_ret_l_arch, variance;
         tsline nasdaq_ret_l_arch, name(arch);
 

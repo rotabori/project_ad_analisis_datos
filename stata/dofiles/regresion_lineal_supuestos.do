@@ -92,3 +92,12 @@
     /*DURBIN WATSON STATISTIC*/
         regress la lp
         estat dwatson
+
+    /*NORMALITY TEST / JARQUE-BERA*/
+    display     (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
+    scalar jb = (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
+        di "Jarque-Bera Statistic = " jb
+    scalar chi2 = invchi2tail(2,.05)
+        di "Chi-square(2) 95th percentile = " chi2
+    scalar pvalue = chi2tail(2,jb)
+        di "Jarque-Bera p-value = " pvalue

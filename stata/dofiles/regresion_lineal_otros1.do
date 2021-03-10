@@ -38,6 +38,8 @@
 
     estimates stat _all;
 
+    fitstat, saving(model_0);
+    fitstat, using(model_0);
 
 ********************************************************************;
 ** #20 ** TESTs;

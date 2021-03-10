@@ -35,6 +35,7 @@
 
     margins , over(var_x1);
         marginsplot;
+        marginsplot, addplot(scatter y x);
 
     predict y_hat, xb; /*y_hat IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
     gen y_hat = _b[_cons] + _b[var_x1] * var_x1
@@ -42,6 +43,10 @@
     predict y_res, residuals; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
     gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
                                  /*THIS IS AN ALTERNATIVE WAY TO EXTRACT RESIDUALS*/
+
+    scatter y_hat x1, name(a);
+    scatter y_res x1, yline(0) name(b);
+        graph combine a b;
 
 ** #20.2 ** SCATTER - LINEAR FIT;
 
@@ -98,7 +103,8 @@
     generate y = rnormal()
     generate x1 = rnormal() + 2 * y
     generate x2 = rnormal() - 1 * y
-    gen cons = 1
+    generate cons = 1
+    sum y x1 x2
 
     graph matrix y x1 x2, half
 

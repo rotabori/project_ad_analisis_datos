@@ -29,7 +29,7 @@
 ********************************************************************;
 
     cluster singlelinkage var1 var2, name(cluster_name_sl);
-clus    /*USE EASY TO REMEMBER NAME AND ADD sl AS A SUFFIX FOR single linkage*/;
+        /*USE EASY TO REMEMBER NAME AND ADD sl AS A SUFFIX FOR single linkage*/;
 
 ** #20.1 ** DENDROGRAM;
 
@@ -66,5 +66,5 @@ clus    /*USE EASY TO REMEMBER NAME AND ADD sl AS A SUFFIX FOR single linkage*/;
 ** #40 ** COMBINE CLUSTER DENDROGRAM;
 ********************************************************************;
 
-    graph combine cluster_name_sl cluster_name_cl, xsize(10) ycommon;
+    graph combine cluster_name_sl cluster_name_cl, ysize(12) xsize(6) ycommon;
     /*COMBINE TWO CLUSTER DENDROGRAM TO SEE DIFERENCES*/;

@@ -116,6 +116,14 @@
 
     sum p2466 ingreso p35 p2480
 
+    reg p2466 ingreso
+        predict lpm_xb, xb
+        twoway connected lpm_xb ingreso, yline(1) sort
+
+        predict lpm_e, residuals
+        gen lpm_var = lpm_e^2
+        scatter lpm_var ingreso, sort
+
     logit p2466 ingreso i.p35
         margins i.p35, at(ingreso=(0(1)40))
             marginsplot, noci

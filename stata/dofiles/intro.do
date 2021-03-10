@@ -79,6 +79,8 @@
     summarize var1 var2 ... var#, detail;   /*DETAILED DESCRIPTIVE STATISTICS*/
     summarize var1 var2 ... var# if var1 == condition, detail;   /*DETAILED DESCRIPTIVE STATISTICS IF var1 MEETS A CONDITON*/
 
+    tabulate var1 /*FREQUENCY TABLE*/
+
     histogram var1; /*var1 HISTOGRAM*/
     histogram var1, title(Add a title); /*var1 HISTOGRAM + TITLE*/
 
@@ -109,6 +111,17 @@
     scalar b = 1;    /*STORE IN b THE NUMBER 1*/
 
     display "La suma de a + b es: " a + b ;  /*REQUEST STATA DISPLAY SOMETHING*/
+
+** #20.5 ** MISSING VALUES;
+
+    /*MISSING VALUES: CODING FOR NO DATA*/;
+    /*STATA USES A DOT (.)*/;
+
+    mvencode _all, mv(99);
+        /*MISSING TO A NUMBER*/
+
+    mvdecode _all, mv(99 = .);
+        /*THERE CAN BE SEVERAL MISSIN VALUES CODES: .a .b*/
 
 **** #90.9.9 ** GOOD BYE;
 *

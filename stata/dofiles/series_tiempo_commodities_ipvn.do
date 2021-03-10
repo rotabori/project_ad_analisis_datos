@@ -46,8 +46,8 @@
 
 *** #10.2.4 ** EXTRACT DATE VARIABLES;
 
-    generate date_date = dofm(date_num);
-        format %d date_date;
+    generate date_date = dofm(date_num); sss
+        format %td date_date;
     generate date_day = day(date_date);
         /*generate date_day = day(dofm(date_num))*/;
     generate date_week = week(date_date);

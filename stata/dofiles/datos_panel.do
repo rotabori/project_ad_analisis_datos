@@ -55,7 +55,7 @@
 
 * EXAMINE DATA;
 
-    tab ciiu3 y;
+    tab ciiu3;
     tab y;
     tab am;
 
@@ -158,6 +158,17 @@
 			name(fe, replace)
 			;
 
+    xtreg ventas_ln kw_ln i.y, fe;
+        estimates store fe_y;
+*        margins , at(kw_ln=(0 9 18));
+*        marginsplot
+*			,
+*			noci
+*			legend(off)
+*			title(fe)
+*			name(fe, replace)
+*			;
+
 * RANDOM EFFECTS ESTIMATION;
 * INDUSTRY-CITY RANDOM EFFECT;
 
@@ -172,6 +183,17 @@
 			name(re, replace)
 			;
 
+    xtreg ventas_ln kw_ln i.y, re;
+        estimates store re_y;
+*        margins , at(kw_ln=(0 9 18));
+*        marginsplot
+*			,
+*			noci
+*			legend(off)
+*			title(re)
+*			name(re, replace)
+*			;
+
 * RANDOM EFFECTS ESTIMATION AS OF MULTILEVEL MODEL;
     xtreg ventas_ln kw_ln, mle;
         estimates store re_mle;
@@ -180,7 +202,7 @@
         estimates store mixed;
 
 * ESTIMATION RESULTS;
-	estimates table ols ciiu3 am ciiu3am y fe re re_mle mixed, keep(_cons kw_ln);
+	estimates table ols ciiu3 am ciiu3am y fe fe_y re re_y re_mle mixed, keep(_cons kw_ln);
 
 * HAUSMAN TEST;
     hausman fe re;

@@ -25,7 +25,7 @@
 
 ** #10.1 ** EXECUTE DATA IN;
 
-    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202010_old.dta;
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202020_old.dta;
 
 ********************************************************************;
 ** #20 ** DATA VISUALIZATION;
@@ -63,6 +63,7 @@
 *** #30.3 ** CUMMULATIVE HAZARD;
 
     sts graph, cumhaz;
+    sts graph, cumhaz xline(12);
     sts generate relacion_sent_cumhaz = na;
     sts graph, cumhaz by(genero_num);
 
@@ -84,11 +85,17 @@
     stcox i.genero_num edad;
     stcox i.genero_num edad, nohr;
         margins i.genero_num , at(edad=(18(1)24));
-        marginsplot, noci;
+        marginsplot, noci name(prgenero_cox);
+        margins , dydx(i.genero_num) at(edad=(18(1)24));
+        marginsplot, noci name(dydxgenero_cox);
+        graph combine prgenero_cox dydxgenero_cox, cols(2) xsize(11);
 
 *** #40.2 ** LOG REGRESSION;
 
     generate relacion_sent_ln = ln(relacion_sent);
     reg relacion_sent_ln i.genero_num edad;
         margins i.genero_num , at(edad=(18(1)24)) expression(exp(predict(xb)));
-        marginsplot, noci;
+        marginsplot, noci name(prgenero_ln);
+        margins , dydx(i.genero_num) at(edad=(18(1)24)) expression(exp(predict(xb)));
+        marginsplot, noci name(dydxgenero_ln);
+        graph combine prgenero_ln dydxgenero_ln, cols(2) xsize(11);
