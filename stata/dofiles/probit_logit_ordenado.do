@@ -37,6 +37,10 @@
     tab apply;
     tab apply, nolabel;
 
+    tab pared;
+
+    tab public;
+
     sum apply pared public gpa;
 
     reg apply pared;
@@ -108,7 +112,31 @@
 
             graph combine pr dydx, cols(2) ysize(12) xsize(11) name(pr_dydx, replace);
 
+*** #30.5 ** \CUT# TREATMENT / USE;
 
+    /*PREDICTED PROBABILITIES*/;
+    ologit apply;
+
+        /*Pr(y=1)*/;
+            display logistic(_b[/cut1]);
+
+        /*Pr(y=2)*/;
+            display logistic(_b[/cut2]) - logistic(_b[/cut1]);
+
+        /*Pr(y=3)*/;
+            display 1 - logistic(_b[/cut2]);
+
+    /*FINDING INTERCEPT AFTER STATA SETS IT TO ZERO*/;
+    ologit apply;
+
+        /*INTERCEPT*/;
+        lincom 0 - _b[/cut1];
+
+        /*CUT1*/;
+        lincom _b[/cut1] - _b[/cut1];
+
+        /*CUT2*/;
+        lincom _b[/cut2] - _b[/cut1];
 
 **** #90.9.9 ** GOOD BYE;
 *
