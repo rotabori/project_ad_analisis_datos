@@ -19,10 +19,25 @@
 ** #0.1 ** SET PATH FOR READING/SAVING DATA;
 
 ********************************************************************;
-** #10 ** EXECUTE DATA-IN ROUTINE;
+** #10 ** LOGIT / PROBIT FUNCTIONS;
 ********************************************************************;
 
+    /*NORMAL STANDARD / PROBIT*/;
+    twoway function probit_cdf = normal(x), range(-4 4) xline(0) xlabel(#6 0) name(probit_cdf);
+    twoway function probit_pdf = normalden(x), range(-4 4) xline(-1 1) xlabel(#6 -1 1) name(probit_pdf);
+        graph combine probit_cdf probit_pdf, cols(1) ysize(8) name(probit);
 
+    /*LOGISTIC*/;
+    twoway function logit_cdf = exp(x)/(1+exp(x)), range(-4 4) xline(0) xlabel(#6 0);
+        twoway function logit_cdf = logistic(x), range(-7 7) xline(0) xlabel(#6 0) name(logit_cdf);
+    twoway function logit_pdf = exp(x)/(1+exp(x))^2, range(-4 4) xline(0) xlabel(#6 0);
+        twoway function logit_pdf = logisticden(x), range(-7 7) xline(0) xlabel(#6 0) name(logit_pdf);
+        graph combine logit_cdf logit_pdf, cols(1) ysize(8) name(logit);
+
+    /*COMPARE*/;
+    twoway function probit_cdf = normal(x), range(-4 4) xline(0) xlabel(#6 0) || function logit_cdf = exp(x)/(1+exp(x)), range(-4 4) xline(0) xlabel(#6 0) name(probit_logit_cdf);
+    twoway function probit_pdf = normalden(x), range(-4 4) xlabel(#6 -1 1) || function logit_pdf = exp(x)/(1+exp(x))^2, range(-4 4) xline(0) xlabel(#6 0) name(probit_logit_pdf);
+        graph combine probit_logit_cdf probit_logit_pdf, cols(1) ysize(8);
 
 ********************************************************************;
 ** #20 ** LOGIT / PROBIT;
@@ -97,6 +112,7 @@
         predict pr, pr
         sum pr
         hist pr
+        twoway connect pr x1, sort yline(.5)
         gen pr01 = (pr>.5)
         tabulate y pr01
         estat class, cutoff(.5)
@@ -162,7 +178,7 @@
 
     gen ahorro = p2584
         tab ahorro
-        drop if ahorro>1
+        drop if ahorro > 1
         tab ahorro
 
     gen familia_tamano = p232
@@ -170,7 +186,18 @@
 
     sum vehiculo genero ingreso_mill ahorro familia_tamano
 
+    reg vehiculo i.genero ingreso_mill
+        predict lpm_xb, xb
+        twoway connected lpm_xb ingreso_mill, yline(1) sort
+
+        predict lpm_e, residuals
+        gen lpm_var = lpm_e^2
+        scatter lpm_var ingreso_mill, sort
+
     logit vehiculo i.genero ingreso_mill
+        predict lpm_pr, pr
+        twoway connected lpm_pr ingreso_mill, yline(1) sort
+
         margins, at(ingreso_mill=(0(1)40)) over(i.genero)
         marginsplot
         margins, dydx(i.genero) at(ingreso_mill=(0(1)40))
