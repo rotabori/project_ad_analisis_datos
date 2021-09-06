@@ -31,13 +31,13 @@
         /*CREATES A SEQUENCE ON X FROM 0 TO 1 WITH OBS = 100*/;
 
     gen l = p^`win' * (1-p)^(`draws'-`win');
-        /*LIKELYHOOD BINOMIAL PROCESS*/;
+        /*LIKELIHOOD BINOMIAL PROCESS*/;
         /*WIN - WIN - LOSE SEQUENCE*/;
 
         local l = `ratio'^`win'*(1 - `ratio')^(`draws'-`win');
 
     gen ll = ln(l);
-        /*NATURAL LOG LIKELYHOOD BINOMIAL PROCESS*/;
+        /*NATURAL LOG LIKELIHOOD BINOMIAL PROCESS*/;
         /*WIN - WIN - LOSE SEQUENCE*/;
 
         local ll = ln(`l');
@@ -49,12 +49,12 @@
 /*LIKELYHOOD*/;
     twoway connected l p
         ,
-        msize(tiny) title(Likelyhood) xline(`ratio') yline(`l') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(l);
+        msize(tiny) title(Likelihood) xline(`ratio') yline(`l') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(l);
 
 /*LOG LIKELYHOOD*/;
     twoway connected ll p
         ,
-        msize(tiny) title(Nat. Log. Likelyhood) xline(`ratio') yline(`ll') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(ll);
+        msize(tiny) title(Nat. Log. Likelihood) xline(`ratio') yline(`ll') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(ll);
 
 /*COMBINE*/;
     graph combine l ll, cols(1) ysize(6) note("Binomial process." "Wins: `win'. Draws: `draws'.") name(l_ll);
