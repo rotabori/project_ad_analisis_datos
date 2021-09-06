@@ -57,4 +57,4 @@
         msize(tiny) title(Nat. Log. Likelyhood) xline(`ratio') yline(`ll') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(ll);
 
 /*COMBINE*/;
-    graph combine l ll, cols(1) ysize(6) note("Binomial process." "Wins: `win'. Draws: `draws'.");
+    graph combine l ll, cols(1) ysize(6) note("Binomial process." "Wins: `win'. Draws: `draws'.") name(l_ll);
