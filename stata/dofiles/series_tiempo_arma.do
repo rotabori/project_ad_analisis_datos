@@ -27,14 +27,14 @@
     clear;
 
     /*DEFINIR NUMERO DE OBSERVACIONES*/;
-    set obs 180;
+    set obs 1800;
 
     /*DEFINIR VARIABLE DE TIEMPO*/;
     generate time=_n;
     tsset time;
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
-    set seed 1234;
+    set seed 7890;
 
     /*GENERAR PROCESO ALEATORIO*/;
     gen e1 = rnormal(0,1);
@@ -79,6 +79,10 @@
     arima y1, arima(1,0,0);
         estat ic;
         estimates store arima100;
+	arima y1, arima(1,0,0) noconstant;
+        estat ic;
+        estimates store arima100nc;
+
         predict y1res, residuals;
         wntestq y1res;
         wntestb y1res;
@@ -94,9 +98,9 @@
 
         graph close _all;
 
-    arima y1, arima(0,0,1);
+    arima y1, arima(0,0,1) noconstant;
         estat ic;
-        estimates store arima001;
+        estimates store arima001nc;
 
     estimates stat _all;
 
@@ -121,9 +125,9 @@
     graph close a b;
 
     graph combine y1y1acpac y1resacpac y1pron, rows(1) name(y1y1acpacpron) xsize(11);
-sss
+
 *********************************************************************;
-*** #20 ** MODELO AR(1) + CONSTANTE;
+*** #20 ** MODELO AR(1) + CONSTANT;
 *********************************************************************;
 
     local y2a = 1.9;
@@ -166,7 +170,7 @@ sss
         estimates store arima001;
 
     estimates stat _all;
-aaa
+
 *** #20.3 ** PRONOSTICO;
 
     arima y2, arima(1,0,0);
