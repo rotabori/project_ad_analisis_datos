@@ -33,14 +33,15 @@
 
 ** #20.1 ** DENDROGRAM;
 
-    cluster dendrogram cluster_name_sl, labels(var_id) xlabel(,angle(45)) name(ddd);
-    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45)) showcount name(ddd);
-    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45)) showcount name(ddd);
+    cluster dendrogram cluster_name_sl, labels(var_id) xlabel(,angle(45)) showcount name(ddd, replace);
+    cluster dendrogram cluster_name_sl, cutnumber(#branches) labels(var_id) xlabel(,angle(45)) showcount name(ddd, replace);
+    cluster dendrogram cluster_name_sl, cutvalue(#value) xlabel(,angle(45)) showcount name(ddd, replace);
 
 ** #20.2 ** GENERATE VARIABLE SHOWING CLUSTER GROUPS;
 
     cluster generate cluster_name_sl_g3 = groups(3), name(cluster_name_sl);
-    table cluster_name_sl_g3, contents(mean var1 sd var1 n var1) format(%4.2f);
+    table cluster_name_sl_g3, contents(mean var1 sd var1 n var1) format(%4.2f); /*STATA < 17*/
+    table class, stat(count var1 var2) stat(mean var1 var2) nformat(%5.2f); /*STATA >= 17*/
     twoway (scatter var1 var2 if cluster_name_sl_g3 == 1) (scatter var1 var2 if cluster_name_sl_g3 == 2) (scatter var1 var2 if cluster_name_sl_g3 == 3)
 
 ********************************************************************;

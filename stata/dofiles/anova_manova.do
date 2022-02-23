@@ -29,7 +29,8 @@
 ********************************************************************;
 
     tabulate treatment;
-    table treatment, contents(mean outcome sd outcome n outcome min outcome max outcome) format(%4.2f);
+    table cluster_name_sl_g3, contents(mean var1 sd var1 n var1) format(%4.2f); /*STATA < 17*/
+    table class, stat(count var1 var2) stat(mean var1 var2) nformat(%5.2f); /*STATA >= 17*/
     graph box outcome, over(treatment1) over(treatment2) ylabel(#(#)#);
     graph bar (mean) outcome, over(treatment) ylabel(#(#)#);
 
@@ -56,7 +57,7 @@
 
     /*EXAMPLE GENDER - HEIGHT UANDES STUDENTS*/;
 
-    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202019_old.dta;
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta;
 
     tabulate genero_num;
     table genero_num, contents(mean estatura sd estatura n estatura min estatura max estatura) format(%4.2f);
@@ -81,6 +82,7 @@
         xline(`estatura_0', lcolor(blue))
         xline(`estatura_1', lcolor(black))
         ;
+    *kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black)) legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres")) xline(`estatura', lcolor(red)) xline(`estatura_0', lcolor(blue)) xline(`estatura_1', lcolor(black))
 
     /*THIS EXAMPLE IS RESTRICTED TO OUR STUDENTS SURVEY*/;
     /*PLOTS CONTINUOUS DENSITY OF HIGH FOR ALL, FEMALE AND MALE STUDENTS*/;

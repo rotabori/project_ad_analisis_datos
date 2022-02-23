@@ -101,6 +101,7 @@
     import delimited http://rodrigotaborda.com/ad/data/wb/va_shares_2015.txt, delimiter(tab) clear;
 
     graph matrix manufacturing agriculture services, half;
+    corr manufacturing agriculture services;
     graph twoway (scatter m a) (scatter m a if country_code == "COL");
     graph twoway (scatter m a, msize(vsmall)) (scatter m a if country_code == "COL", mlabel(country_code));
 
@@ -116,6 +117,7 @@
 *** #31.3 ** LOADING PLOT;
 
     loadingplot, yline(0) xline(0) title(Loadings original) name(f0);
+    loadingplot, components(3) combined yline(0) xline(0) title(Loadings original) name(f0);
 
 *** #31.4 ** SCORE PLOT;
 
@@ -143,10 +145,10 @@
     corr factor* varimax* oblique* oblimax*
 
 ********************************************************************;
-** #32 ** FACTOR & PCA PLANETS DATA TAKEN FROM HAMILTON(2013);
+** #32 ** FACTOR & PCA BIENESTAR EN EL TRABAJO;
 ********************************************************************;
 
-    use http://rodrigotaborda.com/ad/data/hamilton_2013/planets.dta, clear;
+    use http://www.rodrigotaborda.com/ad/data/bt/bt.dta, clear;
 
 *** #32.1 ** FACTOR ANALYSIS;
 
