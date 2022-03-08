@@ -57,6 +57,9 @@
 *********************************************************************;
 
     freduse DTB1YR, clear;
+*    gen date_year = yofd(daten); /*year date from daily data*/
+*    gen date_month = mofd(daten); /*month date from daily data*/
+*    format date_month %tm;
 
 *********************************************************************;
 *** #50 ** PORTFOLIO;

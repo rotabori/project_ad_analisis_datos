@@ -41,7 +41,7 @@
     gen ehat2 = ehat*ehat
 
         /*LM TEST MANUALLY*/
-        regress ehat2 income
+        regress ehat2 x1
         scalar LM = e(N)*e(r2)
         scalar pvalue = chi2tail(1,LM)
         scalar list LM pvalue
@@ -90,14 +90,18 @@
         di (e(N))*e(r2)
 
     /*DURBIN WATSON STATISTIC*/
-        regress la lp
+        regress y_ln x1_ln
         estat dwatson
 
     /*NORMALITY TEST / JARQUE-BERA*/
+    sum e_hat, detail
     display     (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
+
     scalar jb = (r(N)/6)*((r(skewness)^2) + ((r(kurtosis)-3)^2)/4)
         di "Jarque-Bera Statistic = " jb
+
     scalar chi2 = invchi2tail(2,.05)
         di "Chi-square(2) 95th percentile = " chi2
+
     scalar pvalue = chi2tail(2,jb)
         di "Jarque-Bera p-value = " pvalue

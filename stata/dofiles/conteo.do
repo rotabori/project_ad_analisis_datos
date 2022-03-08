@@ -43,7 +43,7 @@
 
     preserve;
     set obs 155;
-    gen k = _n -1;
+    gen k = _n - 1;
         label var k "y = # de eventos";
     drop if _n > 24;
     foreach n in 1 3 6 9 12{;

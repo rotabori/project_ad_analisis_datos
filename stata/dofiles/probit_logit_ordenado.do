@@ -84,23 +84,35 @@
         margins, at(pared=1 public=1) atmeans;
         margins, at(pared=(0 1) public=1) atmeans;
 
+********************************************************************;
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(0));
             marginsplot, noci name(pr0pub1);
-
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(1));
             marginsplot, noci name(pr1pub1);
-
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(2));
             marginsplot, noci name(pr2pub1);
 
             graph combine pr0pub1 pr1pub1 pr2pub1, cols(1) ysize(12) name(pr);
+********************************************************************;
 
         margins, at(public=1 pared=1 gpa=(2(.2)4)) predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
             marginsplot, noci name(pr012pub1pared1);
 
+********************************************************************;
+        margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(0));
+            marginsplot, noci name(dydx0pared);
+        margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(1));
+            marginsplot, noci name(dydx1pared);
+        margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(2));
+            marginsplot, noci name(dydx2pared);
+
+            graph combine dydx0pared dydx1pared dydx2pared, cols(1) ysize(12) name(dydxpared);
+********************************************************************;
+
         margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
             marginsplot, noci name(dydxparedpub1gpa);
 
+********************************************************************;
         margins, dydx(gpa) at(pared=1 public=1 gpa=(2(.2)4)) predict(outcome(0));
             marginsplot, noci name(dydxgpa0pub1par1);
         margins, dydx(gpa) at(pared=1 public=1 gpa=(2(.2)4)) predict(outcome(1));
@@ -108,9 +120,10 @@
         margins, dydx(gpa) at(pared=1 public=1 gpa=(2(.2)4)) predict(outcome(2));
             marginsplot, noci name(dydxgpa2pub1par1);
 
-            graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydx);
+            graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydxgpa);
+********************************************************************;
 
-            graph combine pr dydx, cols(2) ysize(12) xsize(11) name(pr_dydx, replace);
+            graph combine pr dydxpared dydxgpa, cols(3) ysize(20) xsize(17) iscale(*.7) name(pr_dydx, replace);
 
 *** #30.5 ** \CUT# TREATMENT / USE;
 

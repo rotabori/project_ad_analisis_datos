@@ -28,7 +28,7 @@
 *    https://blog.stata.com/2014/03/24/how-to-create-animated-graphics-using-stata/
 
 ** #5.0 ** NUMBER OF REPETITIONS;
-    local sim_num = 200;
+    local sim_num = 70;
 
 ********************************************************************;
 ** #10 ** SIMULATION FROM A RANDOM SAMPLE SIZE;
@@ -196,7 +196,7 @@
 
 ** #10.4 ** CREATE VIDEO;
 
-    capture: erase data/inference/video.mpg;
+    capture: erase data/inference/video_sample_random.mpg;
     local graphpath "data/inference/";
 *    winexec "C:\rodrigo\software\ffmpeg\ffmpeg\bin\ffmpeg.exe" -i `graphpath'graph_%03d.png -b:v 512k `graphpath'video.mpg;
     winexec "C:\rodrigo\software\ffmpeg\ffmpeg\bin\ffmpeg.exe"
@@ -377,7 +377,7 @@
 
 ** #20.4 ** CREATE VIDEO;
 
-    capture: erase data/inference/video.mpg;
+    capture: erase data/inference/video_sample_20.mpg;
     local graphpath "data/inference/";
 *    winexec "C:\rodrigo\software\ffmpeg\ffmpeg\bin\ffmpeg.exe" -i `graphpath'graph_%03d.png -b:v 512k `graphpath'video.mpg;
     winexec "C:\rodrigo\software\ffmpeg\ffmpeg\bin\ffmpeg.exe"

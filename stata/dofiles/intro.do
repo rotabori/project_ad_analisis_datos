@@ -123,6 +123,10 @@
     mvdecode _all, mv(99 = .);
         /*THERE CAN BE SEVERAL MISSIN VALUES CODES: .a .b*/
 
+** #20.6 ** RECODE VALUES;
+
+    recode var1 (0=1) (1=0)
+
 **** #90.9.9 ** GOOD BYE;
 *
 *    clear;

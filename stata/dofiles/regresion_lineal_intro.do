@@ -44,9 +44,9 @@
     gen y_res02 = y - y_hat; /*y_res IS JUST A NAME, CHOSE AN INDICATIVE NAME*/
                                  /*THIS IS AN ALTERNATIVE WAY TO EXTRACT RESIDUALS*/
 
-    scatter y_hat x1, name(a);
-    scatter y_res x1, yline(0) name(b);
-        graph combine a b;
+    twoway (scatter y x1) (connect y_yat x1), ytitle(y) name(a, replace);
+    scatter y_res x1, yline(0) name(b, replace);
+        graph combine a b, ysize(7) cols(1);
 
 ** #20.2 ** SCATTER - LINEAR FIT;
 

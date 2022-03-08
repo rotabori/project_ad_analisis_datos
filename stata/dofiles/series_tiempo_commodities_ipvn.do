@@ -28,7 +28,7 @@
 *** #10.2.1 ** IMPORT DATA;
 
     import delimited
-        http://rodrigotaborda.com/ad/data/commodities/commodities_20200428.csv
+        http://rodrigotaborda.com/ad/data/commodities/commodities_20210705.csv
         ,
         delimiter(",")
         encoding(utf8)
@@ -46,7 +46,7 @@
 
 *** #10.2.4 ** EXTRACT DATE VARIABLES;
 
-    generate date_date = dofm(date_num); sss
+    generate date_date = dofm(date_num);
         format %td date_date;
     generate date_day = day(date_date);
         /*generate date_day = day(dofm(date_num))*/;
@@ -75,12 +75,8 @@
     tsline pcoco;
     tsline pcoco if tin(1990m1,1995m12);
 
-*** #10.4 ** SMOOTHING;
-
-    tssmooth nl pcoco_sm3 = pcoco, smoother(3);
-        tsline pcoco pcoco_sm3;
-    tssmooth nl pcoco_sm9 = pcoco, smoother(9);
-        tsline pcoco pcoco_sm9;
+    twoway (tsline poilwti) (tsline psoil, yaxis(2));
+    scatter psoil poilwti if year <= 2000 || scatter psoil poilwti if year > 2001;
 
 ********************************************************************;
 ** #20 ** IPVN;

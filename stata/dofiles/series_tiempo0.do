@@ -26,6 +26,7 @@
 *********************************************************************;
 
     /*DEFINIR VARIABLE DE TIEMPO*/;
+    set obs 100;
     generate time=_n;
         tsset time;
 
@@ -87,6 +88,6 @@
         generate y_d1 = d.y;
         generate y_g12 = (y - l12.y) / l12.y;
 
-    /*LAG, FORWARD, DIFFERENCE*/;
+    /*GRAPH TIME WITHIN*/;
         tsline y;
         tsline y if tin(1990m1,1995m12);

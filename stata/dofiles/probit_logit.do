@@ -134,11 +134,15 @@
 
     reg p2466 ingreso
         predict lpm_xb, xb
-        twoway connected lpm_xb ingreso, yline(1) sort
+        twoway (scatter p2466 ingreso) (connected lpm_xb ingreso, yline(1) sort)
 
         predict lpm_e, residuals
         gen lpm_var = lpm_e^2
         scatter lpm_var ingreso, sort
+
+    logit   p2466 ingreso
+            predict logit_xb, pr
+            twoway (scatter p2466 ingreso) (connected logit_xb ingreso, yline(1) sort)
 
     logit p2466 ingreso i.p35
         margins i.p35, at(ingreso=(0(1)40))
@@ -195,8 +199,8 @@
         scatter lpm_var ingreso_mill, sort
 
     logit vehiculo i.genero ingreso_mill
-        predict lpm_pr, pr
-        twoway connected lpm_pr ingreso_mill, yline(1) sort
+        predict logit_pr, pr
+        twoway connected logit_pr ingreso_mill, yline(1) sort
 
         margins, at(ingreso_mill=(0(1)40)) over(i.genero)
         marginsplot

@@ -110,7 +110,7 @@
 
     test (_b[y1:x1] = _b[y2:x1])
 
-/*PROBIT*/
+/*LOGIT*/
 
     gsem (y <- x1 i.x2 x3), logit
 

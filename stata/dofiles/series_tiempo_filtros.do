@@ -10,6 +10,9 @@
 *** #10 ** SMOOTHING;
 *********************************************************************;
 
+*    /*SYMETRIC MOVING AVERAGE (SAM)*/;
+*    generate y_sma = -.2*L2.y_ln-.2*L.y_ln+.8*y_ln-.2*F.y_ln-.2*F2.y_ln;
+*
 *    /*MEDIAN*/;
 *    tssmooth nl y_median3 = y, smoother(3);
 *        tsline y y_median3;

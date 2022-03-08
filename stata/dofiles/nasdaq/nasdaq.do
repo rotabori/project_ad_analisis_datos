@@ -210,7 +210,7 @@
 
 
 
-** #5.1 ** MODELS;
+** #5.2 ** MODELS;
 
     arima nasdaq_ret_l, arima(2,0,2);
         estat ic;

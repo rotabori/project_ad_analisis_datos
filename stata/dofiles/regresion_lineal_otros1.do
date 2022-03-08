@@ -130,10 +130,10 @@
     reg y c.x1
 
     margins, over(x1)
-        marginsplot
+        marginsplot, noci addplot(scatter y x) name(m0, replace)
 
     margins, at(x1=(#(#)#))
-        marginsplot
+        marginsplot, noci addplot(scatter y x) name(m0, replace)
 
 ** #40.3.2 ** CONSTANT;
     reg y i.x2
@@ -142,9 +142,9 @@
     margins, over(x1 i.x2)
         marginsplot
     margins, over(i.x2) at(x1=(#(#)#))
-        marginsplot
+        marginsplot, noci addplot(scatter y x) name(m1, replace)
     margins i.x2, at(x1=(#(#)#))
-        marginsplot
+        marginsplot, noci addplot(scatter y x) name(m1, replace)
 
 ** #40.3.3 ** SLOPE;
     reg y c.x1 c.x1#i.x2
@@ -152,15 +152,15 @@
     margins, over(x1 i.x2)
         marginsplot;
     margins, over(i.x2) at(x1=(#(#)#))
-        marginsplot;
+        marginsplot, noci addplot(scatter y x) name(m2, replace)
     margins i.x2, at(x1=(#(#)#))
-        marginsplot;
+        marginsplot, noci addplot(scatter y x) name(m2, replace)
 
 ** #40.3.4 ** CONSTANT & SLOPE;
     reg y c.x1##i.x2
 
     margins i.x2, at(x1=(#(#)#))
-        marginsplot
+        marginsplot, noci addplot(scatter y x) name(m3, replace)
 
 ** #40.3.5 ** SQUARED;
     reg y c.x1##c.x1

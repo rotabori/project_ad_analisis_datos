@@ -23,8 +23,8 @@
 ** #10 ** DATA SIMULATION;
 ********************************************************************;
 
-    local win = 2;
-    local draws = 3;
+    local win = 5;
+    local draws = 10;
     local ratio = `win' / `draws';
 
     range p 0 1 100;
@@ -57,4 +57,4 @@
         msize(tiny) title(Nat. Log. Likelihood) xline(`ratio') yline(`ll') xlabel(0(.2)1) xmlabel(`ratio',format(%9.3f) angle(0)) name(ll);
 
 /*COMBINE*/;
-    graph combine l ll, cols(1) ysize(6) note("Binomial process." "Wins: `win'. Draws: `draws'.") name(l_ll);
+    graph combine l ll, cols(1) ysize(8) xsize(11) note("Binomial process." "Wins: `win'. Draws: `draws'.") name(l_ll);
