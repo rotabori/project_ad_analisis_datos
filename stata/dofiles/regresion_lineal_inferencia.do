@@ -85,7 +85,6 @@
     /*EXAMPLE AUTO DATASET CONT.*/;
     test (mpg = 0) (weight = 0)
 
-    scalar fc95 = Ftail(e(df_m),e(N)-e(df_m),0.05)
     local fc95 = Ftail(e(df_m),e(N)-e(df_m),0.05)
     matrix b_k = e(b)[1,1 .. 2]'
     matrix v_k = e(V)[1..2,1 .. 2]

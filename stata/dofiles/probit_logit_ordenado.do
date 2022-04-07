@@ -25,7 +25,7 @@
 
 ** #10.1 ** DATA IN;
 
-    use http://stats.idre.ucla.edu/stat/data/ologit.dta, clear;
+    use https://stats.idre.ucla.edu/stat/data/ologit.dta, clear;
     /*SIMULATED DATA ON COLLEGE EDUCATION*/;
 
 ********************************************************************;
