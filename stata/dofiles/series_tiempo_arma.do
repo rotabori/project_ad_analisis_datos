@@ -27,7 +27,7 @@
     clear;
 
     /*DEFINIR NUMERO DE OBSERVACIONES*/;
-    set obs 1800;
+    set obs 180;
 
     /*DEFINIR VARIABLE DE TIEMPO*/;
     generate time=_n;

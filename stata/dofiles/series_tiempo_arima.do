@@ -27,21 +27,21 @@
     clear;
 
     /*DEFINIR NUMERO DE OBSERVACIONES*/;
-        set obs 180;
+        set obs 1800;
 
     /*DEFINIR VARIABLE DE TIEMPO*/;
         generate time=_n;
         tsset time;
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
-        set seed 123;
+        set seed 12345;
 
     /*GENERAR PROCESO ALEATORIO*/;
         gen e1 = rnormal(0,5);
             label var e1 "e1 N(0,5)";
 
     /*DEFINIR VALOR ALEATOREO INICIAL*/;
-        set seed 987;
+        set seed 98765;
 
     /*GENERAR PROCESO ALEATORIO*/;
         gen e2 = rnormal(0,5);

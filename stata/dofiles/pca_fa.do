@@ -152,7 +152,9 @@
 
 *** #32.1 ** FACTOR ANALYSIS;
 
+    factor msq_i* msq_e*, pcf;
 
+    factor mhc_*, pcf;
 
 *** #32.2 ** SCREEPLOT;
 

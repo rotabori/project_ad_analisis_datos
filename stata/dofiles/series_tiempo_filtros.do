@@ -48,14 +48,14 @@
 *    /*HOLT-WINTERS*/;
 *    /*LINEAR TREND*/;
 *    /*NON-SEASONAL*/;
-*    tssmooth hwinters y_ewma = y, parms(\alpha \beta) samp0(muestra para y_0) s0(cons lt);
-*        tsline y y_ewma;
+*    tssmooth hwinters y_hw = y, parms(\alpha \beta) samp0(muestra para y_0) s0(cons lt);
+*        tsline y y_hw;
 *
 *    /*HOLT-WINTERS*/;
 *    /*LINEAR TREND*/;
 *    /*SEASONAL*/;
-*    tssmooth shwinters y_ewma = y, parms(\alpha \beta \gamma) samp0(muestra para y_0) s0(cons lt) additive;
-*        tsline y y_ewma;
+*    tssmooth shwinters y_hws = y, parms(\alpha \beta \gamma) samp0(muestra para y_0) s0(cons lt) additive;
+*        tsline y y_hws;
 
 *********************************************************************;
 *** #20 ** EJEMPLO - SIMULACION;
