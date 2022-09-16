@@ -15,6 +15,8 @@
     pause on
     #delimit ;
 
+    set scheme s2color8;
+
 ** #0.1 ** SET PATH FOR READING/SAVING DATA;
 
 *    cd ../../../;
@@ -147,7 +149,7 @@
         xsize(4)
         title(El cuarteto de Anscombe)
         note("Cuatro grupos de datos que tienen la misma media, varianza, correlación"
-             "y ecuación de regresión. Pero diferente gráfica.")
+             "y ecuación de regresión. Pero su dispersión de datos es diferente.")
         name(anscombe)
         ;
 

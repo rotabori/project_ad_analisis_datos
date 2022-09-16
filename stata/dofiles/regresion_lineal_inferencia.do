@@ -94,6 +94,10 @@
 
     twoway (function y = Fden(e(df_m),e(N)-e(df_m),x), range(0 20) xline(`fc95' `f_k') xlabel(#3 `fc95' `f_k', format(%9.2f))) (function y = Fden(e(df_m),e(N)-e(df_m),x), range(`fc95' 20) recast(area) color(dknavy))
 
+    test (mpg = -50) (weight = 0)
+    test (mpg = -50) (weight = 2)
+    test (mpg = 0) (weight = 2)
+
     /*HIPOTHESIS TEST OF LINEAR COMBINATION*/
     lincom x1 + x2
 

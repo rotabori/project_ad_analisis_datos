@@ -61,6 +61,7 @@
 
     tabulate genero_num;
     table genero_num, contents(mean estatura sd estatura n estatura min estatura max estatura) format(%4.2f);
+    table genero_num, stat(count estatura) stat(mean estatura) stat(sd estatura) stat(min estatura) stat(max estatura) nformat(%5.2f);
     graph box estatura, over(genero_num);
     graph bar (mean) estatura, over(genero_num);
 
@@ -74,7 +75,7 @@
         local estatura_1: di%3.2f = r(mean);
 
     sum estatura;
-    local estatura: di%3.2f = r(mean);
+        local estatura: di%3.2f = r(mean);
 
     kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black))
         legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres"))

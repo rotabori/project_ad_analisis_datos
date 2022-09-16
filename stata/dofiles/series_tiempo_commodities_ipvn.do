@@ -28,7 +28,7 @@
 *** #10.2.1 ** IMPORT DATA;
 
     import delimited
-        http://rodrigotaborda.com/ad/data/commodities/commodities_20210705.csv
+        http://rodrigotaborda.com/ad/data/commodities/commodities_20220902.csv
         ,
         delimiter(",")
         encoding(utf8)
@@ -43,7 +43,7 @@
 *** #10.2.3 ** DECLARE TIME SERIES FORMAT;
 
     tsset date_num;
-
+aaa
 *** #10.2.4 ** EXTRACT DATE VARIABLES;
 
     generate date_date = dofm(date_num);
