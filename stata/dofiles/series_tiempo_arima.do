@@ -171,33 +171,35 @@
 
     local b0b = 0.5 /*COEFICIENTE CONSTANTE.*/;
     local b1c = .6 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR MENOR A 1*/;
+    local b2a = .1 /*COEFICIENTE TENDENCIA*/;
 
     generate y5 = .;
     replace y5 = e1 in 1;
-    replace y5 = `b0b' + `b1c' * l.y5 + time + e1 in 2/l;
-        label var y5 "y5 = `b0b' + `b1c' * l.y5 + tiempo + e1";
+    replace y5 = `b0b' + `b1c' * l.y5 + `b2a' * time + e1 in 2/l;
+        label var y5 "y5 = `b0b' + `b1c' * l.y5 + `b2a' * tiempo + e1";
 
     generate y5a = .;
     replace y5a = e2 in 1;
-    replace y5a = `b0b' + `b1c' * l.y5a + time + e2 in 2/l;
-        label var y5a "y5a = `b0b' + `b1c' * l.y5a + tiempo + e2";
+    replace y5a = `b0b' + `b1c' * l.y5a + `b2a' * time + e2 in 2/l;
+        label var y5a "y5a = `b0b' + `b1c' * l.y5a + `b2a' * tiempo + e2";
 
 *********************************************************************;
-*** #60 ** CONSTANTE + TENDENCIA;
+*** #60 ** CAMINATA ALEATOREA NO ESTACIONARIA + CONSTANTE + TENDENCIA;
 *********************************************************************;
 
     local b0c = 0.5 /*COEFICIENTE CONSTANTE.*/;
-    local b1d = 0 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR IGUAL A 1 (O MUY CERCANO)*/;
+    local b1d = 1 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR IGUAL A 1 (O MUY CERCANO)*/;
+    local b2b = .1 /*COEFICIENTE TENDENCIA*/;
 
     generate y6 = .;
     replace y6 = e1 in 1;
-    replace y6 = `b0c' + `b1d' * l.y6 + time + e1 in 2/l;
-        label var y6 "y6 = `b0c' + `b1d' * l.y6 + tiempo + e1";
+    replace y6 = `b0c' + `b1d' * l.y6 + `b2b' * time + e1 in 2/l;
+        label var y6 "y6 = `b0c' + `b1d' * l.y6 + `b2b' * tiempo + e1";
 
     generate y6a = .;
     replace y6a = e2 in 1;
-    replace y6a = `b0c' + `b1d' * l.y6a + time + e2 in 2/l;
-        label var y6a "y6a = `b0c' + `b1d' * l.y6a + tiempo + e2";
+    replace y6a = `b0c' + `b1d' * l.y6a + `b2b' * time + e2 in 2/l;
+        label var y6a "y6a = `b0c' + `b1d' * l.y6a + `b2b' * tiempo + e2";
 
     *********************************************************************;
     *** #59 ** GRAFICAS;
