@@ -224,3 +224,12 @@
     gw.x1 /*DIFFERENCE W.R.T. OBSERVATION-WEIGHTED GRAND MEAN*/
 
     margins, at(continuous=(20(10)70)) contrast(atcontrast(a) effects)
+
+********************************************************************;
+** #90 ** EXAMPLE;
+********************************************************************;
+
+    use "http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta"
+monto ahorrado p2962
+ingreso
+genero

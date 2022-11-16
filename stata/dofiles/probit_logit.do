@@ -114,6 +114,7 @@
         hist pr
         twoway connect pr x1, sort yline(.5)
         gen pr01 = (pr>.5)
+        br y x1 pr pr01
         tabulate y pr01
         estat class, cutoff(.5)
 

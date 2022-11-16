@@ -35,6 +35,8 @@
         clear
         ;
 
+    import delimited http://rodrigotaborda.com/ad/data/commodities/commodities_20220902.csv , delimiter(",") encoding(utf8) clear
+
 *** #10.2.2 ** ORGANIZE DATE VARIABLE;
 
     generate date_num = monthly(date,"YM");

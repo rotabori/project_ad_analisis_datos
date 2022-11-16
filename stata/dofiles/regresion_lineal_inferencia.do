@@ -19,10 +19,26 @@
 ** #0.1 ** SET PATH FOR READING/SAVING DATA;
 
 ********************************************************************;
-** #10 ** EXECUTE DATA-IN ROUTINE;
+** #10 ** INFERENCE Z-DISTRIBUTION;
 ********************************************************************;
 
+# delimit ;
+    twoway  function z = normalden(x), range(-4 4) xline(0) xlabel(-2.57 -1.96 -1.64 -1.43 -1.28 2.57 1.96 1.64 1.43 1.28, angle(70) labsize(small)) ytitle("") xtitle("z") ||
+            function z128n = normalden(x), range(-4 -1.28) recast(area) legend(off) color(pink) ||
+            function z128 = normalden(x), range(1.28 4) recast(area) legend(off) color(pink) ||
 
+            function z143n = normalden(x), range(-4 -1.43) recast(area) legend(off) color(blue)||
+            function z143 = normalden(x), range(1.43 4) recast(area) legend(off) color(blue)||
+
+            function z164n = normalden(x), range(-4 -1.64) recast(area) legend(off) color(black)||
+            function z164 = normalden(x), range(1.64 4) recast(area) legend(off) color(black)||
+
+            function z196n = normalden(x), range(-4 -1.96) recast(area) legend(off) color(yellow)||
+            function z196 = normalden(x), range(1.96 4) recast(area) legend(off) color(yellow)||
+
+            function z257n = normalden(x), range(-4 -2.57) recast(area) legend(off) color(orange) ||
+            function z257 = normalden(x), range(2.57 4) recast(area) legend(off) color(orange)
+        ;
 
 ********************************************************************;
 ** #20 ** INFERENCE AFTER LINEAR REGRESSION;
@@ -68,7 +84,7 @@
     scalar lb_mpg = _b[mpg] - tc975*_se[mpg]
     display lb_mpg " " ub_mpg
     scalar pvalue_mpg = ttail(e(N)-(e(df_m)+1),abs(t_mpg))*2
-    display pvalue_mpg
+    display t_mpg " " pvalue_mpg
     twoway (function y = tden(e(N)-(e(df_m)+1),x), range(-4 4) xline(`t_mpg') xlabel(-`tc975' `tc975' `t_mpg', format(%9.2f))) (function y = tden(e(N)-(e(df_m)+1),x), range(-4 -`tc975') recast(area) color(dknavy)) (function y = tden(e(N)-(e(df_m)+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t))
 
     /*HIPOTHESIS TEST*/
@@ -85,7 +101,7 @@
     /*EXAMPLE AUTO DATASET CONT.*/;
     test (mpg = 0) (weight = 0)
 
-    local fc95 = Ftail(e(df_m),e(N)-e(df_m),0.05)
+    local fc95 = invFtail(e(df_m),e(N)-e(df_m),0.05)
     matrix b_k = e(b)[1,1 .. 2]'
     matrix v_k = e(V)[1..2,1 .. 2]
     matrix f_k = (b_k'*inv(v_k)*b_k)/e(df_m)

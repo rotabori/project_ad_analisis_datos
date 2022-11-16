@@ -77,7 +77,7 @@
 ** #3 ** DATA ANALYSIS;
 
 ** #3.1 ** DESCRIPTIVE MEASURES;
-
+sss
     /*Mean, Variance, Skewness, Kurtosis*/;
     sum nasdaq_ret_l, detail;
 
