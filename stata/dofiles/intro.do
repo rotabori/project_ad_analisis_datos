@@ -127,6 +127,11 @@
 
     recode var1 (0=1) (1=0)
 
+** #20.7 ** LABELS;
+    label variable var1 "nueva variable"
+    label define www 0 "fff" 1 "ggg"
+    label values var1 www
+
 **** #90.9.9 ** GOOD BYE;
 *
 *    clear;
