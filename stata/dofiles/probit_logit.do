@@ -195,7 +195,7 @@
         predict lpm_xb, xb
         twoway connected lpm_xb ingreso_mill, yline(1) sort
 
-        predict lpm_e, residuals
+        Predict lpm_e, residuals
         gen lpm_var = lpm_e^2
         scatter lpm_var ingreso_mill, sort
 

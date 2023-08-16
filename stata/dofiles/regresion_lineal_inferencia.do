@@ -39,7 +39,7 @@
             function z257n = normalden(x), range(-4 -2.57) recast(area) legend(off) color(orange) ||
             function z257 = normalden(x), range(2.57 4) recast(area) legend(off) color(orange)
         ;
-
+sss
 ********************************************************************;
 ** #20 ** INFERENCE AFTER LINEAR REGRESSION;
 ********************************************************************;

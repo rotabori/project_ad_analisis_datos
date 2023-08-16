@@ -120,13 +120,13 @@ sleep 2000;
             tsline y1 y1_ewma02, lwidth(thin thick) name(y1_ewma02);
 
         /*DEWMA*/;
-        tssmooth dexponential y1_dewma08 = y1, parms(.8);
-            label var y1_dewma08 "y1_dewma08";
-            tsline y1 y1_dewma08, lwidth(thin thick) name(y1_dewma08);
-
         tssmooth dexponential y1_dewma02 = y1, parms(.2);
             label var y1_dewma02 "y1_dewma02";
             tsline y1 y1_dewma02, lwidth(thin thick) name(y1_dewma02);
+
+        tssmooth dexponential y1_dewma08 = y1, parms(.8);
+            label var y1_dewma08 "y1_dewma08";
+            tsline y1 y1_dewma08, lwidth(thin thick) name(y1_dewma08);
 
         graph close _all;
         graph combine

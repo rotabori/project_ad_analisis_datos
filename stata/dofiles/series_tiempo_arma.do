@@ -329,7 +329,7 @@
         reg y5 l1.y5 l2.y5 l3.y5 l4.y5;
         reg y5 l1.y5 l2.y5 l3.y5 l4.y5 l5.y5;
 
-    graph combine y5ac y5pac, rows(1) name(y5acpac) xsize(10);
+    graph combine y5ac y5pac, rows(1) name(y5acpac);
     graph combine y5 y5acpac, cols(1) name(y5y5acpac) title(AR(2)) subtitle(y5 = `y5b' * l.y5 + `y5bb' * l2.y5 + e1);
 
     graph close _all;

@@ -64,8 +64,31 @@
     /*USE EASY TO REMEMBER NAME AND ADD wdl AS A SUFFIX FOR wards linkage*/;
 
 ********************************************************************;
-** #40 ** COMBINE CLUSTER DENDROGRAM;
+** #30.9 ** COMBINE CLUSTER DENDROGRAM;
 ********************************************************************;
 
     graph combine cluster_name_sl cluster_name_cl, ysize(12) xsize(6) ycommon;
     /*COMBINE TWO CLUSTER DENDROGRAM TO SEE DIFERENCES*/;
+
+********************************************************************;
+** #40 ** PARTITION METHOD K-MEANS / K-MEDIANS;
+********************************************************************;
+
+    cluster kmeans var1, k(#) name(var1_kmeans);
+    /*K-MEANS*/;
+
+    cluster kmedians var1, k(#) name(var1_kmeans);
+    /*K-MEDIANS*/;
+
+********************************************************************;
+** #50 ** VALORACIÓN;
+********************************************************************;
+
+*rule(calinski) is allowed for both hierarchical and nonhierarchical cluster analyses.
+*rule(duda) is allowed only for hierarchical cluster analyses.
+
+    cluster singlelinkage var1, name(cluster_name_sl);
+        cluster stop cluster_name_sl, rule(calinski);
+
+    cluster kmeans var1, k(#) name(var1_kmeans);
+        cluster stop var1_kmeans, rule(calinski);

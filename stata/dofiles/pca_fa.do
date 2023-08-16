@@ -192,6 +192,50 @@
 
     factor pelicula relacion zapatos cal_1s cal_us cal_cal cal_prob, pcf;
 
+    /*SCATTER AND HISTOGRAM GRAPH*/
+    graph twoway
+        (scatter peso estatura, msize(vsmall))
+        ,
+        ysca(alt)
+        xsca(alt)
+        xlabel(145(10)195, grid gmax)
+        ylabel(50(10)110, grid gmax)
+        plotregion(lwidth(none))
+        legend(off)
+        scheme(s1mono)
+        name(peso_estatura_scatter, replace);
+
+    twoway histogram peso, fraction
+        width(2)
+        xsca(alt reverse) horiz
+        xlabel(, gmax)
+        ylabel(50(10)110, grid gmax)
+        lcolor(gs12)
+        plotregion(lwidth(none))
+        scheme(s1mono)
+        name(peso_hist, replace);
+
+    twoway histogram estatura, fraction
+        width(2)
+        ysca(alt reverse)
+        ylabel(, gmax)
+        xlabel(145(10)195, grid gmax)
+        lcolor(gs12)
+        plotregion(lwidth(none))
+        scheme(s1mono)
+        name(estatura_hist, replace);
+
+    graph combine
+                    peso_hist
+                    peso_estatura_scatter
+                    estatura_hist,
+        imargin(0 0 0 0)
+        hole(3)
+        scheme(s1mono)
+        name(peso_estatura_hist_scatter, replace)
+        ;
+
+
 *** #33.2 ** SCREEPLOT;
 
 

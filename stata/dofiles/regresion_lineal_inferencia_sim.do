@@ -40,7 +40,7 @@
     graph drop _all;
 
     /*LOAD DATA*/;
-    use http://www.rodrigotaborda.com/ad/data/pv/pv8387.dta, clear;
+    use https://www.rodrigotaborda.com/ad/data/pv/pv8387.dta, clear;
 
     /*GENERATE VARIABLES*/;
     gen ventas_ln = ln(ventas);
