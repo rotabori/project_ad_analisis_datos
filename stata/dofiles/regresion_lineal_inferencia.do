@@ -74,7 +74,7 @@ sss
         function y = tden(e(N)-(e(df_m)+1),x), range(`tc975' 4) recast(area) color(dknavy) legend(off) ytitle(Densidad) xtitle(t)
 
     /*EXAMPLE AUTO DATASET*/;
-    sysuse auto
+    sysuse auto, clear
     reg price mpg weight
     scalar t_mpg = (_b[mpg] - 0) / _se[mpg]
     local t_mpg = (_b[mpg] - 0) / _se[mpg]

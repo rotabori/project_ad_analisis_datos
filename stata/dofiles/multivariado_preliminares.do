@@ -13,6 +13,40 @@
     clear all
 
 /*********************************************/
+/*FUNCIÓN*/
+    twoway function y = x, range(-7 7) yline(0) xline(0) xsize(5) ysize(5)
+    twoway function y = .5*x, range(-5 5) yline(0) xline(0) xsize(5) ysize(5)
+
+    twoway function y = ln(x), range(-1 7) yline(0) xline(0) label("Ln")
+    twoway function y = log10(x), range(-1 7) yline(0) xline(0)
+
+    twoway (function y = ln(x), range(-1 7) yline(0) xline(0)) (function y = log10(x), range(-1 7) yline(0) xline(0)), legend(order(1 "Ln" 2 "Log 10") position(6) rows(1))
+
+/*********************************************/
+/*GRAPHS*/
+
+/*BAR*/
+    graph bar (mean) var1 , over(id, sort(1) descending label(angle(25))) blabel(bar, position(outside) format(%5.1f)) subtitle(Celular) ytitle(Mbps) name(celular_mean)
+
+    graph bar (mean) wifi
+        ,
+        over(wifi_celular, sort(1) descending label(angle(25)))
+        blabel(bar, position(outside) format(%5.1f))
+        subtitle(Celular)
+        ytitle(Mbps)
+        name(celular_mean)
+        ;
+
+/*BOX PLOT*/
+    graph box var1, over(id)
+
+    graph box ad_price_mill, over(car_fuel_num)
+
+    hist ad_price_mill, percent width(5) xsize(5) ytitle("") name(hist, replace)
+    graph hbox ad_price_mill, ysize(2) xsize(5) name(hbox, replace)
+        graph combine hist hbox, cols(1)
+
+/*********************************************/
 /*DISTRIBUCIÓN UNIFORME*/
 
     clear
