@@ -86,13 +86,13 @@
 
 ********************************************************************;
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(0));
-            marginsplot, noci name(pr0pub1);
+            marginsplot, noci legend(off) name(pr0pub1, replace);
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(1));
-            marginsplot, noci name(pr1pub1);
+            marginsplot, noci legend(off) name(pr1pub1, replace);
         margins i.pared, at(public=1 gpa=(2(.2)4)) predict(outcome(2));
-            marginsplot, noci name(pr2pub1);
+            marginsplot, noci legend(off) name(pr2pub1, replace);
 
-            graph combine pr0pub1 pr1pub1 pr2pub1, cols(1) ysize(12) name(pr);
+            graph combine pr0pub1 pr1pub1 pr2pub1, cols(1) ysize(12) name(pr, replace);
 ********************************************************************;
 
         margins, at(public=1 pared=1 gpa=(2(.2)4)) predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
@@ -123,7 +123,7 @@
             graph combine dydxgpa0pub1par1 dydxgpa1pub1par1 dydxgpa2pub1par1, cols(1) ysize(12) name(dydxgpa);
 ********************************************************************;
 
-            graph combine pr dydxpared dydxgpa, cols(3) ysize(20) xsize(17) iscale(*.7) name(pr_dydx, replace);
+            graph combine pr dydxpared dydxgpa, cols(3) ysize(20) xsize(24) iscale(*.7) name(pr_dydx, replace);
 
 *** #30.5 ** \CUT# TREATMENT / USE;
 
