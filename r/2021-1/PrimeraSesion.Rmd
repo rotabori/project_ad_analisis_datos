@@ -1,0 +1,129 @@
+---
+title: "Primera Sesión"
+author: "Andrés Martínez"
+date: "1/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Básico Métodos Cuatitativos 
+
+Hay $n$ obersvaciones y $k$ variables.
+
+### Medidas básicas
+
+Media
+\begin{equation}
+\overline{x}=\sum_{i=1}^{n} \frac{x_{i}}{n}
+\end{equation}
+
+Desviación estandar
+
+\begin{equation}
+s=\sum_{i=1}^{n} \sqrt{(x_{i}-\overline{x})^{2}}
+\end{equation}
+
+Varianza
+
+
+\begin{equation}
+s^{2}=\sum_{i=1}^{n} (x_{i}-\overline{x})^{2}
+\end{equation}
+
+
+En el análsis de regresión $y$ es definida como una variable aleatoria y $x$ como una predeterminada.
+
+Las variables $x$ y $y$ son iid independientes e identicamente distribuidas.
+
+La variable aleatoria discreta: Contabilización del evento es positiva y finita (números naturales)
+
+La variable aleatoria continua: Contabilización del evento de forma infinita números reales.
+
+### Probabilidad
+
+
+\begin{equation}
+P=\frac{Evento Favorable}{Evento Posible}
+\end{equation}
+
+Cada variable aletaoria tiene una probabilidad.
+
+La FDP es una función  de densidad de probabilidad.
+
+
+$f(x) =p=P(X=x)=1/5$
+
+$f(x)=\frac{1}/{n}$
+
+El proceso se distribuye de forma uniforme $U\sim(a,b)$
+
+
+### Distribución Continua
+
+$f(x)=p=P(a \leq X \leq b)$
+
+
+
+## Ejercicio
+
+Primer ejercicio simular datos distribución uniforme
+
+```{r }
+set.seed(123456) ## Establecer semilla
+
+u1=runif(1000)## Establecer variable aleatoria con parámetros U(0,1) con 1000 observaciones
+
+summary(u1)## Resumen de estadísticas
+
+```
+
+```{r}
+hist(u1, breaks = 50, col="gold")
+```
+
+Nueva distribución uniforme
+
+```{r}
+
+u2=runif(1000)## Establecer variable aleatoria con parámetros U(0,1) con 1000 observaciones
+
+summary(u2)## Resumen de estadísticas
+
+```
+
+```{r}
+plot(u1,u1,col="blue",pch=13)## Scatter plot Stata
+```
+
+```{r}
+par(mfrow=c(2,1))
+hist(u1, breaks = 50, col="gold")
+hist(u2, breaks = 50, col="red")
+
+
+```
+
+Crear una variable uniforme discreta
+
+
+
+
+```{r}
+u2dis=round(u2) ## Redondeo variable discreta
+hist(u2dis, breaks = 50, col="red")
+```
+
+
+Colocar etiquetas
+
+```{r}
+library(base)
+datos=cbind(u1,u2,u2dis)## Juntamos los datos
+
+datos[,3]= ifelse(datos[,3]==1,"Mujer","hombre")
+
+```
+
