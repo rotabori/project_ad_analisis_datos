@@ -26,7 +26,7 @@
 
     import delimited
         /*data/nasdaq/nasdaq5y_20200903.csv*/
-        http://rodrigotaborda.com/ad/data/nasdaq/nasdaq5y_20200903.csv
+        https://rodrigotaborda.com/ad/data/nasdaq/nasdaq5y_20200903.csv
         ,
     	delimiter(",")
         clear
@@ -77,7 +77,7 @@
 ** #3 ** DATA ANALYSIS;
 
 ** #3.1 ** DESCRIPTIVE MEASURES;
-sss
+
     /*Mean, Variance, Skewness, Kurtosis*/;
     sum nasdaq_ret_l, detail;
 
@@ -203,7 +203,7 @@ sss
             scheme(s1mono)
             name(nasdaq_ret_l_scatter)
             ;
-
+qqq
 ** #5 ** ARMA;
 
 ** #5.1 ** FIGURES;
