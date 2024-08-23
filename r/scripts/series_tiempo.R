@@ -173,3 +173,5 @@
 #adfTest(y3_t,lags=0,type=c("c"))
 ##Ho: La serie es no estacionaria/Tiene raíz unitaria
 ##Ha: La serie es estacionaria/No Tiene raíz unitaria
+
+##VIDEO PRUEBA RAIZ UNITARIA https://youtu.be/fMqwBJrxJ8s

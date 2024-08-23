@@ -124,7 +124,7 @@
 
 ** #70.1 ** IEFIC / CREDITO HIPOTECARIO;
 
-    use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
+    use https://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
 
     tabulate p2466
     drop if p2466 > 1
@@ -170,7 +170,7 @@
 
 ** #70.2 ** IEFIC / AUTOMOVIL;
 
-    use http://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
+    use https://www.rodrigotaborda.com/ad/data/iefic/2016/iefic_2016_s13.dta, clear
 
     gen vehiculo = p2502
         tab vehiculo
@@ -195,7 +195,7 @@
         predict lpm_xb, xb
         twoway connected lpm_xb ingreso_mill, yline(1) sort
 
-        Predict lpm_e, residuals
+        predict lpm_e, residuals
         gen lpm_var = lpm_e^2
         scatter lpm_var ingreso_mill, sort
 

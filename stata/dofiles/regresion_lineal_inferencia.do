@@ -23,22 +23,27 @@
 ********************************************************************;
 
 # delimit ;
-    twoway  function z = normalden(x), range(-4 4) xline(0) xlabel(-2.57 -1.96 -1.64 -1.43 -1.28 2.57 1.96 1.64 1.43 1.28, angle(70) labsize(small)) ytitle("") xtitle("z") ||
-            function z128n = normalden(x), range(-4 -1.28) recast(area) legend(off) color(pink) ||
-            function z128 = normalden(x), range(1.28 4) recast(area) legend(off) color(pink) ||
+    twoway  function z = normalden(x), range(-4 4) xline(0)
+            xlabel(-2.57 -1.96 -1.64 -1.43 -1.28 2.57 1.96 1.64 1.43 1.28, angle(70) labsize(small))
+            ytitle("") xtitle("z")
+            legend(order(1 2 4 6 8 10))||
 
-            function z143n = normalden(x), range(-4 -1.43) recast(area) legend(off) color(blue)||
-            function z143 = normalden(x), range(1.43 4) recast(area) legend(off) color(blue)||
+            function z128n = normalden(x), range(-4 -1.28) recast(area) legend(label(2 "20%")) color(pink) ||
+            function z128 = normalden(x), range(1.28 4) recast(area) legend(label(3 "20%")) color(pink) ||
 
-            function z164n = normalden(x), range(-4 -1.64) recast(area) legend(off) color(black)||
-            function z164 = normalden(x), range(1.64 4) recast(area) legend(off) color(black)||
+            function z143n = normalden(x), range(-4 -1.43) recast(area) legend(label(4 "15%")) color(blue)||
+            function z143 = normalden(x), range(1.43 4) recast(area) legend(label(5 "15%")) color(blue)||
 
-            function z196n = normalden(x), range(-4 -1.96) recast(area) legend(off) color(yellow)||
-            function z196 = normalden(x), range(1.96 4) recast(area) legend(off) color(yellow)||
+            function z164n = normalden(x), range(-4 -1.64) recast(area) legend(label(6 "10%")) color(black)||
+            function z164 = normalden(x), range(1.64 4) recast(area) legend(label(7 "10%")) color(black)||
 
-            function z257n = normalden(x), range(-4 -2.57) recast(area) legend(off) color(orange) ||
-            function z257 = normalden(x), range(2.57 4) recast(area) legend(off) color(orange)
+            function z196n = normalden(x), range(-4 -1.96) recast(area) legend(label(8 "5%")) color(yellow)||
+            function z196 = normalden(x), range(1.96 4) recast(area) legend(label(9 "5%")) color(yellow)||
+
+            function z257n = normalden(x), range(-4 -2.57) recast(area) legend(label(10 "1%")) color(orange) ||
+            function z257 = normalden(x), range(2.57 4) recast(area) legend(label(11 "1%")) color(orange)
         ;
+
 sss
 ********************************************************************;
 ** #20 ** INFERENCE AFTER LINEAR REGRESSION;

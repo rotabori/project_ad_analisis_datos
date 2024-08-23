@@ -10,18 +10,15 @@
 *** #10 ** SMOOTHING;
 *********************************************************************;
 
-*    /*SYMETRIC MOVING AVERAGE (SAM)*/;
-*    generate y_sma = -.2*L2.y_ln-.2*L.y_ln+.8*y_ln-.2*F.y_ln-.2*F2.y_ln;
+*    /*SYMETRIC MOVING AVERAGE (SMA)*/;
+*    generate y_sma = -.2*L2.y_ln - .2*L.y_ln + .8*y_ln - .2*F.y_ln - .2*F2.y_ln;
 *
 *    /*MEDIAN*/;
-*    tssmooth nl y_median3 = y, smoother(3);
-*        tsline y y_median3;
-*
-*    tssmooth nl y_median9 = y, smoother(9);
-*        tsline y y_median9;
+*    tssmooth nl y_median_# = y, smoother(odd # from 1 to 19);
+*        tsline y y_median_#;
 *
 *    /*HANNING*/;
-*    tssmooth nl y_h = y, smoother(h);
+*    tssmooth nl y_h_# = y, smoother(odd # from 1 to 19 H);
 *        tsline y y_h;
 *
 *        /*OPCIONES*/;
@@ -92,28 +89,36 @@
         label var y1 "AR(1) (y1 = `y1b' * l.y1 + e1)";
 
 sleep 2000;
-        /*MEDIAN*/;
+        /*MEDIAN & HANNING*/;
         tssmooth nl y1_median3 = y1, smoother(3);
             label var y1_median3 "y1_median3";
-            tsline y1 y1_median3, lwidth(thin thick) name(y1_median3);
+            tsline y1 y1_median3, lwidth(thin thick) name(y1_median3, replace);
 
         tssmooth nl y1_median9 = y1, smoother(9);
             label var y1_median9 "y1_median9";
-            tsline y1 y1_median9, lwidth(thin thick) name(y1_median9);
+            tsline y1 y1_median9, lwidth(thin thick) name(y1_median9, replace);
+
+        tssmooth nl y1_9h = y1, smoother(9H);
+            label var y1_9h "y1_9h";
+            tsline y1 y1_9h, lwidth(thin thick) name(y1_9h, replace);
 
         /*WMA*/;
         tssmooth ma y1_ma710 = y1, window(7 1 0);
             label var y1_ma710 "y1_ma710";
-            tsline y1 y1_ma710, lwidth(thin thick) name(y1_ma710);
+            tsline y1 y1_ma710, lwidth(thin thick) name(y1_ma710, replace);
 
         tssmooth ma y1_ma1410 = y1, window(14 1 0);
             label var y1_ma1410 "y1_ma1410";
             tsline y1 y1_ma1410, lwidth(thin thick) name(y1_ma1410);
 
+        tssmooth ma y1_ma28182_we = y1, weights(.2 .8 <1> .8 .2);
+            label var y1_ma28182_we "y1_ma28182_we";
+            tsline y1 y1_ma28182_we, lwidth(thin thick) name(y1_ma28182_we);
+
         /*EWMA*/;
         tssmooth exponential y1_ewma08 = y1, parms(.8);
             label var y1_ewma08 "y1_ewma08";
-            tsline y1 y1_ewma08, lwidth(thin thick) name(y1_ewma08);
+            tsline y1 y1_ewma08, lwidth(thin thick) name(y1_ewma08, replace);
 
         tssmooth exponential y1_ewma02 = y1, parms(.2);
             label var y1_ewma02 "y1_ewma02";
@@ -127,20 +132,23 @@ sleep 2000;
         tssmooth dexponential y1_dewma08 = y1, parms(.8);
             label var y1_dewma08 "y1_dewma08";
             tsline y1 y1_dewma08, lwidth(thin thick) name(y1_dewma08);
+            
+        /*HOLT-WINTERS*/;
+        tssmooth hwinters y1_hw = y1;
+            label var y1_hw "y1_hw";
+            tsline y1 y1_hw, lwidth(thin thick) name(y1_hw);
 
-        graph close _all;
-        graph combine
-            y1_median3
-            y1_median9
-            y1_ma710
-            y1_ma1410
-            y1_ewma08
-            y1_ewma02
-            y1_dewma08
-            y1_dewma02
-            ,
-            cols(2)
-            ysize(16)
-            xsize(16)
-            iscale(*.5)
-            ;
+        tssmooth shwinters y1_shw = y1;
+            label var y1_shw "y1_shw";
+            tsline y1 y1_shw, lwidth(thin thick) name(y1_shw);
+
+        tssmooth hwinters y1_hw0501 = y1, parms(.5 .1);
+            label var y1_hw0501 "y1_hw0501";
+            tsline y1 y1_hw0501, lwidth(thin thick) name(y1_hw0501);
+
+        tssmooth shwinters y1_shw050101 = y1, parms(.5 .1 .1);
+            label var y1_shw050101 "y1_shw050101";
+            tsline y1 y1_shw050101, lwidth(thin thick) name(y1_shw050101);
+
+aaa
+

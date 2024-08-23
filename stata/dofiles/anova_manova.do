@@ -79,7 +79,7 @@
         local estatura: di%3.2f = r(mean);
 
     kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black))
-        legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres"))
+        legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres") position(6))
         xline(`estatura', lcolor(red))
         xline(`estatura_0', lcolor(blue))
         xline(`estatura_1', lcolor(black))

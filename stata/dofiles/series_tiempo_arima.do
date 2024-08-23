@@ -171,7 +171,7 @@
 
     local b0b = 0.5 /*COEFICIENTE CONSTANTE.*/;
     local b1c = .6 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR MENOR A 1*/;
-    local b2a = .1 /*COEFICIENTE TENDENCIA*/;
+    local b2a = .01 /*COEFICIENTE TENDENCIA*/;
 
     generate y5 = .;
     replace y5 = e1 in 1;
@@ -189,7 +189,7 @@
 
     local b0c = 0.5 /*COEFICIENTE CONSTANTE.*/;
     local b1d = 1 /*COEFICIENTE PENDIENTE. REEMPLAZAR CON VALOR IGUAL A 1 (O MUY CERCANO)*/;
-    local b2b = .1 /*COEFICIENTE TENDENCIA*/;
+    local b2b = .001 /*COEFICIENTE TENDENCIA*/;
 
     generate y6 = .;
     replace y6 = e1 in 1;

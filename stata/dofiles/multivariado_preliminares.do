@@ -17,7 +17,7 @@
     twoway function y = x, range(-7 7) yline(0) xline(0) xsize(5) ysize(5)
     twoway function y = .5*x, range(-5 5) yline(0) xline(0) xsize(5) ysize(5)
 
-    twoway function y = ln(x), range(-1 7) yline(0) xline(0) label("Ln")
+    twoway function y = ln(x), range(-1 7) yline(0) xline(0)
     twoway function y = log10(x), range(-1 7) yline(0) xline(0)
 
     twoway (function y = ln(x), range(-1 7) yline(0) xline(0)) (function y = log10(x), range(-1 7) yline(0) xline(0)), legend(order(1 "Ln" 2 "Log 10") position(6) rows(1))
@@ -47,7 +47,34 @@
         graph combine hist hbox, cols(1)
 
 /*********************************************/
+
+/*DISTRIBUCIÓN BINOMIAL*/
+
+    clear*
+    set obs 61
+    gen binomial_prob025 = binomialp(_N-1, _n-1, 0.25)
+    gen binomial_prob05 = binomialp(_N-1, _n-1, 0.5)
+    gen binomial_prob075 = binomialp(_N-1, _n-1, 0.75)
+
+    gen binomial_cum025 = 1 - binomialtail(_N-1, _n-1, 0.25)
+    gen binomial_cum05 = 1 - binomialtail(_N-1, _n-1, 0.5)
+    gen binomial_cum075 = 1 - binomialtail(_N-1, _n-1, 0.75)
+
+    gen k = _n-1
+    graph twoway connected binomial_prob* k, name(binomial_prob) xline(25 50 75)
+    graph twoway connected binomial_cum* k, name(binomial_cum) yline(.25 .5 .75)
+
 /*DISTRIBUCIÓN UNIFORME*/
+
+    clear
+    set obs 100
+    gen x_d = 1
+    gen x = _n
+        twoway connected x_d x, sort msize(tiny) name(a, replace)
+    gen p_cum = sum(x_d)/_N
+        twoway connected p_cum x, sort msize(tiny) name(b, replace)
+
+    graph combine b a, cols(1) ysize(8)
 
     clear
     set obs 1000
@@ -142,10 +169,178 @@
 
     graph matrix n*, half
 
-/*********************************************/
 /*DESCRIPCIÓN FINAL*/
-
     label data "Datos simulados distribución uniforme y normal"
 
     sum
     describe
+
+/*********************************************/
+/*DISTRIBUCIÓN T*/
+
+# delimit ;
+    twoway  (function t_pdf = tden(1,x), range(-4 4))
+            (function t_pdf = tden(2,x), range(-4 4))
+            (function t_pdf = tden(3,x), range(-4 4))
+    ;
+
+/*********************************************/
+/*DISTRIBUCIÓN CHI2*/
+
+# delimit ;
+    twoway  (function chi2_pdf = chi2den(1,x), range(-0 50))
+            (function chi2_pdf = chi2den(2,x), range(-0 50))
+            (function chi2_pdf = chi2den(3,x), range(-0 50))
+    ;
+
+/*********************************************/
+/*DISTRIBUCIÓN F*/
+
+# delimit ;
+    twoway  (function f_pdf = Fden(1,1,x), range(-0 15))
+            (function f_pdf = Fden(2,5,x), range(-0 15))
+            (function f_pdf = Fden(5,10,x), range(-0 15))
+            (function f_pdf = Fden(10,20,x), range(-0 15))
+    ;
+
+/*********************************************/
+/*DISTRIBUCION MUESTRAL*/
+
+/*NORMAL*/
+/*MUESTREO SIN REMPLAZO*/
+    net install dm44
+    clear
+    set obs 1000000
+    set seed 71772
+
+    gen x_1 = rnormal(500,150)
+        tabstat x_1, statistics(mean sd)
+        histogram x_1, title(Población) name(pop_hist, replace)
+
+    tempvar sortorder
+    gen `sortorder' = runiform()
+    sort `sortorder'
+
+    seq sample_id, from(1) to(5000) block(1)
+
+    egen sample_mean = mean(x_1), by(sample_id)
+
+    collapse (mean)sample_mean, by(sample_id)
+
+    histogram sample_mean, title(Muestra) name(muestra_hist, replace)
+
+    tabstat sample_mean, statistics(mean sd)
+
+/*UNIFORM*/
+/*MUESTREO SIN REMPLAZO*/
+    net install dm44
+    clear
+    set obs 1000000
+    set seed 71772
+
+    gen x_1 = runiform()
+        tabstat x_1, statistics(mean sd)
+        histogram x_1, title(Población) name(pop_hist, replace)
+
+    tempvar sortorder
+    gen `sortorder' = runiform()
+    sort `sortorder'
+
+    seq sample_id, from(1) to(5000) block(1)
+
+    egen sample_mean = mean(x_1), by(sample_id)
+
+    collapse (mean)sample_mean, by(sample_id)
+
+    histogram sample_mean, title(Muestra) name(muestra_hist, replace)
+
+    tabstat sample_mean, statistics(mean sd)
+
+/*REAL DATA*/
+/*MUESTREO SIN REMPLAZO*/
+    net install dm44
+    clear
+    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta
+
+    keep estatura genero_num
+        tabstat estatura, statistics(mean sd n) by(genero_num)
+        histogram estatura, title(Estatura) name(pop_hist, replace)
+        twoway (kdensity estatura if genero_num == 0)(kdensity estatura if genero_num == 1), name(pop_kd, replace)
+
+    tempvar sortorder
+    gen `sortorder' = runiform()
+    sort genero_num `sortorder'
+
+    seq sample_id, from(1) to(125) block(1)
+
+    egen estatura_sample_mu = mean(estatura), by(sample_id genero_num)
+
+    collapse (mean)estatura_sample_mu, by(sample_id genero_num)
+
+        tabstat estatura_sample_mu, statistics(mean sd n) by(genero_num)
+        histogram estatura_sample_mu, title(Muestra) name(muestra_hist, replace)
+        twoway (kdensity estatura_sample_mu if genero_num == 0)(kdensity estatura_sample_mu if genero_num == 1), name(muestra_kd, replace)
+
+/*BETA LEFT SKEWED*/
+/*MUESTREO CON REMPLAZO*/
+    net install dm44
+    clear
+    set obs 100000
+    set seed 71772
+
+    gen x_1 = rbeta(10,1) * 100 /*left skewed variable*/
+        tabstat x_1, statistics(mean sd n)
+        sum x_1
+            local x_1_mean = r(mean)
+        histogram x_1, title(Población) name(pop_hist, replace)
+
+    foreach i of num 1/9{
+        gen sortorder_`i' = runiform()
+        sort sortorder_`i'
+        gen sample_`i' = x_1 in 1/200
+        }
+
+    drop sortorder_*
+
+    foreach i of num 1/9{
+        mean sample_`i'
+        estimates store samplemean_`i'
+        }
+
+    coefplot (samplemean_1, label(Random Sample 1)) (samplemean_2, label(Random Sample 2)) (samplemean_3, label(Random Sample 3)) ///
+             (samplemean_4, label(Random Sample 4)) (samplemean_5, label(Random Sample 5)) (samplemean_6, label(Random Sample 6)) ///
+             (samplemean_7, label(Random Sample 7)) (samplemean_8, label(Random Sample 8)) (samplemean_9, label(Random Sample 9)) ///
+             , ///
+             xline(`x_1_mean')
+
+/*BETA LEFT SKEWED*/
+/*MUESTREO CON REMPLAZO*/
+    net install dm44
+    clear
+    set obs 10000
+    gen case_id =_n
+
+    set seed 71772
+
+    gen x_1 = rbeta(10,1) * 100 /*left skewed variable*/
+        tabstat x_1, statistics(mean sd n)
+        sum x_1
+            local x_1_mean = r(mean)
+        histogram x_1, title(Población) name(pop_hist, replace)
+
+    quietly foreach i of num 1/200 {
+    	gen sortorder_`i' = runiform()
+    	sort sortorder_`i'
+    	gen sample`i' = x_1 in 1/300
+    }
+
+    drop sortorder_*
+
+    quietly reshape long sample`i', i(case_id) j(samplegroup)
+
+    egen x_1_samplemean = mean(sample) if sample !=. , by(samplegroup)
+
+    collapse x_1_samplemean, by(samplegroup)
+
+        tabstat x_1_samplemean, statistics(mean sd n)
+        histogram x_1_samplemean, title(Muestra) xline(`x_1_mean') name(muestra_hist, replace)

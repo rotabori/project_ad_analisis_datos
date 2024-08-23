@@ -4,7 +4,7 @@
 ## AUTHOR: RODRIGO TABORDA
 ## AUTHOR: JUAN PABLO MONTENEGRO
 ## DATE CREATEC: 2020/05/20
-## DATE REVISION 1:
+## DATE REVISION 1: 2023/03/23 CAMBIOS / PERFECCIONAMIENTO
 ## DATE REVISION #:
 
 ####################################################################;
@@ -139,26 +139,59 @@
 
 ## #20.3.1 ## SINGLE LINKAGE;
 
-    cluster_al <- hclust(dist(encuesta$estatura, method = "euclidean"), method = "average")
+    cluster_sl <- hclust(dist(encuesta$estatura, method = "euclidean"), method = "single")
         # SINGLE LINKAGE
 
-    plot(cluster_al, main = "average linkage")
+    plot(cluster_sl, main = "single linkage")
         # DENDROGRAM
 
 ## #20.3.1.1 ## CUT DENDROGRAM;
-    cluster_al_dend <- as.dendrogram(cluster_al)
+    cluster_sl_dend <- as.dendrogram(cluster_sl)
         # SEND RESULTS TO DENDROGRAM
+
     cluster_al_dend_cut <- cut(cluster_al_dend, h = 5)
         # DEFINE CUT POINT
+
     plot(cluster_al_dend_cut$upper)
         # DENDROGRAM
 
+####################################################################;
+## #40 ## DATOS ENCUESTA ESTUDIANTES;
+####################################################################;
 
+#    install.packages("haven")
+    library(haven)
+    encuesta <- read_dta("http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202310_old.dta")
+    variables <- data.matrix(encuesta[,c("peso","estatura")])
+    distancias <- dist(variables,method="euclidian")
+    cluster <- hclust(distancias,method = "centroid")
+    plot(cluster)
 
+    cluster01 <- hclust(dist(encuesta$peso),method = "centroid")
+    plot(cluster01)
 
+    cluster_class <- cutree(cluster,k=4)
+    cluster_class <- as.data.frame(cluster_class)
+#    cluster_class <- as.data.frame(cutree(cluster,k=4))
+    table(cluster_class)
+    variables01 <- cbind(cluster_class,variables)
 
+    cluster_stats <- aggregate(estatura ~ cluster_class, data = variables01, FUN = function(x) c(n = length(x), mean = mean(x), sd = sd(x), min = min(x), max = max(x)))
 
+    cluster01dend <- as.dendrogram(cluster01)
+    cluster01dend_h20 <- cut(cluster01dend, h = 20)
+    plot(cluster01dend_h20$upper)
 
+####################################################################;
+## #50 ## DATOS SIMULADOS;
+####################################################################;
+
+    datos <- as.data.frame(matrix(rnorm(100), ncol = 2))
+
+    clustering_result <- hclust(dist(datos), method = "complete")
+    plot(clustering_result, cutree(clustering_result,k=4), main = "Dendrograma de Enlace Completo")
+        rect.hclust(clustering_result, k = 4, border = "red")
+    plot(clustering_result, cutree(clustering_result,h=1), main = "Dendrograma de Enlace Completo")
 
 
 ####################################################################;
