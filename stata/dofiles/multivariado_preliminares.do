@@ -75,6 +75,7 @@
         twoway connected p_cum x, sort msize(tiny) name(b, replace)
 
     graph combine b a, cols(1) ysize(8)
+    graph drop a b
 
     clear
     set obs 1000
@@ -208,7 +209,7 @@
 
 /*NORMAL*/
 /*MUESTREO SIN REMPLAZO*/
-    net install dm44
+    net install dm44.pkg
     clear
     set obs 1000000
     set seed 71772
@@ -233,7 +234,7 @@
 
 /*UNIFORM*/
 /*MUESTREO SIN REMPLAZO*/
-    net install dm44
+    net install dm44.pkg
     clear
     set obs 1000000
     set seed 71772
@@ -258,7 +259,7 @@
 
 /*REAL DATA*/
 /*MUESTREO SIN REMPLAZO*/
-    net install dm44
+    net install dm44.pkg
     clear
     use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta
 
@@ -283,7 +284,7 @@
 
 /*BETA LEFT SKEWED*/
 /*MUESTREO CON REMPLAZO*/
-    net install dm44
+    net install dm44.pkg
     clear
     set obs 100000
     set seed 71772
@@ -315,7 +316,7 @@
 
 /*BETA LEFT SKEWED*/
 /*MUESTREO CON REMPLAZO*/
-    net install dm44
+    net install dm44.pkg
     clear
     set obs 10000
     gen case_id =_n
