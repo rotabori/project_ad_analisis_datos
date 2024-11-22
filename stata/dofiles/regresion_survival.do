@@ -70,6 +70,9 @@
 *** #30.4 ** GENERATE VARIABLES;
     sts generate relacion_sent_survival = s relacion_sent_atrisk = n relacion_sent_failing = d relacion_sent_hazard = h;
 
+*** #30.5 ** EQUALITY TEST;
+    sts test genero_num, logrank;
+
 ********************************************************************;
 ** #40 ** REGRESSION;
 ********************************************************************;
@@ -82,7 +85,7 @@
     stcox edad;
     stcox edad, nohr;
 
-    stcox i.genero_num edad;
+    stcox edad;
     stcox i.genero_num edad, nohr;
         margins i.genero_num , at(edad=(18(1)24));
         marginsplot, noci name(hr_genero_cox);

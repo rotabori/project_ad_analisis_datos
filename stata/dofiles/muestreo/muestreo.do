@@ -55,6 +55,8 @@
 
     gen n = _n;
         label var n "Obs.";
+
+    destring estatura_media, replace force;
         
     tsset n;
 
@@ -72,9 +74,10 @@
 *** #3 *** GRAPHS;
 ********************************************************************;
 
-    local obs = "5 15 25";
+*    local obs = "5 15 25";
+    local obs = "10 30 70";
     
-    foreach var in estatura peso genero{;
+    foreach var in estatura peso /*genero*/{;
     local graphs "";
         foreach n of local obs{;
             histogram `var'_media if n < `n', width(.25) name(`var'_media_hist_`n');

@@ -81,7 +81,7 @@
         margins, at(pared=1 public=1) atmeans predict(outcome(0));
         margins, at(pared=1 public=1) atmeans predict(outcome(1));
         margins, at(pared=1 public=1) atmeans predict(outcome(2));
-        margins, at(pared=1 public=1) atmeans;
+
         margins, at(pared=(0 1) public=1) atmeans;
 
 ********************************************************************;
@@ -100,13 +100,13 @@
 
 ********************************************************************;
         margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(0));
-            marginsplot, noci name(dydx0pared);
+            marginsplot, noci name(dydx0pared, replace);
         margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(1));
-            marginsplot, noci name(dydx1pared);
+            marginsplot, noci name(dydx1pared, replace);
         margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(2));
-            marginsplot, noci name(dydx2pared);
+            marginsplot, noci name(dydx2pared, replace);
 
-            graph combine dydx0pared dydx1pared dydx2pared, cols(1) ysize(12) name(dydxpared);
+            graph combine dydx0pared dydx1pared dydx2pared, cols(1) ysize(12) name(dydxpared, replace);
 ********************************************************************;
 
         margins, dydx(pared) at(public=1 gpa=(2(.2)4)) predict(outcome(0)) predict(outcome(1)) predict(outcome(2));
