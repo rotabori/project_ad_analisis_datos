@@ -13,38 +13,58 @@
 *MARKET YIELD ON U.S. TREASURY SECURITIES AT 1-YEAR CONSTANT MATURITY, QUOTED ON AN INVESTMENT BASIS, PERCENT, DAILY, NOT SEASONALLY ADJUSTED
 *******************************************
 
-*******************************************
-*EXTRACCION INFORMACION PARA CALCULO PORTAFOLIO
-*PFIZER - BAXTER - LAS VEGAS SANDS
-use https://rodrigotaborda.com/ad/data/sp500/sp500_dgs1_dgs1mo_weekly.dta, clear
-generate pfe_ret_anual = (pfeclose / l52.pfeclose) - 1
-generate bax_ret_anual = (baxclose / l52.baxclose) - 1
-generate lvs_ret_anual = (lvsclose / l52.lvsclose) - 1
-correlate pfeclose baxclose lvsclose /*CORRELACION*/
-summarize pfeclose baxclose lvsclose /*ESTADÍSTICAS DESCRIPTIVAS*/
-summarize pfe_ret_anual bax_ret_anual lvs_ret_anual /*ESTADÍSTICAS DESCRIPTIVAS*/
+*********************************************
+***EXTRACCION INFORMACION PARA CALCULO PORTAFOLIO
+*********************************************
+*use https://rodrigotaborda.com/ad/data/sp500/sp500_dgs1_dgs1mo_weekly.dta, clear
+*
+*    local a ed
+*    local b etr
+*    local c duk
+*    local d aep
+*
+*generate `a'_ret_anual = (`a'close / l52.`a'close) - 1
+*generate `b'_ret_anual = (`b'close / l52.`b'close) - 1
+*generate `c'_ret_anual = (`c'close / l52.`c'close) - 1
+*generate `d'_ret_anual = (`d'close / l52.`d'close) - 1
+*
+*correlate `a'close `b'close `c'close `d'close /*CORRELACION*/
+*summarize `a'close `b'close `c'close `d'close /*ESTADÍSTICAS DESCRIPTIVAS*/
+*
+*correlate `a'_ret_anual `b'_ret_anual `c'_ret_anual `d'_ret_anual /*CORRELACION*/
+*summarize `a'_ret_anual `b'_ret_anual `c'_ret_anual `d'_ret_anual /*ESTADÍSTICAS DESCRIPTIVAS*/
 
 *******************************************
 *EXTRACCION INFORMACION PARA CALCULO CAPM
-*PFIZER - BAXTER - LAS VEGAS SANDS
+********************************************
 use https://rodrigotaborda.com/ad/data/sp500/sp500_dgs1_dgs1mo_weekly.dta, clear
-generate pfe_ret_anual = ((pfeclose / l52.pfeclose) - 1)*100
-generate bax_ret_anual = ((baxclose / l52.baxclose) - 1)*100
-generate lvs_ret_anual = ((lvsclose / l52.lvsclose) - 1)*100
+
+    local a pg
+    local b ko
+    local c pep
+    local d cost
+
+generate `a'_ret_anual = ((`a'close / l52.`a'close) - 1)*100
+generate `b'_ret_anual = ((`b'close / l52.`b'close) - 1)*100
+generate `c'_ret_anual = ((`c'close / l52.`c'close) - 1)*100
+generate `d'_ret_anual = ((`d'close / l52.`c'close) - 1)*100
 generate sp500_ret_anual = ((sp500 / l52.sp500) - 1)*100
 
-generate pfe_ret_exc = pfe_ret_anual - dgs1
-generate bax_ret_exc = bax_ret_anual - dgs1
-generate lvs_ret_exc = lvs_ret_anual - dgs1
+generate `a'_ret_exc = `a'_ret_anual - dgs1
+generate `b'_ret_exc = `b'_ret_anual - dgs1
+generate `c'_ret_exc = `c'_ret_anual - dgs1
+generate `d'_ret_exc = `d'_ret_anual - dgs1
 generate sp500_ret_exc = sp500_ret_anual - dgs1
 
-graph twoway (scatter pfe_ret_exc sp500_ret_exc)(lfit pfe_ret_exc sp500_ret_exc), name(a, replace)
-graph twoway (scatter bax_ret_exc sp500_ret_exc)(lfit bax_ret_exc sp500_ret_exc), name(b, replace)
-graph twoway (scatter lvs_ret_exc sp500_ret_exc)(lfit lvs_ret_exc sp500_ret_exc), name(c, replace)
+graph twoway (scatter `a'_ret_exc sp500_ret_exc)(lfit `a'_ret_exc sp500_ret_exc), name(a, replace)
+graph twoway (scatter `b'_ret_exc sp500_ret_exc)(lfit `b'_ret_exc sp500_ret_exc), name(b, replace)
+graph twoway (scatter `c'_ret_exc sp500_ret_exc)(lfit `c'_ret_exc sp500_ret_exc), name(c, replace)
+graph twoway (scatter `d'_ret_exc sp500_ret_exc)(lfit `d'_ret_exc sp500_ret_exc), name(d, replace)
 
-regress pfe_ret_exc sp500_ret_exc
-regress bax_ret_exc sp500_ret_exc
-regress lvs_ret_exc sp500_ret_exc
+regress `a'_ret_exc sp500_ret_exc
+regress `b'_ret_exc sp500_ret_exc
+regress `c'_ret_exc sp500_ret_exc
+regress `d'_ret_exc sp500_ret_exc
 
 
 

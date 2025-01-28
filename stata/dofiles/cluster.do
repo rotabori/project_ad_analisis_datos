@@ -84,7 +84,7 @@
 ** #50 ** VALORACIÓN;
 ********************************************************************;
 
-*rule(calinski) is allowed for both hierarchical and nonhierarchical cluster analyses.
+*rule(calinski) is allowed for both hierarchical and nonhierarchical cluster analyses. The higher the "better".
 *rule(duda) is allowed only for hierarchical cluster analyses.
 
     cluster singlelinkage var1, name(cluster_name_sl);

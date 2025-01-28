@@ -58,7 +58,7 @@
     /*EXAMPLE GENDER - HEIGHT UANDES STUDENTS*/;
 
     #delimit ;
-    use http://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta;
+    use https://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta;
 
     tabulate genero_num;
 *    table genero_num, contents(mean estatura sd estatura n estatura min estatura max estatura) format(%4.2f);
@@ -84,7 +84,7 @@
         xline(`estatura_0', lcolor(blue))
         xline(`estatura_1', lcolor(black))
         ;
-    *kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black)) legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres")) xline(`estatura', lcolor(red)) xline(`estatura_0', lcolor(blue)) xline(`estatura_1', lcolor(black))
+    *kdensity estatura, lcolor(red) addplot(kdensity estatura if genero_num == 0, lcolor(blue) || kdensity estatura if genero_num == 1, lcolor(black)) legend(row(1) label(1 "Total") label(2 "Hombres") label(3 "Mujeres") position(6)) xline(`estatura', lcolor(red)) xline(`estatura_0', lcolor(blue)) xline(`estatura_1', lcolor(black))
 
     /*THIS EXAMPLE IS RESTRICTED TO OUR STUDENTS SURVEY*/;
     /*PLOTS CONTINUOUS DENSITY OF HIGH FOR ALL, FEMALE AND MALE STUDENTS*/;

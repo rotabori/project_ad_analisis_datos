@@ -46,7 +46,7 @@
         format date_stata %td;
         label var date_stata "Date (Stata)";
 
-    bcal create data/nasdaq/nasdaq_cal, from(date_stata) generate(date_nasdaq) dateformat(dmy) replace;
+    bcal create datos/nasdaq/nasdaq_cal, from(date_stata) generate(date_nasdaq) dateformat(dmy) replace;
         label var date_nasdaq "Date (NASDAQ)";
 
     tsset date_nasdaq;
@@ -76,7 +76,39 @@
 
 ** #3 ** DATA ANALYSIS;
 
-** #3.1 ** DESCRIPTIVE MEASURES;
+** #3.1 ** FIGURES;
+
+    /*LEVEL*/;
+        tsset date_stata;
+        tsline nasdaq_close,
+            title(NASDAQ)
+            ytitle("")
+            ylabel(, format(%9.0fc))
+            note("Note: Closing price")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(03sep2015(120)02sep2020, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            name(nasdaq_tsline, replace)
+            ;
+
+    /*RETURNS*/;
+        tsset date_stata;
+        tsline nasdaq_ret_l,
+            title(NASDAQ)
+            subtitle(Returns)
+            ytitle("")
+            note("Note: Closing price")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(03sep2015(120)02sep2020, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            name(nasdaq_ret_l, replace)
+            ;
+
+** #3.2 ** DESCRIPTIVE MEASURES;
 
     /*Mean, Variance, Skewness, Kurtosis*/;
     sum nasdaq_ret_l, detail;
@@ -123,6 +155,7 @@
     /*Shapiro - Francia test*/;
     sfrancia nasdaq_ret_l;
 
+
 ** #4 ** ARCH;
 
 ** #4.1 ** FIGURES;
@@ -138,7 +171,7 @@
             scheme(s1mono)
             ttick(03sep2015(120)02sep2020, tpos(out))
             tlabel(#4, format(%tdCCYY) angle(90))
-            name(nasdaq_tsline)
+            name(nasdaq_tsline, replace)
             ;
 
     /*RETURNS*/;
@@ -153,10 +186,10 @@
             scheme(s1mono)
             ttick(03sep2015(120)02sep2020, tpos(out))
             tlabel(#4, format(%tdCCYY) angle(90))
-            name(nasdaq_ret_l)
+            name(nasdaq_ret_l, replace)
             ;
 
-    /*RETURNS*/;
+    /*RETURNS SQUARED*/;
         tsset date_stata;
         tsline nasdaq_ret_l2,
             title(NASDAQ)
@@ -168,11 +201,11 @@
             scheme(s1mono)
             ttick(03sep2015(120)02sep2020, tpos(out))
             tlabel(#4, format(%tdCCYY) angle(90))
-            name(nasdaq_ret_l2)
+            name(nasdaq_ret_l2, replace)
             ;
 
     /*LEVEL SCATTER*/;
-        tsset date_nasdaq;
+        tsset date_stata;
         scatter nasdaq_close l1.nasdaq_close,
             title(NASDAQ)
             msize(vsmall)
@@ -183,11 +216,11 @@
             ytitle("t")
             xtitle("t-1")
             scheme(s1mono)
-            name(nasdaq_scatter)
+            name(nasdaq_scatter, replace)
             ;
 
     /*RETURNS SCATTER*/;
-        tsset date_nasdaq;
+        tsset date_stata;
         scatter nasdaq_ret_l l1.nasdaq_ret_l,
             title(NASDAQ)
             subtitle(Returns)
@@ -201,48 +234,48 @@
             ytitle("t")
             xtitle("t-1")
             scheme(s1mono)
-            name(nasdaq_ret_l_scatter)
+            name(nasdaq_ret_l_scatter, replace)
             ;
-qqq
-** #5 ** ARMA;
 
-** #5.1 ** FIGURES;
-
-
-
-** #5.2 ** MODELS;
-
-    arima nasdaq_ret_l, arima(2,0,2);
-        estat ic;
-        estimates store arima202;
-
-    arima nasdaq_ret_l, arima(2,0,1);
-        estat ic;
-        estimates store arima201;
-
-    arima nasdaq_ret_l, arima(1,0,2);
-        estat ic;
-        estimates store arima102;
-
-    arima nasdaq_ret_l, arima(1,0,1);
-        estat ic;
-        estimates store arima101;
-
-    arima nasdaq_ret_l, arima(1,0,0);
-        estat ic;
-        estimates store arima100;
-
-    arima nasdaq_ret_l, arima(0,0,1);
-        estat ic;
-        estimates store arima001;
-
-    arima nasdaq_ret_l, arima(0,0,0);
-        estat ic;
-        estimates store arima000;
-
-    estimates stat _all;
-
-    estimates table _all, stats(aic bic);
+*** #5 ** ARMA;
+*
+*** #5.1 ** FIGURES;
+*
+*
+*
+*** #5.2 ** MODELS;
+*
+*    arima nasdaq_ret_l, arima(2,0,2);
+*        estat ic;
+*        estimates store arima202;
+*
+*    arima nasdaq_ret_l, arima(2,0,1);
+*        estat ic;
+*        estimates store arima201;
+*
+*    arima nasdaq_ret_l, arima(1,0,2);
+*        estat ic;
+*        estimates store arima102;
+*
+*    arima nasdaq_ret_l, arima(1,0,1);
+*        estat ic;
+*        estimates store arima101;
+*
+*    arima nasdaq_ret_l, arima(1,0,0);
+*        estat ic;
+*        estimates store arima100;
+*
+*    arima nasdaq_ret_l, arima(0,0,1);
+*        estat ic;
+*        estimates store arima001;
+*
+*    arima nasdaq_ret_l, arima(0,0,0);
+*        estat ic;
+*        estimates store arima000;
+*
+*    estimates stat _all;
+*
+*    estimates table _all, stats(aic bic);
 
 ** #6 ** ARCH;
 
@@ -264,18 +297,60 @@ qqq
     /*ARCH(1) REGRESSION*/;
     arch nasdaq_ret_l, arch(1);
         predict nasdaq_ret_l_arch, variance;
-        tsline nasdaq_ret_l_arch, name(arch);
+
+        tsset date_stata;
+        tsline nasdaq_ret_l_arch
+            ,
+            title(NASDAQ)
+            subtitle(ARCH(1))
+            ytitle("")
+            note("Note: Closing price")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(03sep2015(120)02sep2020, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            name(arch, replace)
+            ;
 
     /*GARCH(1,1) TEST*/;
     arch nasdaq_ret_l, arch(1) garch(1);
         predict nasdaq_ret_l_garch, variance;
-        tsline nasdaq_ret_l_garch, name(garch);
+
+        tsset date_stata;
+        tsline nasdaq_ret_l_garch
+            ,
+            title(NASDAQ)
+            subtitle(GARCH(1,1))
+            ytitle("")
+            note("Note: Closing price")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(03sep2015(120)02sep2020, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            name(garch, replace)
+            ;
 
     /*REGRESIÓN ASYMMETRIC-GARCH*/;
     arch nasdaq_ret_l, arch(1) garch(1) saarch(1);
         predict nasdaq_ret_l_saarch, variance;
-        tsline nasdaq_ret_l_saarch, name(saarch);
 
+        tsset date_stata;
+        tsline nasdaq_ret_l_saarch
+            ,
+            title(NASDAQ)
+            subtitle(GARCH(1,1) - asimétrico)
+            ytitle("")
+            note("Note: Closing price")
+            xtitle("")
+            lcolor(gs0)
+            scheme(s1mono)
+            ttick(03sep2015(120)02sep2020, tpos(out))
+            tlabel(#4, format(%tdCCYY) angle(90))
+            name(saarch, replace)
+            ;
+xxx
     /*REGRESIÓN T-GARCH*/;
     arch nasdaq_ret_l, arch(1) garch(1) tarch(1);
         predict nasdaq_ret_l_tarch, variance;
