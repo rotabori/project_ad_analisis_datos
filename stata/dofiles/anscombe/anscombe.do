@@ -43,6 +43,33 @@
     sum;
     corr x* y*;
 
+    sum x1;
+        local x1_m: di%3.2f = r(mean);
+        local x1_sd: di%3.2f = r(sd);
+    sum y1;
+        local y1_m: di%3.2f = r(mean);
+        local y1_sd: di%3.2f = r(sd);
+
+    sum x2;
+        local x2_m: di%3.2f = r(mean);
+        local x2_sd: di%3.2f = r(sd);
+    sum y2;
+        local y2_m: di%3.2f = r(mean);
+        local y2_sd: di%3.2f = r(sd);
+
+    sum x3;
+        local x3_m: di%3.2f = r(mean);
+        local x3_sd: di%3.2f = r(sd);
+    sum y3;
+        local y3_m: di%3.2f = r(mean);
+        local y3_sd: di%3.2f = r(sd);
+
+    sum x4;
+        local x4_m: di%3.2f = r(mean);
+        local x4_sd: di%3.2f = r(sd);
+    sum y4;
+        local y4_m: di%3.2f = r(mean);
+        local y4_sd: di%3.2f = r(sd);
 *********************************************************************;
 *** #30 ** REGRESSION;
 *********************************************************************;
@@ -80,8 +107,17 @@
         lfit
         y1 x1
         ,
-        text(12 5 "y1 = `y1_cons' + `y1_slope' x1", size(small) place(e))
-        )
+        text(12 5 "y1 = `y1_cons' + `y1_slope' x1"
+
+             4.5 14 "x1"
+             5 16 "M = `x1_m'"
+             4 16 "SD = `x1_sd'"
+
+             2.5 14 "y1"
+             3 16 "M = `y1_m'"
+             2 16 "SD = `y1_sd'"
+             , size(small) place(e))
+            )
         (
         scatter
         y1 x1
@@ -96,7 +132,16 @@
         lfit
         y2 x2
         ,
-        text(12 5 "y2 = `y2_cons' + `y2_slope' x2", size(small) place(e))
+        text(12 5 "y2 = `y2_cons' + `y2_slope' x2"
+
+             4.5 14 "x2"
+             5 16 " M = `x2_m'"
+             4 16 "SD = `x2_sd'"
+
+             2.5 14 "y2"
+             3 16 " M = `y2_m'"
+             2 16 "SD = `y2_sd'"
+             , size(small) place(e))
         )
         (
         scatter
@@ -112,7 +157,16 @@
         lfit
         y3 x3
         ,
-        text(12 5 "y3 = `y3_cons' + `y3_slope' x3", size(small) place(e))
+        text(12 5 "y3 = `y3_cons' + `y3_slope' x3"
+
+             4.5 14 "x3"
+             5 16 " M = `x3_m'"
+             4 16 "SD = `x3_sd'"
+
+             2.5 14 "y3"
+             3 16 " M = `y3_m'"
+             2 16 "SD = `y3_sd'"
+             , size(small) place(e))
         )
         (
         scatter
@@ -128,7 +182,16 @@
         lfit
         y4 x4
         ,
-        text(12 5 "y4 = `y4_cons' + `y4_slope' x4", size(small) place(e))
+        text(12 5 "y4 = `y4_cons' + `y4_slope' x4"
+
+             4.5 14 "x4"
+             5 16 " M = `x4_m'"
+             4 16 "SD = `x4_sd'"
+
+             2.5 14 "y4"
+             3 16 " M = `y4_m'"
+             2 16 "SD = `y4_sd'"
+             , size(small) place(e))
         )
         (
         scatter
@@ -146,10 +209,14 @@
         y4x4
         ,
         ycommon
+        xcommon
+        iscale(*.85)
         xsize(4)
         title(El cuarteto de Anscombe)
-        note("Cuatro grupos de datos que tienen la misma media, varianza, correlación"
-             "y ecuación de regresión. Pero su dispersión de datos es diferente.")
+        note("Nota: Cuatro grupos de datos que tienen la misma media, varianza, correlación y ecuación "
+             "de regresión. Pero su dispersión de datos es diferente."
+             ,
+             size(vsmall))
         name(anscombe)
         ;
 
