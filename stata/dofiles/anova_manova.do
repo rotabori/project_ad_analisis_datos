@@ -58,7 +58,7 @@
     /*EXAMPLE GENDER - HEIGHT UANDES STUDENTS*/;
 
     #delimit ;
-    use https://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta;
+    use https://rodrigotaborda.com/ad/data/ee/encuesta_estudiantes_202yxx_old.dta, clear;
 
     tabulate genero_num;
 *    table genero_num, contents(mean estatura sd estatura n estatura min estatura max estatura) format(%4.2f);
